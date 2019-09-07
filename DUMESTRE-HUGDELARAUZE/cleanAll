@@ -1,4 +1,7 @@
 #!/bin/bash
 echo "#####> Cleaning all generated files..."
-rm bin/*.class docs/*
+echo "#####>    Cleaning bin/..."
+rm bin/*.class bin/*.gitkeep
+echo "#####>    Cleaning docs/..."
+rm docs/*
 echo "#####> Completed"
