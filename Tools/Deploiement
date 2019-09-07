@@ -89,11 +89,6 @@ then echoError "Le script 'cleanAll' n'existe pas !"; incNBERREURS;
 else echoPoint;
 fi
 
-if !(test -e hello) 
-then echoError "Le script 'hello' n'existe pas !"; incNBERREURS;
-else echoPoint;
-fi
-
 if !(test -e runTests) 
 then echoError "Le script 'runTests' n'existe pas !"; incNBERREURS;
 else echoPoint;
