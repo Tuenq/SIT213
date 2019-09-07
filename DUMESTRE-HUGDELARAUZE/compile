@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "#####> Source compilation..."
+javac -d bin/ src/*.java
+echo "#####> Completed"

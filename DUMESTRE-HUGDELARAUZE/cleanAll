@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "#####> Cleaning all generated files..."
+rm bin/*.class docs/*
+echo "#####> Completed"

@@ -1,0 +1,23 @@
+*****************************************
+* Scripts de recette du TP0 SIT213
+* V du 14/09/18
+* Authors : E. Cousin
+*****************************************
+
+Rappel des exigences imposées sur le livrable :
+
+le livrable doit être un tar.gz dont le nom est de la forme nom1-nom2.tar.gz
+- il doit contenir directement des répertoires src, bin, docs ; seul le répertoire src n'est pas vide : il contient la classe HelloWorld.java
+- il doit contenir directement les scripts compile, genDoc, cleanAll, hello et runTests
+- il doit contenir un fichier readme
+
+Le script de recette est composé des fichiers suivants :
+
+├── Deploiement : le script qui teste le déploiement d'un livrable
+├── Parametrage : pour paramétrer les affichage du script (couleur, format des messages, ...)
+└── readme.txt : ce fichier
+
+
+Exemple d'utilisation pour faire la recette du livrable Nom1-Nom2.tar.gz :
+sh Deploiement Nom1-Nom2
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "#####> Setting current directory..."
+cd bin/
+echo "#####> Executing HelloWorld with Lucas Dumestre..."
+java HelloWorld Lucas Dumestre
+echo "#####> Executing HelloWorld with Sebastien HUG DE LARAUZE..."
+java HelloWorld Sebastien HUG DE LARAUZE
+echo "#####> Completed"
