@@ -32,8 +32,7 @@ echo $SMESS"$*"$SNORMAL
 echoError() # pour afficher un message en format $SERROR et attendre la validation de l'utilisateur
 {
 echo
-echo $SERROR"Erreur : $* - (enter pour continuer)"$SNORMAL
-read next
+echo $SERROR"Erreur : $*"$SNORMAL
 }
 #
 echoQuestion() # pour afficher un message en format $SQUESTION
