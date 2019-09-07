@@ -1,7 +1,9 @@
 #!/bin/bash
 echo "#####> Cleaning all generated files..."
 echo "#####>    Cleaning bin/..."
-rm bin/*.class
+rm -f bin/.gitkeep     # Remove gitkeep
+rm -f bin/*.class
 echo "#####>    Cleaning docs/..."
-rm docs/*
+rm -f docs/.gitkeep    # Remove gitkeep
+rm -f docs/*
 echo "#####> Completed"
