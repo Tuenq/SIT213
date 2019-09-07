@@ -11,3 +11,11 @@ script:
   - cd Tools/
   - sh Deploiement DUMESTRE-HUGDELARAUZE
  
+deploy:
+  provider: releases
+  api_key: ${Travis_CI-SIT213_Project}
+  file: "DUMESTRE-HUGDELARAUZE.tar.gz"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
