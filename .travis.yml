@@ -2,7 +2,6 @@ language: java
 jdk: openjdk11
 
 script:
-  - ls -la
   - cd DUMESTRE-HUGDELARAUZE
   - sh cleanAll
   - sh genDeliverable
