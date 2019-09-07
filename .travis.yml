@@ -13,7 +13,7 @@ script:
  
 deploy:
   provider: releases
-  api_key: ${Travis_CI-SIT213_Project}
+  api_key: ${GITHUB_OAUTH}
   file: "DUMESTRE-HUGDELARAUZE.tar.gz"
   skip_cleanup: true
   overwrite: true
