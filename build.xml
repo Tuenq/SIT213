@@ -2,10 +2,12 @@
     Ant project for SIT213
     Tasklist documentation: https://ant.apache.org/manual/tasklist.html
 -->
-<project name="SIT213" default="run" basedir="DUMESTRE-HUGDELARAUZE">
+<project name="SIT213" default="run" basedir=".">
     <description>
         SIT213 Project - IMT Atlantique Class
     </description>
+
+    <property name="authors"        value="DUMESTRE-HUGDELARAUZE"/>
 
     <property name="src"            value="${basedir}/src"/>
     <property name="test"           value="${basedir}/test"/>

@@ -1,8 +1,22 @@
 # SIT213 Project - IMT Atlantique
 
-[![Build Status](https://travis-ci.com/SebastienHUGDELARAUZE/SIT213.svg?branch=master)](https://travis-ci.com/SebastienHUGDELARAUZE/SIT213)
+[![Build Status][TRAVIS_CI_BADGE]][TRAVIS_CI]
 
-> Automated build at [Travis CI](https://travis-ci.com/SebastienHUGDELARAUZE/SIT213)
+>  Automated build with [Travis CI][TRAVIS_CI]
+
+TODO: Description
+
+## Project folder overview
+
+```
+DUMESTRE-HUGDELARAUZE/  # Root directory
+├── src/                # Contain java sources
+├── bin/                # Contain class files (generated)
+├── docs/               # Contain documentation about java sources (generated)
+├── test/               # Contain java test sources
+├── deliverable/        # Contain deliverable archive (generated)
+└── build.xml           # Ant build file
+```
 
 ## Project management board
 
@@ -19,3 +33,12 @@ This project follow this specification for its version tag: `v.X.Y.Z`
 **Status** part can be:
  * `pre-release`
  * `release`
+
+## Authors
+
+*l18dumes* | **DUMESTRE** Lucas  
+*s18hugde* | **HUG DE LARAUZE** Sébastien  
+
+
+[TRAVIS_CI]: https://travis-ci.com/SebastienHUGDELARAUZE/SIT213
+[TRAVIS_CI_BADGE]: https://travis-ci.com/SebastienHUGDELARAUZE/SIT213.svg?branch=master

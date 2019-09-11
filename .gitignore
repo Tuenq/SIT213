@@ -1,3 +1,9 @@
-DUMESTRE-HUGDELARAUZE/bin/*
-DUMESTRE-HUGDELARAUZE/deliverable/*
-DUMESTRE-HUGDELARAUZE/docs/*
+# Visual Studio related stuff
+.devcontainer/
+.vscode/
+
+# Project related stuff
+bin/
+deliverable/
+docs/
+
