@@ -1,0 +1,62 @@
+<!--
+    Ant project for SIT213
+    Tasklist documentation: https://ant.apache.org/manual/tasklist.html
+-->
+<project name="SIT213" default="main" basedir=".">
+    <description>
+        SIT213 Project - IMT Atlantique Class
+    </description>
+
+    <property name="src"            value="${basedir}/src"/>
+    <property name="test"            value="${basedir}/test"/>
+    <property name="build"          value="${basedir}/bin"/>
+    <property name="docs"           value="${basedir}/docs"/>
+    <property name="deliverable"    value="${basedir}/deliverable"/>
+
+    <target name="init" description="Initialize directories of the project">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${docs}"/>
+        <mkdir dir="${deliverable}"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compile sources">
+        <javac srcdir="${src}" destdir="${build}" includeAntRuntime="false"/>
+    </target>
+
+    <target name="compileTest" depends="init" description="Compile test sources">
+        <javac srcdir="${test}" destdir="${build}" includeAntRuntime="false"/>
+    </target>
+
+    <target name="main" depends="compile" description="Run application">
+        <java dir="${build}" classname="hello.HelloWorld" fork="true"/>
+        <java dir="${build}" classname="hello.HelloWorld" fork="true">
+            <arg value="Lucas DUMESTRE"/>
+        </java>
+        <java dir="${build}" classname="hello.HelloWorld" fork="true">
+            <arg value="Sebastien HUG DE LARAUZE"/>
+        </java>
+    </target>
+
+    <target name="test" depends="compile, compileTest" description="Run test on application">
+        <java dir="${build}" classname="hello.HelloWorldTest" fork="true"/>
+    </target>
+
+    <target name="genDoc" depends="init" description="Generate java documentation">
+        <javadoc sourcepath="${src}" destdir="${docs}"/>
+    </target>
+
+    <target name="genDeliverable" depends="clean" description="Generate archive for delivery">
+        <tar destfile="${deliverable}/DUMESTRE-HUGDELARAUZE.tar" basedir="${basedir}"/>
+        <gzip destfile="${deliverable}/DUMESTRE-HUGDELARAUZE.tar.gz" src="${deliverable}/DUMESTRE-HUGDELARAUZE.tar"/>
+        <delete file="${deliverable}/DUMESTRE-HUGDELARAUZE.tar"/>
+    </target>
+
+    <target name="clean" description="Clean all generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${build}"/>
+            <fileset dir="${docs}"/>
+            <fileset dir="${deliverable}"/>
+        </delete>
+    </target>
+
+</project>

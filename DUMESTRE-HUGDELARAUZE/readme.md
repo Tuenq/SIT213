@@ -7,14 +7,11 @@ TODO: Description
 ```
 DUMESTRE-HUGDELARAUZE/  # Root directory
 ├── src/                # Contain java sources
-├── bin/                # Contain class files
-├── docs/               # Contain documentation about java sources
-├── tests/              # Contain java test sources
-├── compile             # Script used to compile java sources
-├── runTests            # Script used to execute tests
-├── cleanAll            # Script used to remove all generated files
-├── genDoc              # Script used to generate java documentation
-└── genDeliverable      # Script used to generate project source archive
+├── bin/                # Contain class files (generated)
+├── docs/               # Contain documentation about java sources (generated)
+├── test/               # Contain java test sources
+├── deliverable/        # Contain deliverable archive (generated)
+└── build.xml           # Ant build file
 ```
 
 ## Authors
