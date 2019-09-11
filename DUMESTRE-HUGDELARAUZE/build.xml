@@ -2,7 +2,7 @@
     Ant project for SIT213
     Tasklist documentation: https://ant.apache.org/manual/tasklist.html
 -->
-<project name="SIT213" default="main" basedir=".">
+<project name="SIT213" default="run" basedir=".">
     <description>
         SIT213 Project - IMT Atlantique Class
     </description>
@@ -27,7 +27,7 @@
         <javac srcdir="${test}" destdir="${build}" includeAntRuntime="false"/>
     </target>
 
-    <target name="main" depends="compile" description="Run application">
+    <target name="run" depends="compile" description="Run application">
         <java dir="${build}" classname="hello.HelloWorld" fork="true"/>
         <java dir="${build}" classname="hello.HelloWorld" fork="true">
             <arg value="Lucas DUMESTRE"/>
@@ -37,7 +37,7 @@
         </java>
     </target>
 
-    <target name="test" depends="compile, compileTest" description="Run test on application">
+    <target name="runTest" depends="compile, compileTest" description="Run test on application">
         <java dir="${build}" classname="hello.HelloWorldTest" fork="true"/>
     </target>
 
@@ -45,7 +45,7 @@
         <javadoc sourcepath="${src}" destdir="${docs}"/>
     </target>
 
-    <target name="genDeliverable" depends="clean" description="Generate archive for delivery">
+    <target name="genDeliverable" depends="clean, init" description="Generate archive for delivery">
         <tar destfile="${deliverable}/DUMESTRE-HUGDELARAUZE.tar" basedir="${basedir}"/>
         <gzip destfile="${deliverable}/DUMESTRE-HUGDELARAUZE.tar.gz" src="${deliverable}/DUMESTRE-HUGDELARAUZE.tar"/>
         <delete file="${deliverable}/DUMESTRE-HUGDELARAUZE.tar"/>
