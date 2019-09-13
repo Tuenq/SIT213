@@ -6,3 +6,7 @@ artifacts/
 bin/
 deployment_test/
 docs/
+
+.idea/
+
+DUMESTRE-HUGDELARAUZE/DUMESTRE-HUGDELARAUZE.iml
