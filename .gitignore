@@ -1,9 +1,8 @@
 # Visual Studio related stuff
-.devcontainer/
 .vscode/
 
 # Project related stuff
+artifacts/
 bin/
-deliverable/
+deployment_test/
 docs/
-

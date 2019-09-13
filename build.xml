@@ -2,61 +2,103 @@
     Ant project for SIT213
     Tasklist documentation: https://ant.apache.org/manual/tasklist.html
 -->
-<project name="SIT213" default="run" basedir=".">
+<project name="SIT213" basedir="." default="runApp">
     <description>
         SIT213 Project - IMT Atlantique Class
     </description>
 
-    <property name="authors"        value="DUMESTRE-HUGDELARAUZE"/>
+    <!-- =================================        Properties        ================================= -->
 
-    <property name="src"            value="${basedir}/src"/>
-    <property name="test"           value="${basedir}/test"/>
-    <property name="build"          value="${basedir}/bin"/>
-    <property name="docs"           value="${basedir}/docs"/>
-    <property name="deliverable"    value="${basedir}/deliverable"/>
+    <property name="" value=""/>
 
-    <target name="init" description="--> Initialize directories of the project">
-        <mkdir dir="${build}"/>
-        <mkdir dir="${docs}"/>
-        <mkdir dir="${deliverable}"/>
+    <property name="package.authors" value="DUMESTRE-HUGDELARAUZE"/>
+    <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
+
+    <property name="source.dir" value="src"/>
+    <property name="source.test.dir" value="test"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="build.dir" value="bin"/>
+    <property name="docs.dir" value="docs"/>
+    <property name="artifacts.dir" value="artifacts"/>
+    <property name="deployment.test.dir" value="deployment_test"/>
+    <property name="deployment.tools.dir" value=".project_tools"/>
+    <property name="deployment.scripts.dir" value=".project_scripts"/>
+
+    <!-- =================================        Classpath         ================================= -->
+
+    <!-- ADD JUNIT 5 JAR TO CLASSPATH -->
+
+    <!-- =================================        Targets           ================================= -->
+
+    <!-- =====     target: clean     ===== -->
+    <target name="clean" description="--> Clean generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${build.dir}"/>
+            <fileset dir="${docs.dir}"/>
+            <fileset dir="${artifacts.dir}"/>
+            <fileset dir="${deployment.test.dir}"/>
+        </delete>
     </target>
 
-    <target name="compile" depends="init" description="--> Compile sources">
-        <javac srcdir="${src}" destdir="${build}" includeAntRuntime="false"/>
+    <!-- =====     target: prepare     ===== -->
+    <target name="prepare" description="--> Initialize project structure">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${docs.dir}"/>
+        <mkdir dir="${artifacts.dir}"/>
+        <mkdir dir="${deployment.test.dir}"/>
     </target>
 
-    <target name="compileTest" depends="init" description="--> Compile test sources">
-        <javac srcdir="${test}" destdir="${build}" includeAntRuntime="false"/>
+    <!-- =====     target: compile     ===== -->
+    <target name="compileApp" depends="prepare" description="--> Compile app source">
+        <javac srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false"/>
     </target>
 
-    <target name="run" depends="compile" description="--> Run main application">
-        <java dir="${build}" classname="hello.HelloWorld" fork="true"/>
-        <java dir="${build}" classname="hello.HelloWorld" fork="true">
+    <!-- =====     target: compileUnitTest     ===== -->
+    <target name="compileUnitTest" depends="prepare" description="--> Compile test source">
+        <javac srcdir="${source.test.dir}" destdir="${build.dir}" includeAntRuntime="false"/>
+    </target>
+
+    <!-- =====     target: run     ===== -->
+    <target name="runApp" depends="compileApp" description="--> Run app">
+        <java dir="${build.dir}" classname="hello.HelloWorld" fork="true"/>
+
+        <java dir="${build.dir}" classname="hello.HelloWorld" fork="true">
             <arg value="Lucas DUMESTRE"/>
         </java>
-        <java dir="${build}" classname="hello.HelloWorld" fork="true">
+
+        <java dir="${build.dir}" classname="hello.HelloWorld" fork="true">
             <arg value="Sebastien HUG DE LARAUZE"/>
         </java>
     </target>
 
-    <target name="runTest" depends="compile, compileTest" description="--> Run application tests">
-        <java dir="${build}" classname="hello.HelloWorldTest" fork="true"/>
+    <!-- =====     target: runUnitTest     ===== -->
+    <target name="runUnitTest" depends="compileApp, compileUnitTest" description="--> Run app test">
+        <java dir="${build.dir}" classname="hello.HelloWorldTest" fork="true"/>
     </target>
 
-    <target name="genDoc" depends="init" description="--> Generate java documentation">
-        <javadoc sourcepath="${src}" destdir="${docs}"/>
+    <!-- =====     target: RunDeploymentTest     ===== -->
+    <target name="runDeploymentTest" depends="generateArtifacts" description="--> Run deployment test">
+        <copy file="${artifacts.dir}/${package.authors}.tar.gz" todir="${deployment.test.dir}"/>
+        <copy todir="${deployment.test.dir}">
+            <fileset dir="${deployment.tools.dir}" excludes="readme"/>
+        </copy>
+        <exec executable="/bin/sh" dir="${deployment.test.dir}" failonerror="true">
+            <arg value="Deploiement"/>
+            <arg value="${package.authors}"/>
+        </exec>
     </target>
 
-    <target name="genDeliverable" depends="clean, init" description="--> Generate archive for delivery">
-        <tar destfile="${deliverable}/DUMESTRE-HUGDELARAUZE.tar.gz" basedir="${basedir}" compression="gzip"/>
+    <!-- =====     target: generateDocumentation     ===== -->
+    <target name="generateDocumentation" depends="prepare" description="--> Generate java documentation">
+        <javadoc sourcepath="${source.dir}" destdir="${docs.dir}"/>
     </target>
 
-    <target name="clean" description="--> Clean all generated files">
-        <delete includeEmptyDirs="true" quiet="true">
-            <fileset dir="${build}"/>
-            <fileset dir="${docs}"/>
-            <fileset dir="${deliverable}"/>
-        </delete>
+    <!-- =====     target: generateArtifacts     ===== -->
+    <target name="generateArtifacts" depends="clean, prepare" description="--> Generate artifacts for delivery">
+        <tar destfile="${artifacts.dir}/${package.authors}.tar.gz" compression="gzip">
+            <tarfileset dir="${basedir}" excludes=".*/**, ${artifacts.dir}, ${deployment.test.dir}"/>
+            <tarfileset dir="${deployment.scripts.dir}/"/>
+        </tar>
     </target>
 
 </project>
