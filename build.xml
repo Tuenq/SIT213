@@ -26,7 +26,12 @@
 
     <!-- =================================        Classpath         ================================= -->
 
-    <!-- ADD JUNIT 5 JAR TO CLASSPATH -->
+    <!-- ADD JUNIT 5 JAR TO LIB -->
+
+    <path id="test.classpath">
+        <pathelement path="${build.dir}"/>
+        <fileset dir="${lib.dir}" includes="*.jar" />
+    </path>
 
     <!-- =================================        Targets           ================================= -->
 
@@ -49,32 +54,19 @@
     </target>
 
     <!-- =====     target: compile     ===== -->
-    <target name="compileApp" depends="prepare" description="--> Compile app source">
-        <javac srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false"/>
-    </target>
-
-    <!-- =====     target: compileUnitTest     ===== -->
-    <target name="compileUnitTest" depends="prepare" description="--> Compile test source">
-        <javac srcdir="${source.test.dir}" destdir="${build.dir}" includeAntRuntime="false"/>
+    <target name="compile" depends="prepare" description="--> Compile app &amp; test source">
+        <echo>=====Compiling ${source.dir} files ...=====</echo>
+        <javac debug="on" srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false"/>
+        <echo>=====Compiling ${source.test.dir} files...=====</echo>
+        <javac debug="on" srcdir="${source.test.dir}" classpathref="test.classpath" destdir="${build.dir}" includeAntRuntime="false"/>
     </target>
 
     <!-- =====     target: run     ===== -->
-    <target name="runApp" depends="compileApp" description="--> Run app">
-        <java dir="${build.dir}" classname="hello.HelloWorld" fork="true"/>
-
-        <java dir="${build.dir}" classname="hello.HelloWorld" fork="true">
-            <arg value="Lucas DUMESTRE"/>
-        </java>
-
-        <java dir="${build.dir}" classname="hello.HelloWorld" fork="true">
-            <arg value="Sebastien HUG DE LARAUZE"/>
-        </java>
+    <target name="runApp" depends="compile" description="--> Run app">
+        <java dir="${build.dir}" classname="project." fork="true"/>
     </target>
 
     <!-- =====     target: runUnitTest     ===== -->
-    <target name="runUnitTest" depends="compileApp, compileUnitTest" description="--> Run app test">
-        <java dir="${build.dir}" classname="hello.HelloWorldTest" fork="true"/>
-    </target>
 
     <!-- =====     target: RunDeploymentTest     ===== -->
     <target name="runDeploymentTest" depends="generateArtifacts" description="--> Run deployment test">
