@@ -2,10 +2,7 @@ language: java
 jdk: openjdk11
 
 script:
-  - ant genDeliverable
-  - cp deliverable/DUMESTRE-HUGDELARAUZE.tar.gz Tools/
-  - cd Tools/
-  - sh Deploiement DUMESTRE-HUGDELARAUZE
+  - ant runDeploymentTest
  
 deploy:
   provider: releases

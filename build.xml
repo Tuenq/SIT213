@@ -9,10 +9,7 @@
 
     <!-- =================================        Properties        ================================= -->
 
-    <property name="" value=""/>
-
-    <property name="package.authors" value="DUMESTRE-HUGDELARAUZE"/>
-    <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
+    <!-- <property name="" value=""/> -->
 
     <property name="source.dir" value="src"/>
     <property name="source.test.dir" value="test"/>
@@ -23,6 +20,9 @@
     <property name="deployment.test.dir" value="deployment_test"/>
     <property name="deployment.tools.dir" value=".project_tools"/>
     <property name="deployment.scripts.dir" value=".project_scripts"/>
+
+    <property name="package.authors" value="DUMESTRE-HUGDELARAUZE"/>
+    <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
 
     <!-- =================================        Classpath         ================================= -->
 
@@ -78,7 +78,7 @@
 
     <!-- =====     target: RunDeploymentTest     ===== -->
     <target name="runDeploymentTest" depends="generateArtifacts" description="--> Run deployment test">
-        <copy file="${artifacts.dir}/${package.authors}.tar.gz" todir="${deployment.test.dir}"/>
+        <copy file="${package.archive}.tar.gz" todir="${deployment.test.dir}"/>
         <copy todir="${deployment.test.dir}">
             <fileset dir="${deployment.tools.dir}" excludes="readme"/>
         </copy>
@@ -95,7 +95,7 @@
 
     <!-- =====     target: generateArtifacts     ===== -->
     <target name="generateArtifacts" depends="clean, prepare" description="--> Generate artifacts for delivery">
-        <tar destfile="${artifacts.dir}/${package.authors}.tar.gz" compression="gzip">
+        <tar destfile="${package.archive}.tar.gz" compression="gzip">
             <tarfileset dir="${basedir}" excludes=".*/**, ${artifacts.dir}, ${deployment.test.dir}"/>
             <tarfileset dir="${deployment.scripts.dir}/"/>
         </tar>
