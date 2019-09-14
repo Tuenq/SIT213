@@ -21,12 +21,12 @@
     <property name="deployment.tools.dir" value=".project_tools"/>
     <property name="deployment.scripts.dir" value=".project_scripts"/>
 
-    <property name="package.authors" value="BARTOLI-DUMESTRE-FRANCIS-HUGDELARAUZE"/>
+    <property name="package.authors" value="Bartoli-Dumestre-Francis-Hugdelarauze"/>
     <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
 
     <!-- =================================        Classpath         ================================= -->
 
-    <!-- ADD JUNIT 5 JAR TO LIB -->
+    <!-- ADD JUNIT 4 JAR TO LIB -->
 
     <path id="test.classpath">
         <pathelement path="${build.dir}"/>
