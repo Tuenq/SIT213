@@ -4,6 +4,8 @@
 
 TODO: Description
 
+[Goals file](.project_docs/Goals.md)
+
 ## Project folder overview
 
 ```
@@ -43,8 +45,10 @@ This project follow this specification for its version tag: `v.X.Y.Z`
 
 ## Authors
 
-*l18dumes* | **DUMESTRE** Lucas  
-*s18hugde* | **HUG DE LARAUZE** Sébastien  
+`l18dumes` | **Dumestre** Lucas  
+`m18barto` | **Bartoli** Mathieu  
+`l18franc` | **Francis** Ludovic  
+`s18hugde` | **Hug de Larauze** Sébastien  
 
 
 [TRAVIS_CI]: https://travis-ci.com/SebastienHUGDELARAUZE/SIT213
