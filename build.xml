@@ -35,8 +35,8 @@
 
     <!-- =================================        Targets           ================================= -->
 
-    <!-- =====     target: clean     ===== -->
-    <target name="clean" description="--> Clean generated files">
+    <!-- =====     target: cleanAll     ===== -->
+    <target name="cleanAll" description="--> Clean generated files">
         <delete includeEmptyDirs="true" quiet="true">
             <fileset dir="${build.dir}"/>
             <fileset dir="${docs.dir}"/>
@@ -45,25 +45,59 @@
         </delete>
     </target>
 
-    <!-- =====     target: prepare     ===== -->
-    <target name="prepare" description="--> Initialize project structure">
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${docs.dir}"/>
-        <mkdir dir="${artifacts.dir}"/>
-        <mkdir dir="${deployment.test.dir}"/>
+    <!-- =====     target: prepareAll     ===== -->
+    <target name="prepareAll" depends="prepareBuild, prepareDocumentation, prepareArtifacts, prepareDeployment" description="--> Initialize project structure"/>
+
+        <!-- =====     target: prepareBuild     ===== -->
+        <target name="prepareBuild" description="--=--> Initialize build structure">
+            <mkdir dir="${build.dir}"/>
+        </target>
+
+        <!-- =====     target: prepareDocs     ===== -->
+        <target name="prepareDocumentation" description="--=--> Initialize documentation structure">
+            <mkdir dir="${docs.dir}"/>
+        </target>
+
+        <!-- =====     target: prepareArtifacts     ===== -->
+        <target name="prepareArtifacts" description="--=--> Initialize artifacts structure">
+            <mkdir dir="${artifacts.dir}"/>
+        </target>
+
+        <!-- =====     target: prepareDeployment     ===== -->
+        <target name="prepareDeployment" description="--=--> Initialize deployment structure">
+            <mkdir dir="${deployment.test.dir}"/>
+        </target>
+
+    <!-- =====     target: compileAll     ===== -->
+    <target name="compileAll" depends="compileApp, compileTest" description="--> Compile app &amp; test source (if test available)">
     </target>
 
-    <!-- =====     target: compile     ===== -->
-    <target name="compile" depends="prepare" description="--> Compile app &amp; test source">
-        <echo>=====Compiling ${source.dir} files ...=====</echo>
-        <javac debug="on" srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false"/>
-        <echo>=====Compiling ${source.test.dir} files...=====</echo>
-        <javac debug="on" srcdir="${source.test.dir}" classpathref="test.classpath" destdir="${build.dir}" includeAntRuntime="false"/>
-    </target>
+        <!-- =====     target: compileApp     ===== -->
+        <target name="compileApp" depends="prepareBuild" description="--=--> Compile app source">
+            <echo>=====Compiling ${source.dir} files ...=====</echo>
+            <javac debug="on" srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false">
+                <compilerarg value="-Xlint:all"/>
+            </javac>
+        </target>
 
-    <!-- =====     target: run     ===== -->
-    <target name="runApp" depends="compile" description="--> Run app">
-        <java dir="${build.dir}" classname="project." fork="true"/>
+        <!-- =====     target: compileTest     ===== -->
+        <target name="compileTest" depends="compileTest.check, prepareBuild" if="test.available" description="--=--> Compile test source (if available)">
+            <echo>=====Compiling ${source.test.dir} files...=====</echo>
+            <javac debug="on" srcdir="${source.test.dir}" classpathref="test.classpath" destdir="${build.dir}" includeAntRuntime="false">
+                <compilerarg value="-Xlint:all"/>
+            </javac>
+        </target>
+
+        <!-- =====     condition: compileTest.check     ===== -->
+        <target name="compileTest.check">
+            <condition property="test.available">
+                    <available classname="test.classpath"/>
+            </condition>
+        </target>
+
+    <!-- =====     target: runApp     ===== -->
+    <target name="runApp" depends="compileApp" description="--> Run app">
+        <java dir="${build.dir}" classname="Simulateur" fork="true"/>
     </target>
 
     <!-- =====     target: runUnitTest     ===== -->
@@ -80,17 +114,20 @@
         </exec>
     </target>
 
-    <!-- =====     target: generateDocumentation     ===== -->
-    <target name="generateDocumentation" depends="prepare" description="--> Generate java documentation">
-        <javadoc sourcepath="${source.dir}" destdir="${docs.dir}"/>
-    </target>
+    <!-- =====     target: generate     ===== -->
+    <target name="generateAll" depends="generateDocumentation, generateArtifacts" description="--> Generate documentation and artifacts"/>
 
-    <!-- =====     target: generateArtifacts     ===== -->
-    <target name="generateArtifacts" depends="clean, prepare" description="--> Generate artifacts for delivery">
-        <tar destfile="${package.archive}.tar.gz" compression="gzip">
-            <tarfileset dir="${basedir}" excludes=".*/**, ${artifacts.dir}, ${deployment.test.dir}"/>
-            <tarfileset dir="${deployment.scripts.dir}/"/>
-        </tar>
-    </target>
+        <!-- =====     target: generateDocumentation     ===== -->
+        <target name="generateDocumentation" depends="prepareDocumentation" description="--=--> Generate java documentation">
+            <javadoc sourcepath="${source.dir}" destdir="${docs.dir}"/>
+        </target>
+
+        <!-- =====     target: generateArtifacts     ===== -->
+        <target name="generateArtifacts" depends="prepareAll" description="--=--> Generate artifacts for delivery">
+            <tar destfile="${package.archive}.tar.gz" compression="gzip">
+                <tarfileset dir="${basedir}" excludes=".*/**, ${artifacts.dir}, ${deployment.test.dir}"/>
+                <tarfileset dir="${deployment.scripts.dir}/"/>
+            </tar>
+        </target>
 
 </project>
