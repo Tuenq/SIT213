@@ -2,25 +2,32 @@
 
 [![Build Status][TRAVIS_CI_BADGE]][TRAVIS_CI]
 
->  Automated build with [Travis CI][TRAVIS_CI]
-
 TODO: Description
 
 ## Project folder overview
 
 ```
-DUMESTRE-HUGDELARAUZE/  # Root directory
+/                   # Root directory
 ├── src/                # Contain java sources
-├── bin/                # Contain class files (generated)
-├── docs/               # Contain documentation about java sources (generated)
+├── lib/                # Contain java libraries
+├── bin/                # Contain class files (generated on-demand)
+├── docs/               # Contain documentation about java sources (generated on-demand)
 ├── test/               # Contain java test sources
-├── deliverable/        # Contain deliverable archive (generated)
+├── deliverable/        # Contain deliverable archive (generated on-demand)
 └── build.xml           # Ant build file
 ```
 
+## Project continuous test management
+
+Automated build triggered at each commit, managed by [Travis CI][TRAVIS_CI]. It allow us to:
+* Check if `Unit test` passed
+* Chech if `Deployment test` passed
+
+And deploy with confidence to the client.
+
 ## Project management board
 
-[Glo board](https://app.gitkraken.com/glo/board/XXQe6QtDJAAPHMYs) used to manage our project
+[Glo board](https://app.gitkraken.com/glo/board/XXQe6QtDJAAPHMYs) used to manage our project.
 
 ## Application tag versionning
 
