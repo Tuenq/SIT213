@@ -45,8 +45,8 @@ This project follow this specification for its version tag: `v.X.Y.Z`
 
 ## Authors
 
-`l18dumes` | **Dumestre** Lucas  
 `m18barto` | **Bartoli** Mathieu  
+`l18dumes` | **Dumestre** Lucas  
 `l18franc` | **Francis** Ludovic  
 `s18hugde` | **Hug de Larauze** Sébastien  
 
