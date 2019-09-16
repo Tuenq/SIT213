@@ -72,8 +72,13 @@ public class Simulateur {
 
         analyseArguments(args);
 
-        // TODO: A compléter
+        if(messageAleatoire) source = new SourceAleatoire();
+        else source = new SourceFixe();
+        transmetteurLogique = new TransmetteurParfait();
+        destination = new DestinationFinale();
 
+        transmetteurLogique.connecter(destination);
+        source.connecter(transmetteurLogique);
     }
 
     /**
@@ -147,9 +152,7 @@ public class Simulateur {
      *
      */
     public void execute() throws Exception {
-
-        // TODO: source.emettre();
-
+        source.emettre();
     }
 
     /**
@@ -159,10 +162,19 @@ public class Simulateur {
      * @return La valeur du Taux dErreur Binaire.
      */
     public float calculTauxErreurBinaire() {
+        int nb_error = 0;
 
-        // TODO: A compléter
+        Information<Boolean> informationsEmises, informationsRecues;
+        informationsEmises = source.getInformationEmise();
+        informationsRecues = destination.getInformationRecue();
 
-        return 0.0f;
+        for (int i = 0 ; i < informationsEmises.nbElements() ; i++){
+            if(!informationsEmises.iemeElement(i).equals(informationsRecues.iemeElement(i))){
+                nb_error++;
+            }
+        }
+
+        return (float)nb_error/informationsEmises.nbElements()*100;
     }
 
     /**
