@@ -4,19 +4,6 @@ import transmetteurs.*;
 
 import information.*;
 
-import visualisations.*;
-
-import java.util.regex.*;
-import java.util.*;
-import java.lang.Math;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
  * transmission composée d'une Source, d'un nombre variable de Transmetteur(s)
@@ -72,8 +59,16 @@ public class Simulateur {
 
         analyseArguments(args);
 
-        if(messageAleatoire) source = new SourceAleatoire(10);
-        else source = new SourceFixe();
+        if(messageAleatoire)
+            source = new SourceAleatoire(nbBitsMess, aleatoireAvecGerme, seed);
+        else{
+            try {
+                source = new SourceFixe(Information.stringToBoolean(messageString));
+            }
+            catch (InformationNonConforme exeption){
+                throw new ArgumentsException(exeption.toString());
+            }
+        }
         transmetteurLogique = new TransmetteurParfait();
         destination = new DestinationFinale();
 
