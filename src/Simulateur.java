@@ -116,7 +116,7 @@ public class Simulateur {
                 i++;
                 // TODO: Traiter la valeur associee
                 try {
-                    seed = new Integer(args[i]);
+                    seed = Integer.parseInt(args[i]);
                 } catch (Exception e) {
                     throw new ArgumentsException("Valeur du parametre -seed  invalide :" + args[i]);
                 }
@@ -131,7 +131,7 @@ public class Simulateur {
                     nbBitsMess = args[i].length();
                 } else if (args[i].matches("[0-9]{1,6}")) {
                     messageAleatoire = true;
-                    nbBitsMess = new Integer(args[i]);
+                    nbBitsMess = Integer.parseInt(args[i]);
                     if (nbBitsMess < 1)
                         throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
                 } else

@@ -19,7 +19,7 @@ public  abstract class Destination <T> implements DestinationInterface <T> {
      * réalisations de la classe abstraite Destination
      */
     public Destination() {
-	informationRecue = null;
+	    informationRecue = null;
     }
 
     /**

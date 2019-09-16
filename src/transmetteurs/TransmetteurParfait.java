@@ -23,7 +23,7 @@ public class TransmetteurParfait extends Transmetteur <Boolean, Boolean> {
         informationEmise = informationRecue;
 
         // Création d'une sonde et envoi des informations à émettre en sortie du transmetteur à cette dernière
-        SondeLogique sonde = new SondeLogique("Sonde sortie transmetteur parfait", 10);
+        SondeLogique sonde = new SondeLogique("Sonde sortie transmetteur parfait", 100);
         sonde.recevoir(informationEmise);
 
         // Pour chaque destination connectée on envoie les informations à émettre
