@@ -7,6 +7,8 @@ bin/
 deployment_test/
 docs/
 
+# IntelliJ IDEA on mac
 .idea/
-
-DUMESTRE-HUGDELARAUZE/DUMESTRE-HUGDELARAUZE.iml
+Project.iml
+.DS_Store
+out/

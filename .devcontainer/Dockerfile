@@ -16,6 +16,8 @@ ARG ANT_VERSION=1.10.7
 ARG ANT_SHA=838ce70c7dbd2b53068ce17b169c0b3fbed5e0ab7be5c707f052418fb6a4a1620f2d4017ceca1379cd25edce3e46d70bb2b5de4e1c5c52e2e1275deec1228084
 ENV ANT_HOME /usr/share/ant
 ENV PATH="${PATH}:${ANT_HOME}/bin"
+# Set default encoding for file
+ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 RUN echo "##########> Install Apache Ant Tools <##########" \
     # Download and verify Apache Ant archive
     && curl -fsSl -o /tmp/apache-ant.tar.gz https://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \

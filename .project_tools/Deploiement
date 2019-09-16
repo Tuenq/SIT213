@@ -73,7 +73,7 @@ fi
 #
 
 #
-# vérifier la présence des scripts 'compile', 'genDoc', 'cleanAll', 'hello' et 'runTests'
+# vérifier la présence des scripts 'compile', 'genDoc', 'cleanAll', 'simulateur' et 'runTests'
 if !(test -e compile) 
 then echoError "Le script 'compile' n'existe pas !" ; incNBERREURS;
 else echoPoint ;
@@ -89,8 +89,8 @@ then echoError "Le script 'cleanAll' n'existe pas !"; incNBERREURS;
 else echoPoint;
 fi
 
-if !(test -e hello) 
-then echoError "Le script 'hello' n'existe pas !"; incNBERREURS;
+if !(test -e simulateur) 
+then echoError "Le script 'simulateur' n'existe pas !"; incNBERREURS;
 else echoPoint;
 fi
 
@@ -147,7 +147,7 @@ echo
 echoMess "Génération de la javadoc :" ; sh genDoc
 #
 if [ $? -gt 0 ] # cas où le script de génération de la javadoc signale un problème
-then echoError "Le script de génération de la javadoc a signalé une erreur"; incNBERREURS; 
+then echoError "Le script de génération de la javadoc a signalé au moins une erreur"; incNBERREURS; 
 fi	
 if (test -e docs/index.html) 	# un fichier docs/index.html existe-t-il ?
 then echoPoint	#si oui, c'est OK
