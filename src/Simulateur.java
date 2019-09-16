@@ -72,7 +72,7 @@ public class Simulateur {
 
         analyseArguments(args);
 
-        if(messageAleatoire) source = new SourceAleatoire();
+        if(messageAleatoire) source = new SourceAleatoire(10);
         else source = new SourceFixe();
         transmetteurLogique = new TransmetteurParfait();
         destination = new DestinationFinale();
