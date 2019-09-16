@@ -59,8 +59,12 @@ public class Simulateur {
 
         analyseArguments(args);
 
-        if(messageAleatoire)
-            source = new SourceAleatoire(nbBitsMess, aleatoireAvecGerme, seed);
+        if(messageAleatoire) {
+            if (aleatoireAvecGerme)
+                source = new SourceAleatoire(nbBitsMess, seed);
+            else
+                source = new SourceAleatoire(nbBitsMess);
+        }
         else{
             try {
                 source = new SourceFixe(Information.stringToBoolean(messageString));
