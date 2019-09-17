@@ -1,4 +1,0 @@
-#!/bin/bash
-echo "#####> Documentation generation..."
-javadoc -d docs/ src/*.java
-echo "#####> Completed"

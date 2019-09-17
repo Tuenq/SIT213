@@ -1,0 +1,17 @@
+# Visual Studio related stuff
+.vscode/
+/.devcontainer/
+
+# Project related stuff
+artifacts/
+bin/
+deployment_test/
+docs/
+
+# IntelliJ IDEA on mac
+.idea/
+*.iml
+out/
+
+# MAC OS related stuff
+.DS_Store
