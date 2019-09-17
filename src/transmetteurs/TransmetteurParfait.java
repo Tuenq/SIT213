@@ -14,18 +14,13 @@ import visualisations.SondeLogique;
 public class TransmetteurParfait extends Transmetteur <Boolean, Boolean> {
     @Override
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
-        informationRecue = information;
+        informationRecue = new Information<>(information);
         emettre();
     }
 
     @Override
     public void emettre() throws InformationNonConforme {
-        informationEmise = informationRecue;
-
-        // Création d'une sonde et envoi des informations à émettre en sortie du transmetteur à cette dernière
-        SondeLogique sonde = new SondeLogique("Sonde sortie transmetteur parfait", 100);
-        sonde.recevoir(informationEmise);
-
+        informationEmise = new Information<>(informationRecue);
         // Pour chaque destination connectée on envoie les informations à émettre
         for (DestinationInterface<Boolean> destination : destinationsConnectees) {
             destination.recevoir(informationEmise);
