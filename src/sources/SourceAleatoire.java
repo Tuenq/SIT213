@@ -8,46 +8,44 @@ import java.util.*;
 
 
 /**
- * SourceAleatoire
+ * SourceAleatoire génére une suite aléatoire de Boolean avec ou sans seed pour une quantité préconfiguré d'item
+ * @author Ludovic
  */
 public class SourceAleatoire extends Source<Boolean> {
 
-    int taille;
-
     public SourceAleatoire(int nbBit) {
-        taille = nbBit;
         informationGeneree = new Information<Boolean>();
+        Random random = new Random();
 
-        for (int j=0; j<= taille; j++) {
-            Random rnd = new Random();
-            boolean value = rnd.nextBoolean();
+        boolean value;
+        for (int j = 0 ; j < nbBit ; j++) {
+            value = random.nextBoolean();
             informationGeneree.add(value);
         }
+
     }
 
     public SourceAleatoire(int nbBit, long seed) {
-        taille = nbBit;
         informationGeneree = new Information<Boolean>();
+        Random random = new Random(seed);
 
-        for (int j = 0; j <= taille; j++) {
-            Random rnd = new Random(seed);
-            boolean value = rnd.nextBoolean();
+        boolean value;
+        for (int j = 0 ; j < nbBit ; j++) {
+            value = random.nextBoolean();
             informationGeneree.add(value);
         }
 
     }
 
-    public Information<Boolean> getInformationEmise(){
-        informationEmise= informationGeneree;
-        return informationEmise;
-    }
-
     public static void main (String[] args){
-        Source S = new SourceAleatoire(10);
-        System.out.println(S.getInformationEmise());
-
-        Source S2 = new SourceAleatoire(10, -10); //false pour seed <0 et true pour seed > 0
-        System.out.println(S2.getInformationEmise());
+        Source instance1 = new SourceAleatoire(6, 6364664);
+        try {
+            instance1.emettre();
+        }
+        catch (Exception exception){
+            System.out.println(exception);
+        }
+        System.out.println(instance1.getInformationEmise());
 
     }
 }

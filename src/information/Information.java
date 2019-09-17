@@ -84,11 +84,11 @@ public  class Information <T>  implements Iterable <T> {
      * pour afficher une information
      */
     public String toString() {
-	String s = "";
+	StringBuilder s = new StringBuilder();
 	for (int i = 0; i < this.nbElements(); i++) {
-            s += " " + this.iemeElement(i);
+            s.append(" ").append(this.iemeElement(i));
 	}
-	return s;
+	return s.toString();
     }
    
     /**
@@ -96,5 +96,24 @@ public  class Information <T>  implements Iterable <T> {
      */
     public Iterator <T> iterator() {
 	return content.iterator();
+    }
+
+    public static Information<Boolean> stringToBoolean(String messageString)
+            throws InformationNonConforme {
+        Information<Boolean> message = new Information<Boolean>();
+
+        for(int i = 0 ; i < messageString.length() ; i++) {
+            switch (messageString.charAt(i)){
+                case '1':
+                    message.add(true);
+                    break;
+                case '0':
+                    message.add(false);
+                    break;
+                default:
+                    throw new InformationNonConforme("un ou plusieurs caractères ne sont pas de type booleen");
+            }
+        }
+        return message;
     }
 }
