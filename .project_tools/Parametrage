@@ -14,11 +14,13 @@ SERROR='\033[1;33;41m' 		# messages d'erreur de ce script : Gras, jaune sur fond
 
 echoTitre()	# pour afficher un message passé en argument en format $STITRE
 {
+clear
 echo $STITRE"$*"$SNORMAL
 }
 #
 echoCategorie() 	# pour afficher un intitulé de categorie de test 
 {
+clear
 echo $SSOUSTITRE"$*"$SNORMAL
 }
 #

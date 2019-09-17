@@ -168,7 +168,6 @@ public class Simulateur {
             } else if (args[i].matches("-seed")) {
                 aleatoireAvecGerme = true;
                 i++;
-                // TODO: Traiter la valeur associee
                 try {
                     seed = Integer.parseInt(args[i]);
                 } catch (Exception e) {

@@ -2,28 +2,65 @@
 
 [![Build Status][TRAVIS_CI_BADGE]][TRAVIS_CI]
 
-TODO: Description
 
-[Goals file](.project_docs/Goals.md)
+
+Fichier décrivant les objectifs : [Goals](.project_docs/Goals.md) [WIP]
 
 ## Project folder overview
 
 ```
 /                   # Root directory
+├── .project_docs       # Contain documentation about the project
 ├── src/                # Contain java sources
 ├── lib/                # Contain java libraries
 ├── bin/                # Contain class files (generated on-demand)
 ├── docs/               # Contain documentation about java sources (generated on-demand)
 ├── test/               # Contain java test sources
-├── deliverable/        # Contain deliverable archive (generated on-demand)
 └── build.xml           # Ant build file
 ```
+
+## How to use
+
+> The following scripts need to have e**X**ecution permission.
+
+### Compile the project
+
+At the root of the project, use the following command:
+
+    $ ./compile
+
+### Clean all the generated files
+
+At the root of the project, use the following command:
+
+    $ ./cleanAll
+    
+### Generate the documentation
+
+At the root of the project, use the following command:
+
+    $ ./genDoc
+    
+### Run the auto-test [Not implemented yet]
+
+At the root of the project, use the following command:
+
+    $ ./runTests
+    
+### Start using the simulator
+
+At the root of the project, use the following command:
+
+    $ ./simulateur
+    
+> If you want to use argument, simply add them after `simulateur`.  
+> For example : `$ ./simulateur -s -mess 01010011`
 
 ## Project continuous test management
 
 Automated build triggered at each commit, managed by [Travis CI][TRAVIS_CI]. It allow us to:
 * Check if `Unit test` passed
-* Chech if `Deployment test` passed
+* Check if `Deployment test` passed
 
 And deploy with confidence to the client.
 

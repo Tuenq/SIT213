@@ -1,5 +1,6 @@
 # Visual Studio related stuff
 .vscode/
+/.devcontainer/
 
 # Project related stuff
 artifacts/
@@ -9,8 +10,8 @@ docs/
 
 # IntelliJ IDEA on mac
 .idea/
-Project.iml
-.DS_Store
+*.iml
 out/
 
-*.iml
+# MAC OS related stuff
+.DS_Store
