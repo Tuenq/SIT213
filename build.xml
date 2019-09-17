@@ -1,0 +1,154 @@
+<!--
+    Ant project for SIT213
+    Tasklist documentation: https://ant.apache.org/manual/tasklist.html
+-->
+<project name="SIT213" basedir="." default="runApp">
+    <description>
+        SIT213 Project - IMT Atlantique Class
+    </description>
+
+    <!-- =================================        Properties        ================================= -->
+
+    <!-- <property name="" value=""/> -->
+
+    <property name="source.dir" value="src"/>
+    <property name="source.test.dir" value="test"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="build.dir" value="bin"/>
+    <property name="docs.dir" value="docs"/>
+    <property name="artifacts.dir" value="artifacts"/>
+    <property name="deployment.test.dir" value="deployment_test"/>
+    <property name="deployment.tools.dir" value=".project_tools"/>
+    <property name="deployment.scripts.dir" value=".project_scripts"/>
+
+    <property name="package.authors" value="Bartoli-Dumestre-Francis-Hugdelarauze"/>
+    <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
+
+    <!-- =================================        Classpath         ================================= -->
+
+    <!-- ADD JUNIT 4 JAR TO LIB -->
+
+    <path id="test.classpath">
+        <pathelement path="${build.dir}"/>
+        <fileset dir="${lib.dir}" includes="*.jar" />
+    </path>
+
+    <!-- =================================        Targets           ================================= -->
+
+    <!-- =====     target: cleanAll     ===== -->
+    <target name="cleanAll" description="--> Clean generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${build.dir}"/>
+            <fileset dir="${docs.dir}"/>
+            <fileset dir="${artifacts.dir}"/>
+            <fileset dir="${deployment.test.dir}"/>
+        </delete>
+    </target>
+
+    <!-- =====     target: prepareAll     ===== -->
+    <target name="prepareAll" depends="prepareBuild, prepareDocumentation, prepareArtifacts, prepareDeployment" 
+            description="--> Initialize project structure"/>
+
+        <!-- =====     target: prepareBuild     ===== -->
+        <target name="prepareBuild" description="--+--> Initialize build structure">
+            <mkdir dir="${build.dir}"/>
+        </target>
+
+        <!-- =====     target: prepareDocs     ===== -->
+        <target name="prepareDocumentation" description="--+--> Initialize documentation structure">
+            <mkdir dir="${docs.dir}"/>
+        </target>
+
+        <!-- =====     target: prepareArtifacts     ===== -->
+        <target name="prepareArtifacts" description="--+--> Initialize artifacts structure">
+            <mkdir dir="${artifacts.dir}"/>
+        </target>
+
+        <!-- =====     target: prepareDeployment     ===== -->
+        <target name="prepareDeployment" description="--+--> Initialize deployment structure">
+            <mkdir dir="${deployment.test.dir}"/>
+        </target>
+
+    <!-- =====     target: compileAll     ===== -->
+    <target name="compileAll" depends="compileApp, compileTest"
+            description="--> Compile app &amp; test source (if test available)">
+    </target>
+
+        <!-- =====     target: compileApp     ===== -->
+        <target name="compileApp" depends="prepareBuild" 
+                description="--+--> Compile app source">
+            <echo>=====Compiling ${source.dir} files ...=====</echo>
+            <javac debug="on" srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false">
+                <compilerarg value="-Xlint:all"/>
+            </javac>
+        </target>
+
+        <!-- =====     target: compileTest     ===== -->
+        <target name="compileTest" depends="compileTest.ready, compileTest.empty"
+                description="--+--> Compile test source (if available)"/>
+
+            <!-- =====     condition: compileTest.check     ===== -->
+            <target name="compileTest.check">
+                <condition property="test.available">
+                        <available classname="test.classpath"/>
+                </condition>
+            </target>
+
+            <target name="compileTest.ready" depends="prepareBuild" if="${test.available}"
+                    description="--+--o--> Executed when test are implemented">
+                <echo>=====Compiling ${source.test.dir} files...=====</echo>
+                <javac debug="on" srcdir="${source.test.dir}" classpathref="test.classpath" destdir="${build.dir}" includeAntRuntime="false">
+                    <compilerarg value="-Xlint:all"/>
+                </javac>
+            </target>
+            
+            <target name="compileTest.empty" depends="prepareBuild" unless="${test.available}"
+                    description="--+--x--> Executed when no test are implemented">
+                <echo>=====No test to compile in ${source.test.dir}=====</echo>
+            </target>
+
+    <!-- =====     target: runApp     ===== -->
+    <target name="runApp" depends="compileApp" 
+            description="--> Run app">
+        <java dir="${build.dir}" classname="Simulateur" fork="true"/>
+    </target>
+
+    <!-- =====     target: runTest     ===== -->
+    <target name="runTest" depends="compileTest" if="${test.available}"
+            description="--> Run unit test">
+        <java dir="${build.dir}" classname="SimulateurTest" fork="true"/>
+    </target>
+
+    <!-- =====     target: RunDeploymentTest     ===== -->
+    <target name="runDeploymentTest" depends="generateArtifacts" 
+            description="--> Run deployment test">
+        <copy file="${package.archive}.tar.gz" todir="${deployment.test.dir}"/>
+        <copy todir="${deployment.test.dir}">
+            <fileset dir="${deployment.tools.dir}" excludes="readme"/>
+        </copy>
+        <exec executable="/bin/sh" dir="${deployment.test.dir}" failonerror="true">
+            <arg value="Deploiement"/>
+            <arg value="${package.authors}"/>
+        </exec>
+    </target>
+
+    <!-- =====     target: generate     ===== -->
+    <target name="generateAll" depends="generateDocumentation, generateArtifacts" 
+            description="--> Generate documentation and artifacts"/>
+
+        <!-- =====     target: generateDocumentation     ===== -->
+        <target name="generateDocumentation" depends="prepareDocumentation" 
+                description="--+--> Generate java documentation">
+            <javadoc sourcepath="${source.dir}" destdir="${docs.dir}"/>
+        </target>
+
+        <!-- =====     target: generateArtifacts     ===== -->
+        <target name="generateArtifacts" depends="prepareAll" 
+                description="--+--> Generate artifacts for delivery">
+            <tar destfile="${package.archive}.tar.gz" compression="gzip">
+                <tarfileset dir="${basedir}" excludes=".*/**, ${artifacts.dir}, ${deployment.test.dir}"/>
+                <tarfileset dir="${deployment.scripts.dir}/"/>
+            </tar>
+        </target>
+
+</project>

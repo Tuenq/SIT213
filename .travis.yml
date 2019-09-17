@@ -2,18 +2,13 @@ language: java
 jdk: openjdk11
 
 script:
-  - cd DUMESTRE-HUGDELARAUZE
-  - sh cleanAll
-  - sh genDeliverable
-  - cd ../
-  - mv DUMESTRE-HUGDELARAUZE.tar.gz Tools/
-  - cd Tools/
-  - sh Deploiement DUMESTRE-HUGDELARAUZE
+  - ant runTest
+  - ant runDeploymentTest
  
 deploy:
   provider: releases
   api_key: ${GITHUB_OAUTH}
-  file: "DUMESTRE-HUGDELARAUZE.tar.gz"
+  file: "artifacts/Bartoli-Dumestre-Francis-Hugdelarauze.tar.gz"
   skip_cleanup: true
   overwrite: true
   on:

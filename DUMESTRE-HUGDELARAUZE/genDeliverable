@@ -1,4 +1,0 @@
-#!/bin/bash
-echo "#####> Deliverable generation..."
-tar -zcvf ../DUMESTRE-HUGDELARAUZE.tar.gz ./
-echo "#####> Completed"

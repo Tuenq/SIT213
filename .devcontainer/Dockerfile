@@ -1,62 +1,40 @@
-#-------------------------------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
-#-------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# JAVA 11 + ANT Project
+#-----------------------------------------------------------------------------------------------------------------------
 
 FROM openjdk:11-jdk
 
-# Or your actual UID, GID on Linux if not the default 1000
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-# Configure apt
+#-------------------Configure apt---------------------------------------------------------------------------------------
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
+RUN echo "##########> Install tools through apt <##########"
+RUN apt-get update && apt-get -y upgrade \
     && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
-    #
-    # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
-    && groupadd --gid $USER_GID $USERNAME \
-    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    # [Optional] Uncomment the next three lines to add sudo support
-    # && apt-get install -y sudo \
-    # && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    # && chmod 0440 /etc/sudoers.d/$USERNAME \
-    #
-    # Verify git, needed tools installed
-    && apt-get -y install git procps curl lsb-release
+    && apt-get -y install git procps curl lsb-release man
 
-#-------------------Uncomment the following steps to install Maven CLI Tools----------------------------------
-# ARG MAVEN_VERSION=3.6.1
-# ARG MAVEN_SHA=b4880fb7a3d81edd190a029440cdf17f308621af68475a4fe976296e71ff4a4b546dd6d8a58aaafba334d309cc11e638c52808a4b0e818fc0fd544226d952544
-# RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
-#   && curl -fsSL -o /tmp/apache-maven.tar.gz https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
-#   && echo "${MAVEN_SHA} /tmp/apache-maven.tar.gz" | sha512sum -c - \
-#   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
-#   && rm -f /tmp/apache-maven.tar.gz \
-#   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-# COPY maven-settings.xml /usr/share/maven/ref/
-# ENV MAVEN_HOME /usr/share/maven
-# ENV MAVEN_CONFIG /root/.m2
-#-------------------------------------------------------------------------------------------------------------
+#-------------------Install Apache Ant Tools----------------------------------------------------------------------------
+ARG ANT_VERSION=1.10.7
+ARG ANT_SHA=838ce70c7dbd2b53068ce17b169c0b3fbed5e0ab7be5c707f052418fb6a4a1620f2d4017ceca1379cd25edce3e46d70bb2b5de4e1c5c52e2e1275deec1228084
+ENV ANT_HOME /usr/share/ant
+ENV PATH="${PATH}:${ANT_HOME}/bin"
+# Set default encoding for file
+ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+RUN echo "##########> Install Apache Ant Tools <##########" \
+    # Download and verify Apache Ant archive
+    && curl -fsSl -o /tmp/apache-ant.tar.gz https://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \
+    && echo "${ANT_SHA} /tmp/apache-ant.tar.gz" | sha512sum -c - \
+    # Extract to Ant home directory and clean archive
+    && mkdir -p ${ANT_HOME} \
+    && tar -xzf /tmp/apache-ant.tar.gz -C ${ANT_HOME} --strip-components=1 \
+    && rm -f /tmp/apache-ant.tar.gz \
+    # Fetch Ant library
+    && ant -f ${ANT_HOME}/fetch.xml -Ddest=system
 
-#-------------------Uncomment the following steps to install Gradle CLI Tools---------------------------------
-# ENV GRADLE_HOME /opt/gradle
-# ENV GRADLE_VERSION 5.4.1
-# ARG GRADLE_DOWNLOAD_SHA256=7bdbad1e4f54f13c8a78abc00c26d44dd8709d4aedb704d913fb1bb78ac025dc
-# RUN curl -sSL --output gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" \
-#     && echo "${GRADLE_DOWNLOAD_SHA256} *gradle.zip" | sha256sum --check - \
-#     && unzip gradle.zip \
-#     && rm gradle.zip \
-#     && mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
-#     && ln -s "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
-#-------------------------------------------------------------------------------------------------------------
-
-# Clean up
+#-------------------Clean up--------------------------------------------------------------------------------------------
+RUN echo "##########> Clean up through apt <##########"
 RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=
 
-# Allow for a consistant java home location for settings - image is changing over time
+#-------------------Allow for a consistant java home location for settings - image is changing over time----------------
 RUN if [ ! -d "/docker-java-home" ]; then ln -s "${JAVA_HOME}" /docker-java-home; fi
