@@ -1,9 +1,8 @@
-
 package transmetteurs;
 
-        import destinations.DestinationInterface;
-        import information.Information;
-        import information.InformationNonConforme;
+import destinations.DestinationInterface;
+import information.Information;
+import information.InformationNonConforme;
 
 public class Emetteur extends Transmetteur<Boolean,Float> {
 
@@ -13,14 +12,19 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
         //Par defaut on effectue un codage RZ du signal numérique
-        informationRecue = information;
+        informationEmise = CodageRZ(information, 30, 0, 1);
     }
 
     /**Reception d'un message avec un nombre d'échantillons par bit spécifié
      **/
     public void recevoir(Information<Boolean> information, int nbEch, String form) throws InformationNonConforme{
         informationRecue = information;
-
+        if (form.contentEquals("RZ"))
+            informationEmise = CodageRZ(information, nbEch, 0, 1);
+        if (form.contentEquals("NRZ"))
+            informationEmise = CodageRZ(information, nbEch, 0, 1);
+        if (form.contentEquals("NRZT"))
+            informationEmise = CodageRZ(information, nbEch, 0, 1);
     }
 
     /**Reception d'un message avec un nombre d'échantillons par bit spécifié,
@@ -28,6 +32,7 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
      **/
     public void recevoir(Information<Boolean> information, int nbEch, float amplMin, float amplMax, String form) throws InformationNonConforme{
         informationRecue = information;
+        informationEmise = CodageRZ(information, nbEch, amplMin, amplMax);
     }
 
     @Override
@@ -50,12 +55,12 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
         float pasEch=1/nbEch;
         for(Boolean symbole : info) {
             if(symbole==true) {
-                echantilloneSymbole(amplMin, pasEch, 0, 1/3);
-                echantilloneSymbole(amplMax, pasEch, 1/3, 2/3);
-                echantilloneSymbole(amplMin, pasEch, 2/3, 1);
+                echantilloneSymbole(amplMin, 0, pasEch, 0, 1/3);
+                echantilloneSymbole(amplMax, 0, pasEch, 1/3, 2/3);
+                echantilloneSymbole(amplMin, 0, pasEch, 2/3, 1);
             }
             else
-                echantilloneSymbole(amplMin, pasEch, 0, 1);
+                echantilloneSymbole(amplMin, 0,pasEch, 0, 1);
         }
         return informationCodee;
     }
@@ -69,9 +74,9 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
     {
         for(Boolean symbole : info) {
             if(symbole==true)
-                echantilloneSymbole(1f, nbEch);
+                echantilloneSymbole(1f, 0, 1/nbEch, 0, 1);
             else
-                echantilloneSymbole(0f, nbEch);
+                echantilloneSymbole(0f, 0, 1/nbEch, 0, 1);
         }
         return informationCodee;
     }
@@ -85,20 +90,12 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
 
         for(Boolean symbole : info) {
             if(symbole==true) {
-                float x=0;
-                for (int i=0; i<nbEch/3;i++) {
-                    echantilloneSymbole(x, 1);
-                    x+=3/nbEch;
-                }
-                echantilloneSymbole(1f, nbEch/3);
-                x=1;
-                for (int i=0; i<nbEch/3;i++) {
-                    echantilloneSymbole(x, 1);
-                    x-=3/nbEch;
-                }
+                echantilloneSymbole(0f, 3/nbEch, 1/nbEch, 0, 1/3);
+                echantilloneSymbole(1f, 0, 1/nbEch, 1/3, 2/3);
+                echantilloneSymbole(1f, -3/nbEch, 1/nbEch, 2/3, 1);
             }
             else
-                echantilloneSymbole(0f, nbEch);
+                echantilloneSymbole(0f, 0, 1/nbEch, 0, 1);
         }
         return informationCodee;
     }
@@ -107,12 +104,12 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
      * @param echantillon
      * @param nbEch
      */
-    public void echantilloneSymbole(float echantillon, float pasEch, float debut, float limite){
+    public void echantilloneSymbole(float echantillon, float incrementation, float pasEch, float debut, float limite){
         float x=debut;
         while(x<limite || x==1) {
             informationCodee.add(echantillon);
             x+=pasEch;
+            echantillon+=incrementation;
         }
     }
 }
-
