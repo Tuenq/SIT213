@@ -1,7 +1,6 @@
 package transmetteurs;
 
 import destinations.DestinationInterface;
-import filtres.FiltreInterface;
 import information.Information;
 import information.InformationNonConforme;
 
