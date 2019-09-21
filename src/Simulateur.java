@@ -121,7 +121,7 @@ public class Simulateur {
         }
 
         // Configuration du TRANSMETTEUR PARFAIT
-        transmetteurLogique = new TransmetteurParfait();
+        transmetteurLogique = new TransmetteurParfait<>();
         source.connecter(transmetteurLogique);
 
         // Configuration de la DESTINATION

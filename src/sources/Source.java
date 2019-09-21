@@ -31,9 +31,9 @@ public  abstract class Source <T> implements  SourceInterface <T> {
      * réalisations de la classe abstraite Source
      */
     public Source () {
-	destinationsConnectees = new LinkedList <DestinationInterface <T>> ();
-	informationGeneree = null;
-	informationEmise = null;
+        destinationsConnectees = new LinkedList <DestinationInterface <T>> ();
+        informationGeneree = null;
+        informationEmise = null;
     }
     
     /**
@@ -41,7 +41,7 @@ public  abstract class Source <T> implements  SourceInterface <T> {
      * @return une information   
      */
     public Information <T>  getInformationEmise() {
-	return this.informationEmise;
+	    return this.informationEmise;
     }
    
     /**
@@ -65,9 +65,9 @@ public  abstract class Source <T> implements  SourceInterface <T> {
      */
     public   void emettre() throws InformationNonConforme {
        	// émission vers les composants connectés
-	for (DestinationInterface <T> destinationConnectee : destinationsConnectees) {
-            destinationConnectee.recevoir(informationGeneree);
-	}
-	this.informationEmise = informationGeneree;   			 			      
+        for (DestinationInterface <T> destinationConnectee : destinationsConnectees) {
+                destinationConnectee.recevoir(informationGeneree);
+        }
+        this.informationEmise = informationGeneree;
     }
 }

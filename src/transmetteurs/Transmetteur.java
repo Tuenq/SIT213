@@ -36,7 +36,7 @@ public abstract  class Transmetteur <R,E> implements  DestinationInterface <R>, 
      * réalisations de la classe abstraite Transmetteur
      */
     public Transmetteur() {
-	destinationsConnectees = new LinkedList <DestinationInterface <E>> ();
+	destinationsConnectees = new LinkedList<>();
 	informationRecue = null;
 	informationEmise = null;
     }
