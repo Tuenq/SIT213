@@ -19,7 +19,6 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
      **/
     public void recevoir(Information<Float> information, int nbEch, String form) throws InformationNonConforme{
         informationRecue = information;
-
     }
 
     /**Reception d'un message avec un nombre d'échantillons par bit spécifié,
@@ -44,42 +43,21 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
      * @param nbEch
      * @return
      */
-    public Information<Float> CodageNRZT(Information<Float> info, int nbEch) {
+    public Information<Boolean> Decodage(Information<Float> info, int nbEch) {
         int nbSymbole = info.nbElements()/nbEch;
-        int periode_echantillons= 0;
+        Information<Boolean> InfoATransmettre = new Information<Boolean>();
+        float amplMax = info.iemeElement(0);
         for(int i=0;i<nbSymbole;i++) {
-
-            periode_echantillons+=i*nbEch
-        }
-
-                float x=0;
-                for (int i=nbEch/3; i<(nbEch*2)/3;i++) {
-                    echantilloneSymbole(x, 1);
-                    x+=3/nbEch;
-                }
-                echantilloneSymbole(1f, nbEch/3);
-                x=1;
-                for (int i=0; i<nbEch/3;i++) {
-                    echantilloneSymbole(x, 1);
-                    x-=3/nbEch;
-                }
+            // Le premier caractère est l'amplitude max envoyée (d'où le +1)
+            // On récupère l'échantillon du centre du symbole :
+            float valeurRetournee = info.iemeElement(nbEch*i+nbEch-1)+1;
+            if(valeurRetournee == amplMax){
+                InfoATransmettre.add(true);
             }
             else
-                echantilloneSymbole(0f, nbEch);
+                    InfoATransmettre.add(false);
         }
-        return informationCodee;
-    }
-
-    /** Ajoute les differents echantillons d'un symbole dans l'information filtrée
-     * @param echantillon
-     * @param nbEch
-     */
-    public void DesechantilloneSymbole(float echantillon, float pasEch, float debut, float limite){
-        float x=debut;
-        while(x<limite || x==1) {
-            informationCodee.add(echantillon);
-            x+=pasEch;
-        }
+        return InfoATransmettre;
     }
 }
 
