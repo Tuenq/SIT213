@@ -29,9 +29,13 @@ public class FiltreRZ extends Filtre {
         
 		return informationCodee;
     }
+    
+    
+    public Information<Boolean> DecodageRZ(Information<Float> info, int nbEch) {
+    DecodageBinaire(info, nbEch);
+    return infoATransmettre;
+    }
   
-    
-    
-    
 
 }
+

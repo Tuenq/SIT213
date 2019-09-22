@@ -18,6 +18,10 @@ public class FiltreNRZ extends Filtre {
         }
         return informationCodee;
     }
-
+    
+    public Information<Boolean> DecodageNRZ(Information<Float> info, int nbEch) {
+    DecodageBinaire(info, nbEch);
+    return infoATransmettre;
+    }
 }
 

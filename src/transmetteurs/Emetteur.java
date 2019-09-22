@@ -62,18 +62,4 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
 
     }
 
-
-
-    
-    public static void main(String[] args) throws InformationNonConforme {
-   	 Information<Boolean> expectedMessage = Information.stringToBoolean("100110101011");
-   	 FiltreNRZT testfiltre=new FiltreNRZT();
-   	 System.out.println(expectedMessage);
-   	 Information<Float> inf=testfiltre.CodageNRZT(expectedMessage, 30);
-   	 System.out.println(inf);
-   	 SondeAnalogique stest=new SondeAnalogique("CODAGE NRZT");
-   	 stest.recevoir(inf);
-   	 
-
-   }
 }

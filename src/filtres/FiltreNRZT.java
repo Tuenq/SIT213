@@ -22,6 +22,10 @@ public class FiltreNRZT extends Filtre {
         }
         return informationCodee;
     }
-
+    
+    public Information<Boolean> DecodageNRZT(Information<Float> info, int nbEch) {
+    DecodageBinaire(info, nbEch);
+    return infoATransmettre;
+    }
 }
 
