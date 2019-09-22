@@ -32,7 +32,7 @@ public class SourceFixeTest {
         Assert.assertEquals(expectedMessage, actualMessage);
     }
     
-    public static void main (String[] args) {
-    	emettreNominal();
-    }
+//    public static void main (String[] args) {
+//    	emettreNominal();
+//    }
 }

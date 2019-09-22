@@ -7,16 +7,22 @@
         SIT213 Project - IMT Atlantique Class
     </description>
 
-    <!-- =================================        Properties        ================================= -->
+    <!-- region=================================        Properties        ================================= -->
 
     <!-- <property name="" value=""/> -->
 
-    <property name="source.dir" value="src"/>
+    <property name="source.main.dir" value="src"/>
     <property name="source.test.dir" value="test"/>
+    <property name="source.build.dir" value="bin"/>
+    <property name="source.build.main.dir" value="${source.build.dir}/main"/>
+    <property name="source.build.test.dir" value="${source.build.dir}/test"/>
+
     <property name="lib.dir" value="lib"/>
-    <property name="build.dir" value="bin"/>
+
     <property name="docs.dir" value="docs"/>
+
     <property name="artifacts.dir" value="artifacts"/>
+
     <property name="deployment.test.dir" value="deployment_test"/>
     <property name="deployment.tools.dir" value=".project_tools"/>
     <property name="deployment.scripts.dir" value=".project_scripts"/>
@@ -24,34 +30,44 @@
     <property name="package.authors" value="Bartoli-Dumestre-Francis-Gueye-Hugdelarauzee"/>
     <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
 
-    <!-- =================================        Classpath         ================================= -->
+    <!-- endregion -->
 
-    <!-- ADD JUNIT 4 JAR TO LIB -->
+    <!-- region=================================        Classpath         ================================= -->
 
-    <path id="test.classpath">
-        <pathelement path="${build.dir}"/>
-        <fileset dir="${lib.dir}" includes="*.jar" />
+    <path id="classpath.main">
+        <pathelement location="lib/commons-cli-1.4.jar"/>
+        <pathelement location="${source.build.main.dir}"/>
     </path>
+
+    <path id="classpath.test">
+        <pathelement location="lib/junit-4.12.jar"/>
+        <pathelement location="lib/hamcrest-core-1.3.jar"/>
+    </path>
+
+    <!-- endregion -->
 
     <!-- =================================        Targets           ================================= -->
 
-    <!-- =====     target: cleanAll     ===== -->
+    <!-- region=====     target: cleanAll     ===== -->
     <target name="cleanAll" description="--> Clean generated files">
         <delete includeEmptyDirs="true" quiet="true">
-            <fileset dir="${build.dir}"/>
+            <fileset dir="${source.build.dir}"/>
             <fileset dir="${docs.dir}"/>
             <fileset dir="${artifacts.dir}"/>
             <fileset dir="${deployment.test.dir}"/>
         </delete>
     </target>
+    <!-- endregion -->
 
-    <!-- =====     target: prepareAll     ===== -->
+    <!-- region =====     target: prepareAll     ===== -->
     <target name="prepareAll" depends="prepareBuild, prepareDocumentation, prepareArtifacts, prepareDeployment" 
             description="--> Initialize project structure"/>
 
         <!-- =====     target: prepareBuild     ===== -->
         <target name="prepareBuild" description="--+--> Initialize build structure">
-            <mkdir dir="${build.dir}"/>
+            <mkdir dir="${source.build.dir}"/>
+            <mkdir dir="${source.build.main.dir}"/>
+            <mkdir dir="${source.build.test.dir}"/>
         </target>
 
         <!-- =====     target: prepareDocs     ===== -->
@@ -68,58 +84,62 @@
         <target name="prepareDeployment" description="--+--> Initialize deployment structure">
             <mkdir dir="${deployment.test.dir}"/>
         </target>
+    <!-- endregion -->
 
-    <!-- =====     target: compileAll     ===== -->
+    <!-- region=====     target: compileAll     ===== -->
     <target name="compileAll" depends="compileApp, compileTest"
-            description="--> Compile app &amp; test source (if test available)">
+            description="--> Compile app &amp; test source">
     </target>
 
         <!-- =====     target: compileApp     ===== -->
         <target name="compileApp" depends="prepareBuild" 
                 description="--+--> Compile app source">
-            <echo>=====Compiling ${source.dir} files ...=====</echo>
-            <javac debug="on" srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false">
-                <compilerarg value="-Xlint:all"/>
+            <echo>=====Compiling ${source.main.dir} files ...=====</echo>
+            <javac debug="on" srcdir="${source.main.dir}" destdir="${source.build.main.dir}" includeAntRuntime="false">
+                <classpath refid="classpath.main"/>
             </javac>
         </target>
 
         <!-- =====     target: compileTest     ===== -->
-        <target name="compileTest" depends="compileTest.ready, compileTest.empty"
-                description="--+--> Compile test source (if available)"/>
+        <target name="compileTest" depends="compileApp"
+                description="--> Compile implemented tests">
+            <echo>=====Compiling ${source.test.dir} files...=====</echo>
+            <javac srcdir="${source.test.dir}" destdir="${source.build.main.dir}" includeantruntime="false">
+                <classpath refid="classpath.main"/>
+                <classpath refid="classpath.test"/>
+            </javac>
+        </target>
+    <!-- endregion -->
 
-            <!-- =====     condition: compileTest.check     ===== -->
-            <target name="compileTest.check">
-                <condition property="test.available">
-                        <available classname="test.classpath"/>
-                </condition>
-            </target>
-
-            <target name="compileTest.ready" depends="prepareBuild" if="${test.available}"
-                    description="--+--o--> Executed when test are implemented">
-                <echo>=====Compiling ${source.test.dir} files...=====</echo>
-                <javac debug="on" srcdir="${source.test.dir}" classpathref="test.classpath" destdir="${build.dir}" includeAntRuntime="false">
-                    <compilerarg value="-Xlint:all"/>
-                </javac>
-            </target>
-            
-            <target name="compileTest.empty" depends="prepareBuild" unless="${test.available}"
-                    description="--+--x--> Executed when no test are implemented">
-                <echo>=====No test to compile in ${source.test.dir}=====</echo>
-            </target>
-
-    <!-- =====     target: runApp     ===== -->
-    <target name="runApp" depends="compileApp" 
+    <!-- region=====     target: runApp     ===== -->
+    <target name="runApp" depends="compileApp"
             description="--> Run app">
-        <java dir="${build.dir}" classname="Simulateur" fork="true"/>
+        <echo>=====Run Simulateur -h=====</echo>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-h"/>
+        </java>
     </target>
+    <!-- endregion -->
 
-    <!-- =====     target: runTest     ===== -->
-    <target name="runTest" depends="compileTest" if="${test.available}"
+    <!-- region=====     target: runTest     ===== -->
+    <target name="runTest" depends="compileTest"
             description="--> Run unit test">
-        <java dir="${build.dir}" classname="SimulateurTest" fork="true"/>
+        <echo>=====Run tests=====</echo>
+        <junit printsummary="on" haltonfailure="yes" fork="true">
+            <classpath>
+                <path refid="classpath.main"/>
+                <path refid="classpath.test"/>
+            </classpath>
+            <formatter type="brief" usefile="false" />
+            <batchtest>
+                <fileset dir="${source.test.dir}" includes="SimulateurTest.java" />
+            </batchtest>
+        </junit>
     </target>
+    <!-- endregion -->
 
-    <!-- =====     target: RunDeploymentTest     ===== -->
+    <!-- region=====     target: RunDeploymentTest     ===== -->
     <target name="runDeploymentTest" depends="generateArtifacts" 
             description="--> Run deployment test">
         <copy file="${package.archive}.tar.gz" todir="${deployment.test.dir}"/>
@@ -131,15 +151,16 @@
             <arg value="${package.authors}"/>
         </exec>
     </target>
+    <!-- endregion -->
 
-    <!-- =====     target: generate     ===== -->
+    <!-- region=====     target: generate     ===== -->
     <target name="generateAll" depends="generateDocumentation, generateArtifacts" 
             description="--> Generate documentation and artifacts"/>
 
         <!-- =====     target: generateDocumentation     ===== -->
         <target name="generateDocumentation" depends="prepareDocumentation" 
                 description="--+--> Generate java documentation">
-            <javadoc sourcepath="${source.dir}" destdir="${docs.dir}"/>
+            <javadoc sourcepath="${source.main.dir}" destdir="${docs.dir}"/>
         </target>
 
         <!-- =====     target: generateArtifacts     ===== -->
@@ -150,5 +171,6 @@
                 <tarfileset dir="${deployment.scripts.dir}/"/>
             </tar>
         </target>
+    <!-- endregion -->
 
 </project>
