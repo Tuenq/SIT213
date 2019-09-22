@@ -3,37 +3,39 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="279.0" y="451.0">encoders.EncoderRZ</node>
-    <node x="143.0" y="451.0">encoders.EncoderNRZ</node>
-    <node x="435.9999999999999" y="152.0">transmetteurs.Emetteur</node>
-    <node x="634.2559523809523" y="0.0">destinations.DestinationInterface</node>
-    <node x="306.9999999999999" y="152.0">transmetteurs.Recepteur</node>
-    <node x="847.0" y="76.0">destinations.Destination</node>
-    <node x="756.9999999999999" y="152.0">destinations.DestinationFinale</node>
-    <node x="122.0" y="299.0">encoders.EncoderInterface</node>
-    <node x="557.9999999999999" y="152.0">transmetteurs.TransmetteurParfait</node>
-    <node x="105.75" y="76.0">sources.Source</node>
-    <node x="826.7499999999999" y="228.0">visualisations.SondeAnalogique</node>
-    <node x="421.9999999999999" y="76.0">transmetteurs.Transmetteur</node>
-    <node x="0.0" y="152.0">sources.SourceAleatoire</node>
-    <node x="941.9999999999999" y="152.0">visualisations.Sonde</node>
-    <node x="997.7499999999999" y="228.0">visualisations.SondeLogique</node>
-    <node x="170.9999999999999" y="152.0">sources.SourceFixe</node>
-    <node x="206.3690476190476" y="0.0">sources.SourceInterface</node>
-    <node x="0.0" y="451.0">encoders.EncoderNRZT</node>
-    <node x="153.5" y="375.0">encoders.Encoder</node>
+    <node x="521.5" y="305.0">encoders.EncoderRZ</node>
+    <node x="370.0" y="381.0">encoders.EncoderNRZ</node>
+    <node x="303.0" y="152.0">transmetteurs.Emetteur</node>
+    <node x="623.3511904761905" y="0.0">destinations.DestinationInterface</node>
+    <node x="423.0" y="152.0">transmetteurs.Recepteur</node>
+    <node x="835.75" y="76.0">destinations.Destination</node>
+    <node x="747.0" y="152.0">destinations.DestinationFinale</node>
+    <node x="550.0" y="152.0">transmetteurs.TransmetteurParfait</node>
+    <node x="490.0" y="229.0">encoders.EncoderInterface</node>
+    <node x="87.0" y="76.0">sources.Source</node>
+    <node x="974.25" y="228.0">visualisations.SondeAnalogique</node>
+    <node x="134.0" y="152.0">sources.SourceAleatoire</node>
+    <node x="412.5" y="76.0">transmetteurs.Transmetteur</node>
+    <node x="930.0" y="152.0">visualisations.Sonde</node>
+    <node x="826.25" y="228.0">visualisations.SondeLogique</node>
+    <node x="0.0" y="152.0">sources.SourceFixe</node>
+    <node x="192.77380952380952" y="0.0">sources.SourceInterface</node>
+    <node x="511.0" y="381.0">encoders.EncoderNRZT</node>
+    <node x="645.0" y="381.0">encoders.Encoder</node>
   </nodes>
   <notes />
   <edges>
     <edge source="transmetteurs.Emetteur" target="transmetteurs.Transmetteur">
       <point x="0.0" y="-13.0" />
-      <point x="0.0" y="13.0" />
+      <point x="353.0" y="127.0" />
+      <point x="433.83333333333337" y="127.0" />
+      <point x="-42.666666666666686" y="13.0" />
     </edge>
     <edge source="visualisations.SondeLogique" target="visualisations.Sonde">
       <point x="0.0" y="-13.0" />
-      <point x="1062.75" y="203.0" />
-      <point x="1002.7499999999999" y="203.0" />
-      <point x="20.25" y="13.0" />
+      <point x="890.25" y="203.0" />
+      <point x="949.75" y="203.0" />
+      <point x="-19.75" y="13.0" />
     </edge>
     <edge source="encoders.Encoder" target="encoders.EncoderInterface">
       <point x="0.0" y="-13.0" />
@@ -43,88 +45,90 @@
       <point x="0.0" y="-13.0" />
       <point x="0.0" y="13.0" />
     </edge>
-    <edge source="encoders.EncoderNRZT" target="encoders.Encoder">
-      <point x="0.0" y="-13.0" />
-      <point x="61.5" y="426.0" />
-      <point x="169.33333333333334" y="426.0" />
-      <point x="-31.666666666666657" y="13.0" />
-    </edge>
     <edge source="sources.SourceFixe" target="sources.Source">
       <point x="0.0" y="-13.0" />
-      <point x="228.9999999999999" y="127.0" />
-      <point x="171.75" y="127.0" />
-      <point x="22.0" y="13.0" />
+      <point x="57.0" y="127.0" />
+      <point x="108.5" y="127.0" />
+      <point x="-21.5" y="13.0" />
+    </edge>
+    <edge source="encoders.EncoderNRZT" target="encoders.Encoder">
+      <point x="0.0" y="-13.0" />
+      <point x="430.5" y="356.0" />
+      <point x="537.0" y="356.0" />
+      <point x="-31.0" y="13.0" />
     </edge>
     <edge source="sources.Source" target="sources.SourceInterface">
       <point x="0.0" y="-13.0" />
-      <point x="149.75" y="51.0" />
-      <point x="244.1190476190476" y="51.0" />
-      <point x="-37.75" y="13.0" />
-    </edge>
-    <edge source="transmetteurs.Transmetteur" target="destinations.DestinationInterface">
-      <point x="32.5" y="-13.0" />
-      <point x="519.4999999999999" y="51.0" />
-      <point x="680.7559523809523" y="51.0" />
-      <point x="-46.5" y="13.0" />
+      <point x="130.0" y="51.0" />
+      <point x="230.02380952380952" y="51.0" />
+      <point x="-37.25" y="13.0" />
     </edge>
     <edge source="destinations.DestinationFinale" target="destinations.Destination">
       <point x="0.0" y="-13.0" />
-      <point x="839.4999999999999" y="127.0" />
-      <point x="877.75" y="127.0" />
-      <point x="-30.75" y="13.0" />
+      <point x="828.5" y="127.0" />
+      <point x="866.0" y="127.0" />
+      <point x="-30.25" y="13.0" />
+    </edge>
+    <edge source="transmetteurs.Transmetteur" target="destinations.DestinationInterface">
+      <point x="32.0" y="-13.0" />
+      <point x="508.5" y="51.0" />
+      <point x="669.3511904761905" y="51.0" />
+      <point x="-46.0" y="13.0" />
     </edge>
     <edge source="visualisations.Sonde" target="destinations.Destination">
       <point x="0.0" y="-13.0" />
-      <point x="982.4999999999999" y="127.0" />
-      <point x="939.25" y="127.0" />
-      <point x="30.75" y="13.0" />
+      <point x="969.5" y="127.0" />
+      <point x="926.5" y="127.0" />
+      <point x="30.25" y="13.0" />
     </edge>
     <edge source="encoders.EncoderRZ" target="encoders.Encoder">
       <point x="0.0" y="-13.0" />
-      <point x="333.5" y="426.0" />
-      <point x="232.66666666666669" y="426.0" />
-      <point x="31.666666666666686" y="13.0" />
+      <point x="698.5" y="356.0" />
+      <point x="599.0" y="356.0" />
+      <point x="31.0" y="13.0" />
+    </edge>
+    <edge source="transmetteurs.Transmetteur" target="sources.SourceInterface">
+      <point x="-32.0" y="-13.0" />
+      <point x="444.5" y="51.0" />
+      <point x="304.5238095238095" y="51.0" />
+      <point x="37.25" y="13.0" />
     </edge>
     <edge source="transmetteurs.TransmetteurParfait" target="transmetteurs.Transmetteur">
       <point x="0.0" y="-13.0" />
-      <point x="647.4999999999999" y="127.0" />
-      <point x="530.3333333333333" y="127.0" />
-      <point x="43.33333333333337" y="13.0" />
-    </edge>
-    <edge source="transmetteurs.Transmetteur" target="sources.SourceInterface">
-      <point x="-32.5" y="-13.0" />
-      <point x="454.4999999999999" y="51.0" />
-      <point x="319.6190476190476" y="51.0" />
-      <point x="37.75" y="13.0" />
+      <point x="638.5" y="127.0" />
+      <point x="519.1666666666666" y="127.0" />
+      <point x="42.66666666666663" y="13.0" />
     </edge>
     <edge source="sources.SourceAleatoire" target="sources.Source">
       <point x="0.0" y="-13.0" />
-      <point x="75.5" y="127.0" />
-      <point x="127.75" y="127.0" />
-      <point x="-22.0" y="13.0" />
-    </edge>
-    <edge source="visualisations.SondeAnalogique" target="visualisations.Sonde">
-      <point x="0.0" y="-13.0" />
-      <point x="902.2499999999999" y="203.0" />
-      <point x="962.2499999999999" y="203.0" />
-      <point x="-20.25" y="13.0" />
+      <point x="208.5" y="127.0" />
+      <point x="151.5" y="127.0" />
+      <point x="21.5" y="13.0" />
     </edge>
     <edge source="transmetteurs.Recepteur" target="transmetteurs.Transmetteur">
       <point x="0.0" y="-13.0" />
-      <point x="361.4999999999999" y="127.0" />
-      <point x="443.66666666666663" y="127.0" />
-      <point x="-43.333333333333314" y="13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="visualisations.SondeAnalogique" target="visualisations.Sonde">
+      <point x="0.0" y="-13.0" />
+      <point x="1048.75" y="203.0" />
+      <point x="989.25" y="203.0" />
+      <point x="19.75" y="13.0" />
     </edge>
     <edge source="destinations.Destination" target="destinations.DestinationInterface">
       <point x="0.0" y="-13.0" />
-      <point x="908.5" y="51.0" />
-      <point x="773.7559523809523" y="51.0" />
-      <point x="46.5" y="13.0" />
+      <point x="896.25" y="51.0" />
+      <point x="761.3511904761905" y="51.0" />
+      <point x="46.0" y="13.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.867595818815331" x="426.58835341365466" y="239.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="563.0" y="238.5" />
   <SelectedNodes>
-    <node>transmetteurs.Emetteur</node>
+    <node>encoders.EncoderRZ</node>
+    <node>encoders.EncoderNRZ</node>
+    <node>encoders.EncoderInterface</node>
+    <node>encoders.EncoderNRZT</node>
+    <node>encoders.Encoder</node>
   </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>

@@ -30,6 +30,13 @@ public class EncoderNRZT extends Encoder {
         return pente * (cpt * pas);
     }
 
+    /**
+     * Symbole du filtre NonRetourZeroTrapezoïdale<br>
+     * <img src="./doc-files/filtreNRZT.png" alt="FiltreNRZT"></img><br>
+     *
+     *  Chronogramme du filtre multiplié avec un enchainement 1-0<br>
+     * <img src="./doc-files/filtreNRZT_chrono.png"></img>
+     */
     public Information<Float> codage(Information<Boolean> data) {
         Information<Float> dataInBetween = echantilloneSymbole(data);
         Information<Float> dataOut = new Information<>();

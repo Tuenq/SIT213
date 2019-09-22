@@ -16,6 +16,13 @@ public class EncoderRZ extends Encoder {
     private final float tier1 = (1f/3f) * (float)nbEch;
     private final float tier2 = (2f/3f) * (float)nbEch;
 
+    /**
+     * Symbole du filtre RetourZero<br>
+     * <img src="./doc-files/filtreRZ.png" alt="FiltreRZ"></img><br>
+     *
+     *  Chronogramme du filtre multiplié avec un enchainement 1-0<br>
+     * <img src="./doc-files/filtreRZ_chrono.png"></img>
+     */
     @Override
     public Information<Float> codage(Information<Boolean> data) {
         Information<Float> dataInBetween = echantilloneSymbole(data);
