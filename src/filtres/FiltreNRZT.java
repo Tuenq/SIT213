@@ -9,7 +9,7 @@ public class FiltreNRZT extends Filtre {
      * @param nbEch
      * @return
      */
-    public Information<Float> CodageNRZT(Information<Boolean> info, int nbEch) {
+    public Information<Float> codageNRZT(Information<Boolean> info, int nbEch) {
 
         for(Boolean symbole : info) {
             if((boolean) symbole) {
@@ -23,8 +23,14 @@ public class FiltreNRZT extends Filtre {
         return informationCodee;
     }
     
-    public Information<Boolean> DecodageNRZT(Information<Float> info, int nbEch) {
-    DecodageBinaire(info, nbEch);
+    /**Decodage NRZT
+     * 
+     * @param info
+     * @param nbEch
+     * @return
+     */
+    public Information<Boolean> decodageNRZT(Information<Float> info, int nbEch) {
+    decodageBinaire(info, nbEch);
     return infoATransmettre;
     }
 }
