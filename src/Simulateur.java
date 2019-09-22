@@ -81,7 +81,11 @@ public class Simulateur {
     /**
      * le composant Transmetteur parfait logique de la chaine de transmission
      */
-    private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+    private Transmetteur<Boolean,Boolean> transmetteurLogique = null;
+    /**
+     * le composant Transmetteur parfait analogique de la chaine de transmission
+     */
+    private Transmetteur<Float,Float> transmetteurAnalogique = null;
     /**
      * le composant Destination de la chaine de transmission
      */
@@ -290,6 +294,7 @@ public class Simulateur {
         final Option amplitudeOption = Option.builder("ampl")
                 .desc("Permet de spécifier les amplitudes maximum et minimum\n" +
                         "(Par défaut min=0.0 et max=1.0)")
+                .argName("min max")
                 .hasArgs()
                 .numberOfArgs(2)
                 .valueSeparator(' ')

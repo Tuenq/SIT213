@@ -4,7 +4,7 @@
 
 
 
-Fichier décrivant les objectifs : [Goals](.project_docs/Goals.md) [WIP]
+Fichier décrivant les objectifs : [Goals](Goals.md) [WIP]
 
 ## Project folder overview
 
