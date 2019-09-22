@@ -10,29 +10,28 @@ import information.InformationNonConforme;
 public class Recepteur extends Transmetteur<Float,Boolean> {
 
     public Information<Float> informationCodee;
-
+    String forme;
+    int nbEch;
     @Override
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
-        //Par defaut on effectue un codage RZ du signal numérique
-    }
-
-    /**Reception d'un message avec un nombre d'échantillons par bit spécifié
-     **/
-    public void recevoir(Information<Float> information, int nbEch, String form) throws InformationNonConforme{
-        informationRecue = information;
-        if (form.contentEquals("RZ")) {
-        	FiltreRZ decodeur=new FiltreRZ();
-            informationEmise = decodeur.DecodageRZ(information, nbEch);
-        }
-        if (form.contentEquals("NRZ")) {
+        forme=informationRecue.forme;
+        nbEch=informationRecue.nbEch;
+        
+        if (forme.contentEquals("NRZ")) {
         	FiltreNRZ decodeur=new FiltreNRZ();
-            informationEmise = decodeur.DecodageNRZ(information, nbEch);
+            informationEmise = decodeur.decodageNRZ(information, nbEch);
         }
-        if (form.contentEquals("RZ")) {
+        else if (forme.contentEquals("NRZT")) {
         	FiltreNRZT decodeur=new FiltreNRZT();
-            informationEmise = decodeur.DecodageNRZT(information, nbEch);
+            informationEmise = decodeur.decodageNRZT(information, nbEch);
         }
+      
+        else{
+        	FiltreRZ decodeur=new FiltreRZ();
+            informationEmise = decodeur.decodageRZ(information, nbEch);
+        }
+        
     }
 
     @Override
@@ -66,5 +65,9 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
         }
         return InfoATransmettre;
     }
+
+
+
+
 }
 

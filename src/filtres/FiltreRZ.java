@@ -1,19 +1,17 @@
 package filtres;
 
 import information.Information;
-import information.InformationNonConforme;
-import visualisations.SondeAnalogique;
 
 public class FiltreRZ extends Filtre {
 	
-    /** Codage RZ du signal
+    /** codage RZ du signal
      * @param info
      * @param nbEch
      * @param amplMin
      * @param amplMax
      * @return
      */
-    public Information<Float> CodageRZ(Information<Boolean> info, int nbEch, float amplMin, float amplMax) {
+    public Information<Float> codageRZ(Information<Boolean> info, int nbEch, float amplMin, float amplMax) {
  
     	float pasEch=(float)1/nbEch;
         System.out.println("Ok" + pasEch);
@@ -30,9 +28,14 @@ public class FiltreRZ extends Filtre {
 		return informationCodee;
     }
     
-    
-    public Information<Boolean> DecodageRZ(Information<Float> info, int nbEch) {
-    DecodageBinaire(info, nbEch);
+    /**Decodage RZ
+     * 
+     * @param info
+     * @param nbEch
+     * @return
+     */
+    public Information<Boolean> decodageRZ(Information<Float> info, int nbEch) {
+    decodageBinaire(info, nbEch);
     return infoATransmettre;
     }
   

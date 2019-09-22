@@ -16,50 +16,43 @@ import visualisations.SondeAnalogique;
 public class Emetteur extends Transmetteur<Boolean,Float> {
 
     public Information<Float> informationCodee=new Information<Float>();
-   
-
+    String forme;
+    int nbEch;
+    float amplMin;
+    float amplMax;
+    
     @Override
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
-        //Par defaut on effectue un codage RZ du signal numérique
+        forme=informationRecue.forme;
+        nbEch=informationRecue.nbEch;
+        amplMin=informationRecue.amplMin;
+        amplMax=informationRecue.amplMax;
+
+        if (forme.equals("NRZ")) {
+        	FiltreNRZ codeur=new FiltreNRZ();
+            informationEmise = codeur.codageNRZ(information, nbEch);
+        }
+        else if (forme.equals("NRZT")) {
+        	FiltreNRZT codeur=new FiltreNRZT();
+            informationEmise = codeur.codageNRZT(information, nbEch);
+        }
+        else { //Par defaut on effectue un codage RZ du signal numérique
         FiltreRZ codeur=new FiltreRZ();
-        informationEmise = codeur.CodageRZ(information, 30, 0f, 1f);
+        informationEmise = codeur.codageRZ(information, nbEch, amplMin, amplMax);
+        emettre();
+        }
     }
 
-    /**Reception d'un message avec un nombre d'échantillons par bit spécifié
-     **/
-    public void recevoir(Information<Boolean> information, int nbEch, String form) throws InformationNonConforme{
-        informationRecue = information;
-        if (form.contentEquals("RZ")) {
-        	FiltreRZ codeur=new FiltreRZ();
-            informationEmise = codeur.CodageRZ(information, nbEch, 0, 1);
-        }
-        if (form.contentEquals("NRZ")) {
-        	FiltreNRZ codeur=new FiltreNRZ();
-            informationEmise = codeur.CodageNRZ(information, nbEch);
-        }
-        if (form.contentEquals("NRZT")) {
-        	FiltreNRZT codeur=new FiltreNRZT();
-            informationEmise = codeur.CodageNRZT(information, nbEch);
-        }
-    }
-    /**Reception d'un message avec un nombre d'échantillons par bit spécifié,
-     * ainsi que les amplitudes max et min
-     **/
-    public void recevoir(Information<Boolean> information, int nbEch, float amplMin, float amplMax, String form) throws InformationNonConforme{
-        informationRecue = information;
-        FiltreRZ codeur=new FiltreRZ();
-        informationEmise = codeur.CodageRZ(information, nbEch, amplMin, amplMax);
-    }
 
     @Override
     public void emettre() throws InformationNonConforme {
         //informationEmise
         //Pour chaque destination connectÃ©e on envoie les informations Ã  Ã©mettre
         for (DestinationInterface<Float> destination : destinationsConnectees) {
-            destination.recevoir(informationEmise);
+        	destination.recevoir(informationEmise);
+        	
         }
 
     }
-
 }
