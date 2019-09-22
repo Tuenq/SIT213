@@ -8,7 +8,7 @@ import java.util.*;
 public class Information<T> implements Iterable<T> {
 
 	private LinkedList<T> content;
-	public String forme="";
+	public String forme="RZ";
 	public int nbEch=30;
 	public float amplMin=0;
 	public float amplMax=1;

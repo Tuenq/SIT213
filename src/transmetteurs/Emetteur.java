@@ -1,17 +1,13 @@
 package transmetteurs;
 
-import javax.xml.transform.Source;
 
 import destinations.DestinationInterface;
-import filtres.Filtre;
 import filtres.FiltreNRZ;
 import filtres.FiltreNRZT;
 import filtres.FiltreRZ;
 import information.Information;
 import information.InformationNonConforme;
-import sources.SourceFixe;
-import visualisations.Sonde;
-import visualisations.SondeAnalogique;
+
 
 public class Emetteur extends Transmetteur<Boolean,Float> {
 
