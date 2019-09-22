@@ -1,6 +1,7 @@
 package transmetteurs;
 
 import destinations.DestinationInterface;
+import encoders.Encoder.encoders;
 import encoders.EncoderNRZ;
 import encoders.EncoderNRZT;
 import encoders.EncoderRZ;
@@ -10,26 +11,33 @@ import information.InformationNonConforme;
 public class Recepteur extends Transmetteur<Float,Boolean> {
 
     public Information<Float> informationCodee;
-    String forme;
+    encoders forme;
     int nbEch;
+    float amplMin;
+    float amplMax;
+    
+	public Recepteur(encoders forme, int nbEch, float amplMin, float amplMax) {
+        this.forme=forme;
+        this.nbEch=nbEch;
+        this.amplMin=amplMin;
+        this.amplMax=amplMax;
+	}
     @Override
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
-        forme=informationRecue.forme;
-        nbEch=informationRecue.nbEch;
         
-        if (forme.contentEquals("NRZ")) {
-        	EncoderNRZ decodeur=new EncoderNRZ();
-            informationEmise = decodeur.decodageNRZ(information, nbEch);
-        }
-        else if (forme.contentEquals("NRZT")) {
-        	EncoderNRZT decodeur=new EncoderNRZT();
-            informationEmise = decodeur.decodageNRZT(information, nbEch);
-        }
-      
-        else{
-        	EncoderRZ decodeur=new EncoderRZ();
-            informationEmise = decodeur.decodageRZ(information, nbEch);
+        switch(forme) {
+        case NRZ:
+        	EncoderNRZ decodeurNRZ=new EncoderNRZ();
+            informationEmise = decodeurNRZ.decodageNRZ(information, nbEch);
+            break;
+        case NRZT:
+        	EncoderNRZT decodeurNRZT=new EncoderNRZT();
+            informationEmise = decodeurNRZT.decodageNRZT(information, nbEch);
+            break;
+        default:
+        	EncoderRZ decodeurRZ=new EncoderRZ();
+            informationEmise = decodeurRZ.decodageRZ(information, nbEch, amplMin, amplMax);
         }
         
     }
@@ -44,30 +52,6 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
 
     }
 
-    /** Decodage multiforme du signal
-     * @param info
-     * @param nbEch
-     * @return
-     */
-    public Information<Boolean> Decodage(Information<Float> info, int nbEch) {
-        int nbSymbole = info.nbElements()/nbEch;
-        Information<Boolean> InfoATransmettre = new Information<Boolean>();
-        float amplMax = info.iemeElement(0);
-        for(int i=0;i<nbSymbole;i++) {
-            // Le premier caractère est l'amplitude max envoyée (d'où le +1)
-            // On récupère l'échantillon du centre du symbole :
-            float valeurRetournee = info.iemeElement(nbEch*i+nbEch-1)+1;
-            if(valeurRetournee == amplMax){
-                InfoATransmettre.add(true);
-            }
-            else
-                    InfoATransmettre.add(false);
-        }
-        return InfoATransmettre;
-    }
-
-
-
-
 }
+
 

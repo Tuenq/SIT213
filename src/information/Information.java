@@ -8,10 +8,6 @@ import java.util.*;
 public class Information<T> implements Iterable<T> {
 
 	private LinkedList<T> content;
-	public String forme="RZ";
-	public int nbEch=30;
-	public float amplMin=0;
-	public float amplMax=1;
 
     /**
      * pour construire une information vide
@@ -130,23 +126,5 @@ public class Information<T> implements Iterable<T> {
         return content.iterator();
     }
     
-    /**form*/
-    public void setForme(String forme) {
-    	this.forme=forme;
-    }
-    
-    /**NbEch*/
-    public void setNbEch(int nbEch) {
-    	this.nbEch=nbEch;
-    }
-    
-    /**Amplmin*/
-    public void setAmplMin(float amplMin) {
-    	this.amplMin=amplMin;
-    }
-    
-    /**Amplmax*/
-    public void setAmplMax(float amplMax) {
-    	this.amplMax=amplMax;
-    }
+ 
 }

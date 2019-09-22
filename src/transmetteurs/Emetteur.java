@@ -2,6 +2,7 @@ package transmetteurs;
 
 
 import destinations.DestinationInterface;
+import encoders.Encoder.encoders;
 import encoders.EncoderNRZ;
 import encoders.EncoderNRZT;
 import encoders.EncoderRZ;
@@ -10,34 +11,38 @@ import information.InformationNonConforme;
 
 
 public class Emetteur extends Transmetteur<Boolean,Float> {
-
-    public Information<Float> informationCodee=new Information<Float>();
-    String forme;
+	public Information<Float> informationCodee=new Information<Float>();
+	encoders forme;
     int nbEch;
     float amplMin;
     float amplMax;
     
+	public Emetteur(encoders formeOnde, int nbEch, float amplMin, float amplMax) {
+        this.forme=formeOnde;
+        this.nbEch=nbEch;
+        this.amplMin=amplMin;
+        this.amplMax=amplMax;
+	}
+    
     @Override
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
-        informationRecue = information;
-        forme=informationRecue.forme;
-        nbEch=informationRecue.nbEch;
-        amplMin=informationRecue.amplMin;
-        amplMax=informationRecue.amplMax;
-
-        if (forme.equals("NRZ")) {
-        	EncoderNRZ codeur=new EncoderNRZ();
-            informationEmise = codeur.codageNRZ(information, nbEch);
+ 
+        switch(forme){
+        case NRZ:
+        	EncoderNRZ codeurNRZ=new EncoderNRZ();
+            informationEmise = codeurNRZ.codageNRZ(information, nbEch);
+            break;
+        case NRZT:
+        	EncoderNRZT codeurNRZT=new EncoderNRZT();
+            informationEmise = codeurNRZT.codageNRZT(information, nbEch);
+            break;
+        default:
+        EncoderRZ codeurRZ=new EncoderRZ();
+        informationEmise = codeurRZ.codageRZ(information, nbEch, amplMin, amplMax);
+        break;
         }
-        else if (forme.equals("NRZT")) {
-        	EncoderNRZT codeur=new EncoderNRZT();
-            informationEmise = codeur.codageNRZT(information, nbEch);
-        }
-        else { //Par defaut on effectue un codage RZ du signal numérique
-        EncoderRZ codeur=new EncoderRZ();
-        informationEmise = codeur.codageRZ(information, nbEch, amplMin, amplMax);
         emettre();
-        }
+        
     }
 
     /**

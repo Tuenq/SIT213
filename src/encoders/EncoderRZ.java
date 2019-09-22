@@ -34,8 +34,8 @@ public class EncoderRZ extends Encoder {
      * @param nbEch
      * @return
      */
-    public Information<Boolean> decodageRZ(Information<Float> info, int nbEch) {
-    decodageBinaire(info, nbEch);
+    public Information<Boolean> decodageRZ(Information<Float> info, int nbEch, float amplMin, float amplMax) {
+    decodageBinaire(info, nbEch, amplMin, amplMax);
     return infoATransmettre;
     }
   

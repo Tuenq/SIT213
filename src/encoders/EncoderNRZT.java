@@ -30,7 +30,7 @@ public class EncoderNRZT extends Encoder {
      * @return
      */
     public Information<Boolean> decodageNRZT(Information<Float> info, int nbEch) {
-    decodageBinaire(info, nbEch);
+    	decodageBinaire(info, nbEch, 0, 1);
     return infoATransmettre;
     }
 }

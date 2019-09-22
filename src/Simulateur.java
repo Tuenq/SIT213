@@ -79,13 +79,22 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
-     * le composant Transmetteur parfait logique de la chaine de transmission
+     * le composant Transmetteur parfait Analogique de la chaine de transmission
      */
-    private Transmetteur<Boolean, Boolean> transmetteurLogique = null;
+    private Transmetteur<Boolean, Boolean> transmetteurAnalogique = null;
     /**
      * le composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
+    /**
+     * le composant Emetteur de la chaine de transmission
+     */
+    private Emetteur emetteur = null;
+    /**
+     * le composant Recepteur de la chaine de transmission
+     */
+    private Recepteur recepteur = null;
+   
 
 
     /**
@@ -119,21 +128,27 @@ public class Simulateur {
                 throw new ArgumentsException(exception.toString());
             }
         }
-
+        
+        // Configuration d'emetteur
+        emetteur = new Emetteur(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
+        
+        //Configuration de recepteur
+        recepteur = new Recepteur(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
+        
         // Configuration du TRANSMETTEUR PARFAIT
-        transmetteurLogique = new TransmetteurParfait<>();
-        source.connecter(transmetteurLogique);
+        transmetteurAnalogique = new TransmetteurParfait<>();
+        source.connecter(transmetteurAnalogique);
 
         // Configuration de la DESTINATION
         destination = new DestinationFinale();
-        transmetteurLogique.connecter(destination);
+        transmetteurAnalogique.connecter(destination);
 
         if (affichage) {
             // Ajout des SONDES LOGIQUES
             Sonde<Boolean> sonde_entree = new SondeLogique("Entrée du système", 100);
             source.connecter(sonde_entree);
             Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du système", 100);
-            transmetteurLogique.connecter(sonde_sortie);
+            transmetteurAnalogique.connecter(sonde_sortie);
         }
     }
 
@@ -353,7 +368,9 @@ public class Simulateur {
      */
     public static void main(String[] args) {
         Simulateur simulateur = null;
-
+        String mess="0101111";
+       
+        String [] argument= {"-mess", mess};
         try {
             simulateur = new Simulateur(args);
         } catch (Exception e) {
