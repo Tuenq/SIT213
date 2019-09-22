@@ -1,8 +1,8 @@
-package filtres;
+package encoders;
 
 import information.Information;
 
-public class FiltreNRZ extends Filtre {
+public class EncoderNRZ extends Encoder {
 
     /** Codage NRZ du signal
      * @param info

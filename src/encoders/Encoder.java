@@ -1,10 +1,10 @@
-package filtres;
+package encoders;
 
 import information.Information;
 
-public abstract class Filtre implements FiltreInterface {
+public abstract class Encoder implements EncoderInterface {
 
-	public enum availableEncoder {
+	public enum encoders {
 		RZ, NRZ, NRZT;
 	}
 

@@ -1,5 +1,5 @@
-package filtres;
+package encoders;
 
-public interface FiltreInterface {
+public interface EncoderInterface {
 
 }

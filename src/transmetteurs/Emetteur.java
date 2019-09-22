@@ -2,9 +2,9 @@ package transmetteurs;
 
 
 import destinations.DestinationInterface;
-import filtres.FiltreNRZ;
-import filtres.FiltreNRZT;
-import filtres.FiltreRZ;
+import encoders.EncoderNRZ;
+import encoders.EncoderNRZT;
+import encoders.EncoderRZ;
 import information.Information;
 import information.InformationNonConforme;
 
@@ -26,25 +26,26 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
         amplMax=informationRecue.amplMax;
 
         if (forme.equals("NRZ")) {
-        	FiltreNRZ codeur=new FiltreNRZ();
+        	EncoderNRZ codeur=new EncoderNRZ();
             informationEmise = codeur.codageNRZ(information, nbEch);
         }
         else if (forme.equals("NRZT")) {
-        	FiltreNRZT codeur=new FiltreNRZT();
+        	EncoderNRZT codeur=new EncoderNRZT();
             informationEmise = codeur.codageNRZT(information, nbEch);
         }
         else { //Par defaut on effectue un codage RZ du signal numérique
-        FiltreRZ codeur=new FiltreRZ();
+        EncoderRZ codeur=new EncoderRZ();
         informationEmise = codeur.codageRZ(information, nbEch, amplMin, amplMax);
         emettre();
         }
     }
 
-
+    /**
+     * Pour chaque destination connectée, on transmet les informations reçues
+     * @throws InformationNonConforme Cas d'erreur remonté par l'information
+     */
     @Override
     public void emettre() throws InformationNonConforme {
-        //informationEmise
-        //Pour chaque destination connectÃ©e on envoie les informations Ã  Ã©mettre
         for (DestinationInterface<Float> destination : destinationsConnectees) {
         	destination.recevoir(informationEmise);
         	

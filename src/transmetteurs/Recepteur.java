@@ -1,9 +1,9 @@
 package transmetteurs;
 
 import destinations.DestinationInterface;
-import filtres.FiltreNRZ;
-import filtres.FiltreNRZT;
-import filtres.FiltreRZ;
+import encoders.EncoderNRZ;
+import encoders.EncoderNRZT;
+import encoders.EncoderRZ;
 import information.Information;
 import information.InformationNonConforme;
 
@@ -19,16 +19,16 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
         nbEch=informationRecue.nbEch;
         
         if (forme.contentEquals("NRZ")) {
-        	FiltreNRZ decodeur=new FiltreNRZ();
+        	EncoderNRZ decodeur=new EncoderNRZ();
             informationEmise = decodeur.decodageNRZ(information, nbEch);
         }
         else if (forme.contentEquals("NRZT")) {
-        	FiltreNRZT decodeur=new FiltreNRZT();
+        	EncoderNRZT decodeur=new EncoderNRZT();
             informationEmise = decodeur.decodageNRZT(information, nbEch);
         }
       
         else{
-        	FiltreRZ decodeur=new FiltreRZ();
+        	EncoderRZ decodeur=new EncoderRZ();
             informationEmise = decodeur.decodageRZ(information, nbEch);
         }
         

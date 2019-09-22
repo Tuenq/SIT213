@@ -1,8 +1,8 @@
-package filtres;
+package encoders;
 
 import information.Information;
 
-public class FiltreRZ extends Filtre {
+public class EncoderRZ extends Encoder {
 	
     /** codage RZ du signal
      * @param info
