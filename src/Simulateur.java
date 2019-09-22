@@ -1,3 +1,4 @@
+import org.apache.commons.cli.*;
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
@@ -7,8 +8,8 @@ import visualisations.Sonde;
 import visualisations.SondeLogique;
 
 /**
- * La classe Simulateur permet de construire et simuler une cha√Æne de
- * transmission compos√©e d'une Source, d'un nombre variable de Transmetteur(s)
+ * La classe Simulateur permet de construire et simuler une chaÓne de
+ * transmission composÈe d'une Source, d'un nombre variable de Transmetteur(s)
  * et d'une Destination.
  *
  * @author cousin
@@ -17,28 +18,32 @@ import visualisations.SondeLogique;
 public class Simulateur {
 
     /**
+     * indique si le Simulateur est inhibÈ par seulement afficher l'aide
+     */
+    private boolean affichageAide = false;
+    /**
      * indique si le Simulateur utilise des sondes d'affichage
      */
     private boolean affichage = false;
     /**
-     * indique si le Simulateur utilise un message g√©n√©r√© de mani√®re al√©atoire
+     * indique si le Simulateur utilise un message gÈnÈrÈ de maniËre alÈatoire
      */
     private boolean messageAleatoire = true;
     /**
-     * indique si le Simulateur utilise un germe pour initialiser les g√©n√©rateurs
-     * al√©atoires
+     * indique si le Simulateur utilise un germe pour initialiser les gÈnÈrateurs
+     * alÈatoires
      */
     private boolean aleatoireAvecGerme = false;
     /**
-     * la valeur de la semence utilis√©e pour les g√©n√©rateurs al√©atoires
+     * la valeur de la semence utilisÈe pour les gÈnÈrateurs alÈatoires
      */
     private Integer seed = null;
     /**
-     * la longueur du message al√©atoire √† transmettre si un message n'est pas impose
+     * la longueur du message alÈatoire ‡ transmettre si un message n'est pas impose
      */
     private int nbBitsMess = 100;
     /**
-     * la cha√Æne de caract√®res correspondant √† m dans l'argument -mess m
+     * la chaÓne de caractËres correspondant ‡ m dans l'argument -mess m
      */
     private String messageString = "100";
 
@@ -56,52 +61,19 @@ public class Simulateur {
     private Destination<Boolean> destination = null;
 
     /**
-     * Le constructeur de Simulateur construit une cha√Æne de transmission compos√©e
+     * Le constructeur de Simulateur construit une chaÓne de transmission composÈe
      * d'une Source <Boolean>, d'une Destination <Boolean> et de Transmetteur(s)
-     * [voir la m√©thode analyseArguments]... <br>
-     * Les diff√©rents composants de la cha√Æne de transmission (Source,
-     * Transmetteur(s), Destination, Sonde(s) de visualisation) sont cr√©√©s et
-     * connect√©s.
+     * [voir la mÈthode analyseArguments]... <br>
+     * Les diffÈrents composants de la chaÓne de transmission (Source,
+     * Transmetteur(s), Destination, Sonde(s) de visualisation) sont crÈÈs et
+     * connectÈs.
      *
-     * @param args le tableau des diff√©rents arguments.
+     * @param args le tableau des diffÈrents arguments.
      * @throws ArgumentsException si un des arguments est incorrect
      */
     public Simulateur(String[] args) throws ArgumentsException {
         analyseArguments(args);
         simulationParfaite();
-    }
-
-    /**
-     * La fonction main instancie un Simulateur √† l'aide des arguments param√®tres et
-     * affiche le r√©sultat de l'ex√©cution d'une transmission.
-     *
-     * @param args les diff√©rents arguments qui serviront √† l'instanciation du
-     *             Simulateur.
-     */
-    public static void main(String[] args) {
-
-        Simulateur simulateur = null;
-
-        try {
-            simulateur = new Simulateur(args);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.exit(-1);
-        }
-
-        try {
-            simulateur.execute();
-            float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
-            String s = "java  Simulateur  ";
-            for (int i = 0; i < args.length; i++) {
-                s += args[i] + "  ";
-            }
-            System.out.println(s + "  =>   TEB : " + tauxErreurBinaire);
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-            System.exit(-2);
-        }
     }
 
     private void simulationParfaite() throws ArgumentsException {
@@ -130,85 +102,125 @@ public class Simulateur {
 
         if (affichage) {
             // Ajout des SONDES LOGIQUES
-            Sonde<Boolean> sonde_entree = new SondeLogique("Entr√©e du syst√®me", 100);
+            Sonde<Boolean> sonde_entree = new SondeLogique("EntrÈe du systËme", 100);
             source.connecter(sonde_entree);
-            Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du syst√®me", 100);
+            Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du systËme", 100);
             transmetteurLogique.connecter(sonde_sortie);
         }
     }
 
     /**
-     * La m√©thode analyseArguments extrait d'un tableau de cha√Ænes de caract√®res les
-     * diff√©rentes options de la simulation. Elle met √† jour les attributs du
+     * La mÈthode analyseArguments extrait d'un tableau de chaÓnes de caractËres les
+     * diffÈrentes options de la simulation. Elle met ‡ jour les attributs du
      * Simulateur.
      *
-     * @param args le tableau des diff√©rents arguments. <br>
-     *             <br>
-     *             Les arguments autoris√©s sont : <br>
-     *             <dl>
-     *             <dt>-mess m</dt>
-     *             <dd>m (String) constitu√© de 7 ou plus digits √† 0 | 1, le message
-     *             √† transmettre</dd>
-     *             <dt>-mess m</dt>
-     *             <dd>m (int) constitu√© de 1 √† 6 digits, le nombre de bits du
-     *             message "al√©atoire" √†¬† transmettre</dd>
-     *             <dt>-s</dt>
-     *             <dd>utilisation des sondes d'affichage</dd>
-     *             <dt>-seed v</dt>
-     *             <dd>v (int) d'initialisation pour les g√©n√©rateurs al√©atoires</dd>
-     *             </dl>
+     * @param args Pour plus d'information, lancer le simulateur avec le paramËtre '-h'
      * @throws ArgumentsException si un des arguments est incorrect.
      */
-    public void analyseArguments(String[] args) throws ArgumentsException {
+    private void analyseArguments(String[] args) throws ArgumentsException {
 
-        for (int i = 0; i < args.length; i++) {
+        // Prepare options
+        final Options options = configParameters();
+        final CommandLineParser parser = new DefaultParser();
+        CommandLine commandLine = null;
 
-            if (args[i].matches("-s")) {
-                affichage = true;
-            } else if (args[i].matches("-seed")) {
-                aleatoireAvecGerme = true;
-                i++;
-                try {
-                    seed = Integer.parseInt(args[i]);
-                } catch (Exception e) {
-                    throw new ArgumentsException("Valeur du parametre -seed  invalide :" + args[i]);
-                }
-            } else if (args[i].matches("-mess")) {
-                i++;
-                // traiter la valeur associee
-                messageString = args[i];
-                if (args[i].matches("[0,1]{7,}")) {
-                    messageAleatoire = false;
-                    nbBitsMess = args[i].length();
-                } else if (args[i].matches("[0-9]{1,6}")) {
-                    messageAleatoire = true;
-                    nbBitsMess = Integer.parseInt(args[i]);
-                    if (nbBitsMess < 1)
-                        throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
-                } else
-                    throw new ArgumentsException("Valeur du parametre -mess invalide : " + args[i]);
+        // Parse the options
+        try {
+            commandLine = parser.parse(options, args);
+        } catch (ParseException e) {
+            throw new ArgumentsException(e.toString());
+        }
+
+        // Process the options
+        affichageAide = commandLine.hasOption("h");
+        if (affichageAide) {
+            final String header = "Simulateur de chaÓne de transmission\n\n";
+            final String footer = "\nProjet rÈalisÈ par M.Bartoli, L.Dumestre, O.Gueye, S.HugdeLarauze et F.Ludovic\n";
+
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("Simulateur", header, options, footer, true);
+            return;
+        }
+
+        affichage = commandLine.hasOption("s");
+
+        aleatoireAvecGerme = commandLine.hasOption("seed");
+        if (aleatoireAvecGerme) {
+            try {
+                seed = Integer.parseInt(commandLine.getOptionValue("seed"));
+            } catch (Exception e) {
+                throw new ArgumentsException("Valeur du parametre -seed  invalide :" + commandLine.getOptionValue("seed"));
+            }
+        }
+
+        messageAleatoire = commandLine.hasOption("mess");
+        if (messageAleatoire) {
+            messageString = commandLine.getOptionValue("mess");
+            if (messageString.matches("[0,1]{7,}")) {
+                messageAleatoire = false;
+                nbBitsMess = messageString.length();
+            } else if (messageString.matches("[0-9]{1,6}")) {
+                messageAleatoire = true;
+                nbBitsMess = Integer.parseInt(messageString);
+                if (nbBitsMess < 1)
+                    throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
             } else
-                throw new ArgumentsException("Option invalide :" + args[i]);
+                throw new ArgumentsException("Valeur du parametre -mess invalide : " + messageString);
         }
     }
 
     /**
-     * La m√©thode execute effectue un envoi de message par la source de la cha√Æne de
+     * Permet de dÈfinir les options disponibles en ligne de commande
+     * @return un objet contenant les diffÈrentes options
+     */
+    private static Options configParameters() {
+        final Option sondeOption = Option.builder("s")
+                .desc("Active l'utilisation des sondes")
+                .build();
+
+        final Option messageOption = Option.builder("mess")
+                .desc("Permet de prÈciser le message ou la longueur du message")
+                .hasArg()
+                .argName("m")
+                .build();
+
+        final Option germeOption = Option.builder("seed")
+                .desc("Permet d'initialiser le gÈnÈrateur alÈatoire avec une germe spÈcifique")
+                .hasArg()
+                .argName("v")
+                .build();
+
+        final Option aideOption = Option.builder("h")
+                .desc("Affiche la liste des usages")
+                .build();
+
+        final Options options = new Options();
+
+        options.addOption(sondeOption);
+        options.addOption(messageOption);
+        options.addOption(germeOption);
+        options.addOption(aideOption);
+
+        return options;
+    }
+
+    /**
+     * La mÈthode execute effectue un envoi de message par la source de la chaÓne de
      * transmission du Simulateur.
      *
-     * @throws Exception si un probl√®me survient lors de l'ex√©cution
+     * @throws Exception si un problËme survient lors de l'exÈcution
      */
-    public void execute() throws Exception {
+    private void execute() throws Exception {
         source.emettre();
     }
 
     /**
-     * La m√©thode qui calcule le taux d'erreur binaire en comparant les bits du
-     * message √©mis avec ceux du message re√ßu.
+     * La mÈthode qui calcule le taux d'erreur binaire en comparant les bits du
+     * message Èmis avec ceux du message reÁu.
      *
      * @return La valeur du Taux d'Erreur Binaire.
      */
-    public float calculTauxErreurBinaire() {
+    private float calculTauxErreurBinaire() {
         int nb_error = 0;
 
         Information<Boolean> informationsEmises, informationsRecues;
@@ -223,4 +235,40 @@ public class Simulateur {
 
         return (float) nb_error / informationsEmises.nbElements() * 100;
     }
+
+    /**
+     * La fonction main instancie un Simulateur ‡ l'aide des arguments paramËtres et
+     * affiche le rÈsultat de l'exÈcution d'une transmission.
+     *
+     * @param args les diffÈrents arguments qui serviront ‡ l'instanciation du
+     *             Simulateur.
+     */
+    public static void main(String[] args) {
+        Simulateur simulateur = null;
+
+        try {
+            simulateur = new Simulateur(args);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(-1);
+        }
+
+        if (simulateur.affichageAide)
+            return;
+
+        try {
+            simulateur.execute();
+            float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
+            String s = "java  Simulateur  ";
+            for (int i = 0; i < args.length; i++) {
+                s += args[i] + "  ";
+            }
+            System.out.println(s + "  =>   TEB : " + tauxErreurBinaire);
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+            System.exit(-2);
+        }
+    }
+
 }
