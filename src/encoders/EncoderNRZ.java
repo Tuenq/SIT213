@@ -3,6 +3,7 @@ package filtres;
 import information.Information;
 
 public class FiltreNRZ extends Filtre {
+
     /** Codage NRZ du signal
      * @param info
      * @param nbEch
