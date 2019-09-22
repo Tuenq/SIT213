@@ -1,6 +1,9 @@
 package transmetteurs;
 
 import destinations.DestinationInterface;
+import filtres.FiltreNRZ;
+import filtres.FiltreNRZT;
+import filtres.FiltreRZ;
 import information.Information;
 import information.InformationNonConforme;
 
@@ -18,13 +21,18 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
      **/
     public void recevoir(Information<Float> information, int nbEch, String form) throws InformationNonConforme{
         informationRecue = information;
-    }
-
-    /**Reception d'un message avec un nombre d'échantillons par bit spécifié,
-     * ainsi que les amplitudes max et min
-     **/
-    public void recevoir(Information<Float> information, int nbEch, float amplMin, float amplMax, String form) throws InformationNonConforme{
-        informationRecue = information;
+        if (form.contentEquals("RZ")) {
+        	FiltreRZ decodeur=new FiltreRZ();
+            informationEmise = decodeur.DecodageRZ(information, nbEch);
+        }
+        if (form.contentEquals("NRZ")) {
+        	FiltreNRZ decodeur=new FiltreNRZ();
+            informationEmise = decodeur.DecodageNRZ(information, nbEch);
+        }
+        if (form.contentEquals("RZ")) {
+        	FiltreNRZT decodeur=new FiltreNRZT();
+            informationEmise = decodeur.DecodageNRZT(information, nbEch);
+        }
     }
 
     @Override
