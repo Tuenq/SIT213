@@ -1,12 +1,16 @@
-import encoders.Encoder.encoders;
 import org.apache.commons.cli.*;
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
+import encoders.*;
+import encoders.Encoder.encoders;
+
 import information.*;
 import visualisations.Sonde;
+import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
+
 
 import java.util.Arrays;
 
@@ -62,7 +66,7 @@ public class Simulateur {
     /**
      * Le nombre d'échantillons par bit (initialisée par -nbEch) avec comme valeur par défaut = 30
      */
-    private Integer nombreEchantillon = 30;
+    private int nombreEchantillon = 30;
     /**
      * L'amplitude maximum des encodeurs/décodeurs analogique/numérique (initialisée par -ampl min max)
       */
@@ -79,10 +83,6 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
-     * le composant Transmetteur parfait Analogique de la chaine de transmission
-     */
-    private Transmetteur<Boolean,Boolean> transmetteurLogique = null;
-    /**
      * le composant Transmetteur parfait analogique de la chaine de transmission
      */
     private Transmetteur<Float,Float> transmetteurAnalogique = null;
@@ -98,6 +98,10 @@ public class Simulateur {
      * le composant Recepteur de la chaine de transmission
      */
     private Recepteur recepteur = null;
+    /**
+     * Codeur permettant de transformer l'information analogique dans la forme d'onde spécifiée
+     */
+    private Encoder encoder = null;
    
 
 
@@ -132,27 +136,51 @@ public class Simulateur {
                 throw new ArgumentsException(exception.toString());
             }
         }
-        
+
+        // Configuration de l'encodeur
+        switch (formeOnde) {
+            case RZ:
+                encoder = new EncoderRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                break;
+
+            case NRZ:
+                encoder = new EncoderNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                break;
+
+            case NRZT:
+                encoder = new EncoderNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
+                break;
+        }
+
         // Configuration d'emetteur
-        emetteur = new Emetteur(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
-        
-        //Configuration de recepteur
-        recepteur = new Recepteur(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
-        
+        emetteur = new Emetteur(encoder);
+
         // Configuration du TRANSMETTEUR PARFAIT
         transmetteurAnalogique = new TransmetteurParfait<>();
-        source.connecter(transmetteurAnalogique);
+
+        //Configuration de recepteur
+        recepteur = new Recepteur(encoder);
 
         // Configuration de la DESTINATION
         destination = new DestinationFinale();
-        transmetteurAnalogique.connecter(destination);
+
+        // Connexion des composants
+        source.connecter(emetteur);
+        emetteur.connecter(transmetteurAnalogique);
+        transmetteurAnalogique.connecter(recepteur);
+        recepteur.connecter(destination);
 
         if (affichage) {
             // Ajout des SONDES LOGIQUES
             Sonde<Boolean> sonde_entree = new SondeLogique("Entrée du système", 100);
             source.connecter(sonde_entree);
             Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du système", 100);
-            transmetteurAnalogique.connecter(sonde_sortie);
+            recepteur.connecter(sonde_sortie);
+            // Ajout des SONDES ANALOGIQUES
+            Sonde<Float> sonde_emission = new SondeAnalogique("Emission du système");
+            emetteur.connecter(sonde_emission);
+            Sonde<Float> sonde_reception = new SondeAnalogique("Reception du système");
+            transmetteurAnalogique.connecter(sonde_reception);
         }
     }
 

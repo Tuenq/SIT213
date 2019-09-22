@@ -8,38 +8,39 @@ public abstract class Encoder implements EncoderInterface {
 		RZ, NRZ, NRZT;
 	}
 
-	Information<Float> informationCodee=new Information<Float>();
-	Information <Boolean> infoATransmettre=new Information <Boolean>();
-	float amplMax;
-	float amplMin;
+	int nbEch;
+	private float amplMax;
+	private float amplMin;
 
-
-	public void echantilloneSymbole(float echantillon, float incrementation, float pasEch, float debut, float limite){
-		float x=debut;
-		while(x<limite || x==1) {
-			informationCodee.add(echantillon);
-			x+=pasEch;
-			echantillon+=incrementation;
-		}
+	Encoder(int nbEch, float amplMin, float amplMax) {
+		this.nbEch = nbEch;
+		this.amplMin = amplMin;
+		this.amplMax = amplMax;
 	}
 
-	public Information<Boolean> decodageBinaire(Information<Float> info, int nbEch, float amplMin, float amplMax){
-		int nbSymbole = info.nbElements()/nbEch;
-		this.amplMax=amplMax;
-		this.amplMin=amplMin;
+	Information<Float> echantilloneSymbole(Information<Boolean> data) {
+		Information<Float> dataOut = new Information<>();
+		for (Boolean datum : data) {
+				for (int i = 0; i < nbEch; i++) {
+					dataOut.add(datum ? amplMax : amplMin);
+				}
+		}
+		return dataOut;
+	}
 
+	public Information<Boolean> decodage(Information<Float> info){
+		Information<Boolean> dataOut = new Information<>();
+		int nbSymbole = info.nbElements()/nbEch;
 		for(int i=0;i<nbSymbole;i++) {
 			// On récupère l'échantillon situé à la position t + 1/3T :
 			//ce qui correspond au premier échantillon codé à 1 si le symbole est true
 			float valeurRetournee = Math.max(info.iemeElement((nbEch*i)+(nbEch/3)+1), info.iemeElement((nbEch*i)+(nbEch/3)));
 			if((valeurRetournee == amplMax) && (amplMax!=amplMin))
-				infoATransmettre.add(true);
+				dataOut.add(true);
 			else
-				infoATransmettre.add(false);
+				dataOut.add(false);
 			}
-
-		return infoATransmettre;
-
+		return dataOut;
 	}
 }
 

@@ -3,42 +3,49 @@ package encoders;
 import information.Information;
 
 public class EncoderRZ extends Encoder {
-	
-    /** codage RZ du signal
-     * @param info
-     * @param nbEch
-     * @param amplMin
-     * @param amplMax
-     * @return
-     */
-    public Information<Float> codageRZ(Information<Boolean> info, int nbEch, float amplMin, float amplMax) {
- 
-    	float pasEch=(float)1/nbEch;
-        System.out.println("Ok" + pasEch);
-        for(Boolean symbole : info) {
-            if((boolean) symbole) {
-                echantilloneSymbole(amplMin, 0f, pasEch, 0f, (float)1/3);
-                echantilloneSymbole(amplMax, 0, pasEch, (float)1/3, (float)2/3);
-                echantilloneSymbole(amplMin, 0, pasEch, (float)2/3, (float)1);
-            }
-            else
-                echantilloneSymbole(amplMin, 0,pasEch, 0, 1);
-        }
-        
-		return informationCodee;
+    public EncoderRZ(int nbEch, float amplMin, float amplMax) {
+        super(nbEch, amplMin, amplMax);
     }
-    
-    /**Decodage RZ
-     * 
-     * @param info
-     * @param nbEch
-     * @return
-     */
-    public Information<Boolean> decodageRZ(Information<Float> info, int nbEch, float amplMin, float amplMax) {
-    decodageBinaire(info, nbEch, amplMin, amplMax);
-    return infoATransmettre;
-    }
-  
 
+    private state current_state = state.DOWN;
+    private enum state {
+        DOWN, UP;
+    }
+
+    private int compteur = 0;
+    private final float tier1 = (1f/3f) * (float)nbEch;
+    private final float tier2 = (2f/3f) * (float)nbEch;
+
+    @Override
+    public Information<Float> codage(Information<Boolean> data) {
+        Information<Float> dataInBetween = echantilloneSymbole(data);
+        Information<Float> dataOut = new Information<>();
+
+        for (Float datum : dataInBetween) {
+            float out = 0;
+
+            // Mise à jour compteur
+            compteur++;
+            if (compteur >= nbEch)
+                compteur = 0;
+
+            // Mise à jour de la machine à état
+            // Codage de la donnée
+            switch (current_state) {
+                case DOWN:
+                    if (compteur >= tier1 && compteur <= tier2)
+                        current_state = state.UP;
+                    out = datum * 0f;
+                    break;
+                case UP:
+                    if (compteur >= tier2)
+                        current_state = state.DOWN;
+                    out = datum * 1f;
+                    break;
+            }
+            dataOut.add(out);
+        }
+        return dataOut;
+    }
 }
 

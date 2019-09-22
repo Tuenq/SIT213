@@ -1,5 +1,7 @@
 package encoders;
 
-public interface EncoderInterface {
+import information.Information;
 
+public interface EncoderInterface {
+    Information<Float> codage(Information<Boolean> data);
 }
