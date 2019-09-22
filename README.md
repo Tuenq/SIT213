@@ -52,9 +52,12 @@ At the root of the project, use the following command:
 At the root of the project, use the following command:
 
     $ ./simulateur
+
+> If you want the list of usage, simply run `$ ./simulateur -h`
     
-> If you want to use argument, simply add them after `simulateur`.  
+> If you want to use arguments, simply add them after `simulateur`.  
 > For example : `$ ./simulateur -s -mess 01010011`
+
 
 ## Project continuous test management
 
@@ -85,6 +88,7 @@ This project follow this specification for its version tag: `v.X.Y.Z`
 `m18barto` | **Bartoli** Mathieu  
 `l18dumes` | **Dumestre** Lucas  
 `l18franc` | **Francis** Ludovic  
+`o18gueye` | **Gueye** Oulimata  
 `s18hugde` | **Hug de Larauze** Sébastien  
 
 

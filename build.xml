@@ -21,7 +21,7 @@
     <property name="deployment.tools.dir" value=".project_tools"/>
     <property name="deployment.scripts.dir" value=".project_scripts"/>
 
-    <property name="package.authors" value="Bartoli-Dumestre-Francis-Hugdelarauze"/>
+    <property name="package.authors" value="Bartoli-Dumestre-Francis-Gueye-Hugdelarauzee"/>
     <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
 
     <!-- =================================        Classpath         ================================= -->
