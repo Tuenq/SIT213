@@ -83,7 +83,7 @@
         <target name="compileTest" depends="compileApp"
                 description="--> Compile implemented tests">
             <echo>=====Compiling ${source.test.dir} files...=====</echo>
-            <javac srcdir="${source.test.dir}" destdir="${source.build.main.dir}" includeantruntime="false">
+            <javac srcdir="${source.test.dir}" destdir="${source.build.test.dir}" includeantruntime="false">
                 <classpath refid="classpath.main"/>
                 <classpath refid="classpath.test"/>
             </javac>

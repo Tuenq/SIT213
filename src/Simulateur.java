@@ -401,9 +401,7 @@ public class Simulateur {
      */
     public static void main(String[] args) {
         Simulateur simulateur = null;
-        String mess="0101111";
-       
-        String [] argument= {"-mess", mess};
+
         try {
             simulateur = new Simulateur(args);
         } catch (Exception e) {
