@@ -366,7 +366,7 @@ public class Simulateur {
      *
      * @throws Exception si un problème survient lors de l'exécution
      */
-    private void execute() throws Exception {
+    public void execute() throws Exception {
         source.emettre();
     }
 
@@ -376,7 +376,7 @@ public class Simulateur {
      *
      * @return La valeur du Taux d'Erreur Binaire.
      */
-    private float calculTauxErreurBinaire() {
+    public float calculTauxErreurBinaire() {
         int nb_error = 0;
 
         Information<Boolean> informationsEmises, informationsRecues;
