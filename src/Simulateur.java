@@ -129,10 +129,12 @@ public class Simulateur {
                 source = new SourceAleatoire(nbBitsMess, seed);
             else
                 source = new SourceAleatoire(nbBitsMess);
-        } else {
+        }
+        else {
             try {
                 source = new SourceFixe(Information.stringToBoolean(messageString));
-            } catch (InformationNonConforme exception) {
+            }
+            catch (InformationNonConforme exception) {
                 throw new ArgumentsException(exception.toString());
             }
         }
@@ -230,13 +232,13 @@ public class Simulateur {
             }
         }
 
-        messageAleatoire = commandLine.hasOption("mess");
-        if (messageAleatoire) {
+        if (commandLine.hasOption("mess")) {
             messageString = commandLine.getOptionValue("mess");
-            if (messageString.matches("[0,1]{7,}")) {
+            if (messageString.matches("[0-1]{7,}")) {
                 messageAleatoire = false;
                 nbBitsMess = messageString.length();
-            } else if (messageString.matches("[0-9]{1,6}")) {
+            }
+            else if (messageString.matches("[0-9]{1,6}")) {
                 messageAleatoire = true;
                 nbBitsMess = Integer.parseInt(messageString);
                 if (nbBitsMess < 1)
