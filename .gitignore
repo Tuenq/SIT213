@@ -1,17 +1,21 @@
-# Visual Studio related stuff
-.vscode/
-/.devcontainer/
-
-# Project related stuff
+# Project [related stuff]
 artifacts/
 bin/
 deployment_test/
 docs/
 
-# IntelliJ IDEA on mac
+# Visual Studio [related stuff]
+.vscode/
+.devcontainer/
+
+# IntelliJ IDEA [related stuff]
 .idea/
 *.iml
 out/
 
-# MAC OS related stuff
+# Eclipse [related stuff]
+.classpath
+.project
+
+# MAC OS [related stuff]
 .DS_Store

@@ -8,7 +8,7 @@ script:
 deploy:
   provider: releases
   api_key: ${GITHUB_OAUTH}
-  file: "artifacts/Bartoli-Dumestre-Francis-Hugdelarauze.tar.gz"
+  file: "artifacts/Bartoli-Dumestre-Francis-Gueye-Hugdelarauze.tar.gz"
   skip_cleanup: true
   overwrite: true
   on:

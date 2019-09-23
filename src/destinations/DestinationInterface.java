@@ -22,5 +22,4 @@ public  interface DestinationInterface <T>  {
      * @param information  l'information  à recevoir
      */
     public void recevoir(Information <T> information) throws InformationNonConforme;
-   
 }

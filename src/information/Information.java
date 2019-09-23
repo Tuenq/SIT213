@@ -7,7 +7,12 @@ import java.util.*;
  */
 public class Information<T> implements Iterable<T> {
 
-    private LinkedList<T> content;
+	private LinkedList<T> content;
+
+	public String forme="RZ";
+	public int nbEch=30;
+	public float amplMin=0;
+	public float amplMax=1;
 
     /**
      * pour construire une information vide
@@ -125,4 +130,6 @@ public class Information<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return content.iterator();
     }
+    
+ 
 }
