@@ -172,9 +172,9 @@ public class Simulateur {
 
         if (affichage) {
             // Ajout des SONDES LOGIQUES
-            Sonde<Boolean> sonde_entree = new SondeLogique("Entrée du système", 100);
+            Sonde<Boolean> sonde_entree = new SondeLogique("Entrée du système", nombreEchantillon);
             source.connecter(sonde_entree);
-            Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du système", 100);
+            Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du système", nombreEchantillon);
             recepteur.connecter(sonde_sortie);
             // Ajout des SONDES ANALOGIQUES
             Sonde<Float> sonde_emission = new SondeAnalogique("Emission du système");

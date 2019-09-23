@@ -20,14 +20,28 @@ public class EncoderNRZT extends Encoder {
     }
 
     /**
-     * PAS = 1/Nb
-     * Y = 3 * (CPT * PAS)
-     * CPT = 0 : 3 * (0 * PAS)
-     * CPT = NbEch/3 : 3 * (NbEch/3 * PAS)
+     * PAS = 1/Nb<br/>
+     * Y = 3 * (CPT * PAS)<br/>
+     * CPT = 0 : 3 * (0 * PAS)<br/>
+     * CPT = NbEch/3 : 3 * (NbEch/3 * PAS)<br/>
      */
-    private float symbol(int cpt, boolean reverse) {
-        float pente = reverse ? -3f : 3f;
-        return pente * (cpt * pas);
+    private float symbol(float datum) {
+        float x, y;
+        switch (current_state) {
+            case GO_UP:
+                x = compteur * pas;
+                y = 3f * x + 0f;
+                return datum * y;
+
+            case UP:
+                return datum;
+
+            case GO_DOWN:
+                x = compteur * pas;
+                y = -3f * x + 3f;
+                return datum * y;
+        }
+        return 0f;
     }
 
     /**
@@ -42,34 +56,31 @@ public class EncoderNRZT extends Encoder {
         Information<Float> dataOut = new Information<>();
 
         for (Float datum : dataInBetween) {
-            float out = 0;
-
-            // Mise à jour compteur
-            compteur++;
-            if (compteur >= nbEch)
-                compteur = 0;
-
             // Mise à jour de la machine à état
             // Codage de la donnée
             switch (current_state) {
                 case GO_UP:
                     if (compteur >= tier1)
                         current_state = state.UP;
-                    out = datum * symbol(compteur, false);
                     break;
                 case UP:
                     if (compteur >= tier2)
                         current_state = state.GO_DOWN;
-                    out = datum * 1;
                     break;
 
                 case GO_DOWN:
-                    if (compteur >= tier3)
+                    if (compteur == 0)
                         current_state = state.GO_UP;
-                    out = datum * symbol(compteur - (int)tier2, true);
                     break;
             }
-            dataOut.add(out);
+
+            // Ajout de la donnée
+            dataOut.add(symbol(datum));
+
+            // Mise à jour compteur
+            compteur++;
+            if (compteur >= nbEch)
+                compteur = 0;
         }
         return dataOut;
     }
