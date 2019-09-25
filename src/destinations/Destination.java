@@ -13,6 +13,7 @@ public  abstract class Destination <T> implements DestinationInterface <T> {
      * l'information reçue par la destination
      */
     protected Information <T>  informationRecue;
+   	
     
     /** 
      * un constructeur factorisant les initialisations communes aux
@@ -33,6 +34,7 @@ public  abstract class Destination <T> implements DestinationInterface <T> {
     /**
      * reçoit une information
      * @param information  l'information  à recevoir
+     * @throws InformationNonConforme 
      */
     public  abstract void recevoir(Information <T> information) throws InformationNonConforme;  
 }

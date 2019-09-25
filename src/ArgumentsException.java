@@ -6,3 +6,4 @@ public class ArgumentsException extends Exception {
 	super(s);
     }
 }
+
