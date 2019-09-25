@@ -4,13 +4,12 @@ import information.Information;
 
 public abstract class Encoder implements EncoderInterface {
 
+	int nbEch;
+	float amplMax;
+	float amplMin;
 	public enum encoders {
 		RZ, NRZ, NRZT;
 	}
-
-	int nbEch;
-	private float amplMax;
-	private float amplMin;
 
 	Encoder(int nbEch, float amplMin, float amplMax) {
 		this.nbEch = nbEch;
@@ -28,19 +27,36 @@ public abstract class Encoder implements EncoderInterface {
 		return dataOut;
 	}
 
-	public Information<Boolean> decodage(Information<Float> info){
+	public Information<Boolean> decodage(Information<Float> data){
 		Information<Boolean> dataOut = new Information<>();
-		int nbSymbole = info.nbElements()/nbEch;
-		for(int i=0;i<nbSymbole;i++) {
-			// On récupère l'échantillon situé à la position t + 1/3T :
-			//ce qui correspond au premier échantillon codé à 1 si le symbole est true
-			float valeurRetournee = Math.max(info.iemeElement((nbEch*i)+(nbEch/3)+1), info.iemeElement((nbEch*i)+(nbEch/3)));
-			if((valeurRetournee == amplMax) && (amplMax!=amplMin))
-				dataOut.add(true);
-			else
-				dataOut.add(false);
+		int compteur = 0;
+		float sum = 0;
+
+		for (Float datum: data) {
+			sum += datum;
+			if (compteur == nbEch) {
+				dataOut.add(booleanDistance(sum/nbEch));
+				sum = compteur = 0;
 			}
+
+
+			compteur = ++compteur % nbEch;
+		}
 		return dataOut;
+	}
+
+	/**
+	 * Permet de déterminer, à partir des amplitudes théoriques, le symbole en fonction de la moyenne passé.
+	 *
+	 * @param mean Valeur moyenne du signal.
+	 * @return Symbole décidé selon la distance entre les amplitudes maximum et minimum.<br>
+	 * Dans le cas où la valeur moyenne est à équidistance des limites, la valeur false est retournée.
+	 */
+	boolean booleanDistance(float mean) {
+		float maxDistance = Math.abs(mean - amplMax);
+		float minDistance = Math.abs(mean - amplMin);
+
+		return maxDistance < minDistance;
 	}
 }
 
