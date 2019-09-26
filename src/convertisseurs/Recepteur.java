@@ -14,29 +14,29 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
 	public Recepteur(Filtre filtre) {
 	    this.filtre = filtre;
 	}
+
     @Override
     public void recevoir(Information<Float> information) throws InformationNonConforme {
         informationRecue = information;
-        informationEmise = decodage(informationRecue);
+        decodage();
         emettre();
     }
 
-    private Information<Boolean> decodage(Information<Float> data){
-        Information<Boolean> dataOut = new Information<>();
+    private void decodage(){
+        informationEmise = new Information<>();
         final int nbEch = filtre.nbEch;
         int compteur = 0;
         float sum = 0;
 
-        for (Float datum: data) {
+        for (Float datum: informationRecue) {
             sum += datum;
             if (++compteur == nbEch) {
                 float mean = sum/nbEch;
                 boolean EstimatedValue = Tools.booleanDistance(mean, filtre.amplMin, filtre.amplMax);
-                dataOut.add(EstimatedValue);
+                informationEmise.add(EstimatedValue);
                 sum = compteur = 0;
             }
         }
-        return dataOut;
     }
 
     @Override
@@ -44,9 +44,7 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
         for (DestinationInterface<Boolean> destination : destinationsConnectees) {
             destination.recevoir(informationEmise);
         }
-
     }
-
 }
 
 

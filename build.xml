@@ -53,14 +53,37 @@
     <!-- region=====     target: RunDeploymentTest     ===== -->
     <target name="runDeploymentTest" depends="generateArtifacts" 
             description="--> Run deployment test">
+        <echo>=====Creating deployment test environment=====</echo>
         <copy file="${package.archive}.tar.gz" todir="${deployment.test.dir}"/>
         <copy todir="${deployment.test.dir}">
             <fileset dir="${deployment.tools.dir}" excludes="readme"/>
         </copy>
+        <echo>=====Launching client test script=====</echo>
         <exec executable="/bin/sh" dir="${deployment.test.dir}" failonerror="true">
             <arg value="Deploiement"/>
             <arg value="${package.authors}"/>
         </exec>
+        <echo>=====Launching project test script=====</echo>
+        <echo>==========> Cleaning all...</echo>
+        <exec executable="/bin/bash" dir="${deployment.test.dir}/${package.authors}" failonerror="true">
+            <arg value="cleanAll"/>
+        </exec>
+        <echo>==========>Compiling...</echo>
+        <exec executable="/bin/bash" dir="${deployment.test.dir}/${package.authors}" failonerror="true">
+            <arg value="compile"/>
+        </exec>
+        <echo>==========> Running default simulateur...</echo>
+        <exec executable="/bin/bash" dir="${deployment.test.dir}/${package.authors}" failonerror="true">
+            <arg value="simulateur"/>
+        </exec>
+    </target>
+    <!-- endregion -->
+
+    <!-- region=====     target: generateAll     ===== -->
+    <target name="runDeployment" depends="generateArtifacts"
+            description="--> Run deployment of artifact">
+        <untar src="${package.archive}.tar.gz" dest="${deployment.test.dir}"
+               overwrite="true" compression="gzip"/>
     </target>
     <!-- endregion -->
 
