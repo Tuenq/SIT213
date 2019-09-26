@@ -1,10 +1,12 @@
+import convertisseurs.Emetteur;
+import convertisseurs.Recepteur;
 import org.apache.commons.cli.*;
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
-import encoders.*;
-import encoders.Encoder.encoders;
+import filtres.*;
+import filtres.Filtre.encoders;
 
 import information.*;
 import visualisations.Sonde;
@@ -101,7 +103,7 @@ public class Simulateur {
     /**
      * Codeur permettant de transformer l'information analogique dans la forme d'onde spécifiée
      */
-    private Encoder encoder = null;
+    private Filtre filtre = null;
    
 
 
@@ -142,26 +144,26 @@ public class Simulateur {
         // Configuration de l'encodeur
         switch (formeOnde) {
             case RZ:
-                encoder = new EncoderRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtre = new FiltreRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
                 break;
 
             case NRZ:
-                encoder = new EncoderNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtre = new FiltreNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
                 break;
 
             case NRZT:
-                encoder = new EncoderNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtre = new FiltreNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
                 break;
         }
 
         // Configuration d'emetteur
-        emetteur = new Emetteur(encoder);
+        emetteur = new Emetteur(filtre);
 
         // Configuration du TRANSMETTEUR PARFAIT
         transmetteurAnalogique = new TransmetteurParfait<>();
 
         //Configuration de recepteur
-        recepteur = new Recepteur(encoder);
+        recepteur = new Recepteur(filtre);
 
         // Configuration de la DESTINATION
         destination = new DestinationFinale();

@@ -1,8 +1,6 @@
 package visualisations;
 	
-	
-
-/** 
+/**
  * @author B. Prou
  *
  */
@@ -57,7 +55,7 @@ public class VueCourbe  extends Vue {
     }
    
    
-    public  VueCourbe (float [] valeurs, String nom) {   
+    public VueCourbe (float [] valeurs, String nom) {
        
 	super(nom);      
       
