@@ -1,10 +1,12 @@
+import convertisseurs.Emetteur;
+import convertisseurs.Recepteur;
 import org.apache.commons.cli.*;
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
-import encoders.*;
-import encoders.Encoder.encoders;
+import filtres.*;
+import filtres.Filtre.encoders;
 
 import information.*;
 import visualisations.Sonde;
@@ -101,7 +103,7 @@ public class Simulateur {
     /**
      * Codeur permettant de transformer l'information analogique dans la forme d'onde spécifiée
      */
-    private Encoder encoder = null;
+    private Filtre filtre = null;
    
 
 
@@ -129,10 +131,12 @@ public class Simulateur {
                 source = new SourceAleatoire(nbBitsMess, seed);
             else
                 source = new SourceAleatoire(nbBitsMess);
-        } else {
+        }
+        else {
             try {
                 source = new SourceFixe(Information.stringToBoolean(messageString));
-            } catch (InformationNonConforme exception) {
+            }
+            catch (InformationNonConforme exception) {
                 throw new ArgumentsException(exception.toString());
             }
         }
@@ -140,26 +144,26 @@ public class Simulateur {
         // Configuration de l'encodeur
         switch (formeOnde) {
             case RZ:
-                encoder = new EncoderRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtre = new FiltreRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
                 break;
 
             case NRZ:
-                encoder = new EncoderNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtre = new FiltreNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
                 break;
 
             case NRZT:
-                encoder = new EncoderNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtre = new FiltreNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
                 break;
         }
 
         // Configuration d'emetteur
-        emetteur = new Emetteur(encoder);
+        emetteur = new Emetteur(filtre);
 
         // Configuration du TRANSMETTEUR PARFAIT
         transmetteurAnalogique = new TransmetteurParfait<>();
 
         //Configuration de recepteur
-        recepteur = new Recepteur(encoder);
+        recepteur = new Recepteur(filtre);
 
         // Configuration de la DESTINATION
         destination = new DestinationFinale();
@@ -230,13 +234,13 @@ public class Simulateur {
             }
         }
 
-        messageAleatoire = commandLine.hasOption("mess");
-        if (messageAleatoire) {
+        if (commandLine.hasOption("mess")) {
             messageString = commandLine.getOptionValue("mess");
-            if (messageString.matches("[0,1]{7,}")) {
+            if (messageString.matches("[0-1]{7,}")) {
                 messageAleatoire = false;
                 nbBitsMess = messageString.length();
-            } else if (messageString.matches("[0-9]{1,6}")) {
+            }
+            else if (messageString.matches("[0-9]{1,6}")) {
                 messageAleatoire = true;
                 nbBitsMess = Integer.parseInt(messageString);
                 if (nbBitsMess < 1)
@@ -366,7 +370,7 @@ public class Simulateur {
      *
      * @throws Exception si un problème survient lors de l'exécution
      */
-    private void execute() throws Exception {
+    public void execute() throws Exception {  // TODO: Add test that check public access
         source.emettre();
     }
 
@@ -376,7 +380,7 @@ public class Simulateur {
      *
      * @return La valeur du Taux d'Erreur Binaire.
      */
-    private float calculTauxErreurBinaire() {
+    public float calculTauxErreurBinaire() {  // TODO: Add test that check public access
         int nb_error = 0;
 
         Information<Boolean> informationsEmises, informationsRecues;
@@ -401,9 +405,7 @@ public class Simulateur {
      */
     public static void main(String[] args) {
         Simulateur simulateur = null;
-        String mess="0101111";
-       
-        String [] argument= {"-mess", mess};
+
         try {
             simulateur = new Simulateur(args);
         } catch (Exception e) {

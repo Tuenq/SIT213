@@ -27,6 +27,7 @@
     <path id="classpath.test">
         <pathelement location="${basedir}/${lib.dir}/junit-4.12.jar"/>
         <pathelement location="${basedir}/${lib.dir}/hamcrest-core-1.3.jar"/>
+        <pathelement location="${source.build.test.dir}"/>
     </path>
 
     <!-- endregion -->
@@ -83,7 +84,7 @@
         <target name="compileTest" depends="compileApp"
                 description="--> Compile implemented tests">
             <echo>=====Compiling ${source.test.dir} files...=====</echo>
-            <javac srcdir="${source.test.dir}" destdir="${source.build.main.dir}" includeantruntime="false">
+            <javac srcdir="${source.test.dir}" destdir="${source.build.test.dir}" includeantruntime="false">
                 <classpath refid="classpath.main"/>
                 <classpath refid="classpath.test"/>
             </javac>
@@ -105,7 +106,7 @@
     <target name="runTest" depends="compileTest"
             description="--> Run unit test">
         <echo>=====Run tests=====</echo>
-        <junit printsummary="on" haltonfailure="no" fork="true">
+        <junit printsummary="on" haltonfailure="yes" fork="true">
             <classpath>
                 <path refid="classpath.main"/>
                 <path refid="classpath.test"/>
