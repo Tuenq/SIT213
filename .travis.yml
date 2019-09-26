@@ -1,6 +1,14 @@
 language: java
 jdk: openjdk11
 
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - ant
+    - ant-optional
+
 script:
   - ant runTest
   - ant runDeploymentTest
