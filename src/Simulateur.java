@@ -15,6 +15,7 @@ import visualisations.SondeLogique;
 
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * La classe Simulateur permet de construire et simuler une chaîne de
@@ -382,18 +383,15 @@ public class Simulateur {
      */
     public float calculTauxErreurBinaire() {  // TODO: Add test that check public access
         int nb_error = 0;
+        Information<Boolean> data_sent = source.getInformationEmise();
+        Iterator<Boolean> datum_received_iterator = destination.getInformationRecue().iterator();
 
-        Information<Boolean> informationsEmises, informationsRecues;
-        informationsEmises = source.getInformationEmise();
-        informationsRecues = destination.getInformationRecue();
-
-        for (int i = 0; i < informationsEmises.nbElements(); i++) {
-            if (!informationsEmises.iemeElement(i).equals(informationsRecues.iemeElement(i))) {
-                nb_error++;
-            }
+        for (Boolean datum_sent: data_sent) {
+            boolean datum_received = datum_received_iterator.next();
+            if (datum_sent != datum_received) nb_error++;
         }
 
-        return (float) nb_error / informationsEmises.nbElements() * 100;
+        return (float)nb_error / data_sent.nbElements() * 100f;
     }
 
     /**
