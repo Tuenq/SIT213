@@ -11,10 +11,10 @@ public class FiltreNRZT extends Filtre {
 
     /**
      * Symbole du filtre NonRetourZeroTrapezoïdale<br>
-     * <img src="./doc-files/filtreNRZT.png" alt="FiltreNRZT"></img><br>
+     * <img src="doc-files/filtreNRZT.png" alt="Filtre"><br>
      *
      * Chronogramme du filtre multiplié avec un enchainement binaire [10]<br>
-     * <img src="./doc-files/filtreNRZT_chrono.png"></img>
+     * <img src="doc-files/filtreNRZT_chrono.png" alt="Chronogramme">
      */
     void initialisationFiltre() {
         final float pas = 1f/nbEch;

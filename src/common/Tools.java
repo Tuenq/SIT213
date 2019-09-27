@@ -5,6 +5,8 @@ public class Tools {
      * Permet de déterminer, à partir des amplitudes théoriques, le symbole en fonction de la moyenne passé.
      *
      * @param mean Valeur moyenne du signal.
+     * @param amplMin Valeur de la limite basse pour l'amplitude
+     * @param amplMax Valeur de la limite haute pour l'amplitude
      * @return Symbole décidé selon la distance entre les amplitudes maximum et minimum.<br>
      * Dans le cas où la valeur moyenne est à équidistance des limites, la valeur false est retournée.
      */

@@ -34,7 +34,7 @@ public  abstract class Destination <T> implements DestinationInterface <T> {
     /**
      * reçoit une information
      * @param information  l'information  à recevoir
-     * @throws InformationNonConforme 
+     * @throws InformationNonConforme Cas où l'information est invalide
      */
     public  abstract void recevoir(Information <T> information) throws InformationNonConforme;  
 }

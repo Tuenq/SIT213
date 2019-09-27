@@ -17,8 +17,9 @@ public  interface DestinationInterface <T>  {
     public Information <T>  getInformationRecue(); 
    	 
     /**
-     * pour recevoir une information de la source qui nous est
+     * Pour recevoir une information de la source qui nous est
      * connectée
+     * @throws InformationNonConforme Cas de l'information est invalide
      * @param information  l'information  à recevoir
      */
     public void recevoir(Information <T> information) throws InformationNonConforme;

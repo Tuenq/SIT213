@@ -10,10 +10,10 @@ public class FiltreRZ extends Filtre {
 
     /**
      * Symbole du filtre RetourZero<br>
-     * <img src="./doc-files/filtreRZ.png" alt="FiltreRZ"></img><br>
+     * <img src="./doc-files/filtreRZ.png" alt="Filtre"><br>
      *
      *  Chronogramme du filtre multiplié avec un enchainement 1-0<br>
-     * <img src="./doc-files/filtreRZ_chrono.png"></img>
+     * <img src="./doc-files/filtreRZ_chrono.png" alt="Chronogramme">
      */
     @Override
     void initialisationFiltre() {

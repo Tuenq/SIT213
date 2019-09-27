@@ -64,7 +64,7 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour renvoyer un élément d'une information
-     *
+     * @param i Valeur de l'index de l'élément
      * @return le ieme élément de l'information
      */
     public T iemeElement(int i) {
@@ -73,6 +73,8 @@ public class Information<T> implements Iterable<T> {
 
     /**
      * pour modifier le ième élément d'une information
+     * @param i Valeur de l'index de l'élément
+     * @param v Valeur de l'élément
      */
     public void setIemeElement(int i, T v) {
         this.content.set(i, v);
