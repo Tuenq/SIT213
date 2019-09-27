@@ -18,6 +18,22 @@
 
     <property name="package.authors" value="Bartoli-Dumestre-Francis-Gueye-Hugdelarauze"/>
     <property name="package.archive" value="${artifacts.dir}/${package.authors}"/>
+    <property name="package.docs.dir" value=".project_docs"/>
+
+    <!-- endregion -->
+
+    <!-- region=================================        Classpath         ================================= -->
+
+    <path id="classpath.checkstyle">
+        <pathelement location="${basedir}/${lib.dir}/checkstyle-8.24-all.jar"/>
+    </path>
+
+    <!-- endregion -->
+
+    <!-- region=================================        Tasks           ================================= -->
+
+    <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+             classpath="${lib.dir}/checkstyle-8.24-all.jar"/>
 
     <!-- endregion -->
 
@@ -76,6 +92,18 @@
         <exec executable="/bin/bash" dir="${deployment.test.dir}/${package.authors}" failonerror="true">
             <arg value="simulateur"/>
         </exec>
+    </target>
+    <!-- endregion -->
+
+    <!-- region=====     target: runCheckstyle     ===== -->
+    <target name="runCheckstyle"
+            description="Generates a report of code convention violations.">
+        <checkstyle config=".xml" classpathref="classpath.checkstyle"
+                    failureProperty="checkstyle.failure"
+                    failOnViolation="false">
+            <formatter type="xml" tofile="checkstyle_report.xml"/>
+            <fileset dir="${source.main.dir}" includes="**/*.java"/>
+        </checkstyle>
     </target>
     <!-- endregion -->
 
