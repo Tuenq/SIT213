@@ -23,7 +23,7 @@ public class TransmetteurParfait<T> extends Transmetteur <T, T> {
 
     /**
      * Permet l'émission des données vers les destinations connectées.
-     * @throws InformationNonConforme
+     * @throws InformationNonConforme Cas où l'information est invalide
      */
     @Override
     public void emettre() throws InformationNonConforme {
