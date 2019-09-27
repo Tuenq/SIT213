@@ -13,7 +13,7 @@ public class Information<T> implements Iterable<T> {
      * pour construire une information vide
      */
     public Information() {
-        this.content = new LinkedList<T>();
+        this.content = new LinkedList<>();
     }
 
     /**
@@ -23,13 +23,13 @@ public class Information<T> implements Iterable<T> {
      */
     public Information(T[] content) {
         this.content = new LinkedList<T>();
-        for (int i = 0; i < content.length; i++) {
-            this.content.addLast(content[i]);
+        for (T t : content) {
+            this.content.addLast(t);
         }
     }
 
     public Information(Information<T> information) {
-        this.content = new LinkedList<T>();
+        this.content = new LinkedList<>();
         Iterator<T> contentIterator = information.iterator();
         contentIterator.forEachRemaining(this.content::add);
     }
