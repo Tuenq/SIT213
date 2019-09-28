@@ -1,11 +1,12 @@
 
 import org.junit.Test;
+import java.io.*;
 
 
 public class Step3 {
     @Test
     public void visualisation_NRZT() throws Exception {
-        String[] args = {"-s", "-seed", "123", "-snr", "10", "-nbEch", "1000", "-form", "NRZT"};
+        String[] args = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "NRZT"};
         Simulateur simulateur = new Simulateur(args);
         simulateur.execute();
     }
@@ -25,13 +26,12 @@ public class Step3 {
     }
 
     @Test
-    public void visualisation_TEB() throws Exception {
+    public void visualisation_Gaussienne() throws Exception {
         for(int i=0;i<100;i++){
             String[] args = {"-s", "-mess", "00000000000", "-snr", "0", "-nbEch", "1000", "-form", "NRZ"};
             Simulateur simulateur = new Simulateur(args);
 
         }
-
     }
 }
 
