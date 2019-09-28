@@ -13,7 +13,6 @@ import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
 
-
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -271,8 +270,14 @@ public class Simulateur {
                 throw new ArgumentsException("Valeur du parametre -nbEch égale à 0");
             if (nombreEchantillon < 0)
                 throw new ArgumentsException("Valeur du parametre -nbEch inférieure à 0 : " + nombreEchantillon);
-            if (nombreEchantillon < (3*nbBitsMess))
-                throw new ArgumentsException("Valeur du parametre -nbEch trop faible pour coder le message : " + nombreEchantillon + "échantillons ne sont pas suffisants pour coder un message de " + nbBitsMess + "bits");
+            if (nombreEchantillon == 1)
+                throw new ArgumentsException("Valeur du parametre -nbEch trop faible pour coder le message : " + nombreEchantillon + " échantillon n'est pas suffisant pour coder un bit");
+            if (nombreEchantillon == 2)
+                throw new ArgumentsException("Valeur du parametre -nbEch trop faible pour coder le message : " + nombreEchantillon + "échantillons ne sont pas suffisants pour coder un bit");
+            if (nombreEchantillon < 30)
+                System.out.println("\n***************************************************************************************************************************\n" +
+                        "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal" +
+                        "\n***************************************************************************************************************************\n");
         }
 
         if (commandLine.hasOption("ampl")) {
