@@ -6,23 +6,20 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class BruitGaussien {
-    private Random a1;
-    private Random a2;
+    private Random uniformLaw;
     private Float[] donneeBruit;
 
     public BruitGaussien() {
-        a1 = new Random();
-        a2 = new Random();
+        uniformLaw = new Random();
     }
 
     public BruitGaussien(int seed) {
-        a1 = new Random(seed);
-        a2 = new Random(++seed);
+        uniformLaw = new Random(seed);
     }
 
     private float genererEchantillon(float ecartType) {
-        double pa1 = -2.0f * Math.log(1.0f - a1.nextFloat());
-        double pa2 = Math.cos(2.0f * Math.PI * a2.nextFloat());
+        double pa1 = -2.0f * Math.log(1.0f - uniformLaw.nextFloat());
+        double pa2 = Math.cos(2.0f * Math.PI * uniformLaw.nextFloat());
 
         double data = ecartType * Math.sqrt(pa1) * pa2;
         return (float) data;
