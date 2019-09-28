@@ -1,6 +1,6 @@
 package convertisseurs;
 
-import common.Tools;
+import communs.Outils;
 import destinations.DestinationInterface;
 import filtres.Filtre;
 import information.Information;
@@ -32,8 +32,8 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
             sum += datum;
             if (++compteur == nbEch) {
                 float mean = sum/nbEch;
-                boolean EstimatedValue = Tools.booleanDistance(mean, filtre.amplMin, filtre.amplMax);
-                informationEmise.add(EstimatedValue);
+                boolean EstimatedValue = Outils.booleanDistance(mean, filtre.amplMin, filtre.amplMax);
+                informationEmise.add(EstimatedValue);  // FIXME: PREALLOCATE ARRAY
                 sum = compteur = 0;
             }
         }

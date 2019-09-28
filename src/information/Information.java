@@ -122,11 +122,9 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour utilisation du "for each"
+     * Pour utilisation du "for each"
      */
     public Iterator<T> iterator() {
         return content.iterator();
     }
-    
- 
 }
