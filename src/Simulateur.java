@@ -267,8 +267,12 @@ public class Simulateur {
                 throw new ArgumentsException("Valeur du parametre -nbEch invalide : " + commandLine.getOptionValue("nbEch"));
             }
 
-            if (nombreEchantillon <= 0)
-                throw new ArgumentsException("Valeur du parametre -nbEch inférieur ou égale à 0 : " + nombreEchantillon);
+            if (nombreEchantillon == 0)
+                throw new ArgumentsException("Valeur du parametre -nbEch égale à 0");
+            if (nombreEchantillon < 0)
+                throw new ArgumentsException("Valeur du parametre -nbEch inférieure à 0 : " + nombreEchantillon);
+            if (nombreEchantillon < (3*nbBitsMess))
+                throw new ArgumentsException("Valeur du parametre -nbEch trop faible pour coder le message : " + nombreEchantillon + "échantillons ne sont pas suffisants pour coder un message de " + nbBitsMess + "bits");
         }
 
         if (commandLine.hasOption("ampl")) {
@@ -281,9 +285,8 @@ public class Simulateur {
             } catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeurs du parametre -ampl invalides : " + Arrays.toString(amplitudes));
             }
-
             if (amplitudeMin >= amplitudeMax) {
-                throw new ArgumentsException("Valeur du parametre -nbEch ne respecte pas min < max : " + Arrays.toString(amplitudes));
+                throw new ArgumentsException("Valeur du parametre -ampl ne respecte pas min < max : " + Arrays.toString(amplitudes));
             }
         }
 
