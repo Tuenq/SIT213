@@ -46,8 +46,8 @@ Pour chaque itération :
 * Étape 2 : *Transmission non bruitée d'un signal analogique*
 * Étape 3 : *Transmission non-idéale avec canal bruité de type « gaussien »*
 * Étape 4 : 
-  * A) *Transmission non-idéale avec divers bruits « réels »*
-  * B) *Transmission non-idéale avec divers bruits « réels » + le bruit « gaussien »*
+  * A) *Transmission non-idéale avec divers bruit « réels »*
+  * B) *Transmission non-idéale avec divers bruit « réels » + le bruit « gaussien »*
 * Étape 5 : 
   * A) *Codage de canal*
   * B) *Codage de canal avec bruit de type « gaussien »*
