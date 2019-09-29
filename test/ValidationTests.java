@@ -1,10 +1,10 @@
-import java.util.Scanner;
+import org.apache.commons.cli.*;
 
 public class ValidationTests {
 
     private static void validationEtape1() {
-        String[] args1 = {"-s", "-seed", "123"};
-        String[] args2 = {"-s", "-mess", "000000111111"};
+        String[] args1 = {"-s", "-seed", "123", "-snr", "1000"};
+        String[] args2 = {"-s", "-mess", "000000111111", "-snr", "1000"};
 
         try {
             Simulateur simulateur = new Simulateur(args1);
@@ -20,9 +20,9 @@ public class ValidationTests {
     }
 
     private static void validationEtape2() {
-        String[] args1 = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "RZ"};
-        String[] args2 = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "NRZ"};
-        String[] args3 = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "NRZT"};
+        String[] args1 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "RZ", "-snr", "1000"};
+        String[] args2 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZ", "-snr", "1000"};
+        String[] args3 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZT", "-snr", "1000"};
         try {
             Simulateur simulateur = new Simulateur(args1);
             simulateur.execute();
@@ -39,33 +39,74 @@ public class ValidationTests {
     }
 
     private static void validationEtape3() {
-        String[] args = {"-s", "-seed", "123", "-snr", "100", "-nbEch", "1000", "-form", "RZ"};
+        String[] args = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "100", "-form", "RZ"};
         try {
             Simulateur simulateur = new Simulateur(args);
             simulateur.execute();
         }
         catch (Exception exception){
-            System.out.println("Erreur durant le test de validation etape 3 affichage signal bruité");
+            System.out.println("Erreur durant le test de validation etape 3");
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println("Pour quelle étape voulez vous lancer un test de validation ?");
+    private static int analyseArgument(String[] args) throws ArgumentsException {
+        // Prepare options
+        final Options options = configParameters();
+        final CommandLineParser parser = new DefaultParser();
+        CommandLine commandLine = null;
 
-        Scanner scanner = new Scanner(System.in);
+        // Parse the options
+        try {
+            commandLine = parser.parse(options, args);
+        } catch (ParseException e) {
+            throw new ArgumentsException(e.toString());
+        }
 
-        switch (scanner.nextLine()){
-            case "1":
+        int numEtape = 0;
+
+        if (commandLine.hasOption("e")){
+            numEtape = Integer.parseInt(commandLine.getOptionValue("e"));
+        }
+
+        return numEtape;
+    }
+
+    /**
+     * Permet de définir les options disponibles en ligne de commande
+     * @return un objet contenant les différentes options
+     */
+    private static Options configParameters() {
+
+        final Option etapeOption = Option.builder("e")
+                .desc("Affiche cette liste des usages")
+                .hasArg()
+                .build();
+
+        // <----- CONCATENATE OPTIONS -----> //
+
+        final Options options = new Options();
+
+        options.addOption(etapeOption);
+
+        return options;
+    }
+
+    public static void main(String[] args) throws ArgumentsException {
+
+        switch (analyseArgument(args)){
+            case 1:
                 validationEtape1();
                 break;
-            case "2":
+            case 2:
                 validationEtape2();
                 break;
-            case "3":
+            case 3:
                 validationEtape3();
                 break;
             default:
-                System.out.println("Etape non reconnue");
+                validationEtape1();
+                validationEtape2();
+                validationEtape3();
         }
 
     }
