@@ -2,6 +2,9 @@ import org.apache.commons.cli.*;
 
 public class ValidationTests {
 
+    private static boolean argsE = false;
+    private static String numEtape = null;
+
     private static void validationEtape1() {
         String[] args1 = {"-s", "-seed", "123"};
         String[] args2 = {"-s", "-mess", "000000111111"};
@@ -49,7 +52,7 @@ public class ValidationTests {
         }
     }
 
-    private static int analyseArgument(String[] args) throws ArgumentsException {
+    private static void analyseArgument(String[] args) throws ArgumentsException {
         // Prepare options
         final Options options = configParameters();
         final CommandLineParser parser = new DefaultParser();
@@ -62,13 +65,11 @@ public class ValidationTests {
             throw new ArgumentsException(e.toString());
         }
 
-        int numEtape = 0;
+        argsE = commandLine.hasOption("e");
 
         if (commandLine.hasOption("e")){
-            numEtape = Integer.parseInt(commandLine.getOptionValue("e"));
+            numEtape = commandLine.getOptionValue("e");
         }
-
-        return numEtape;
     }
 
     /**
@@ -92,22 +93,27 @@ public class ValidationTests {
     }
 
     public static void main(String[] args) throws ArgumentsException {
+        analyseArgument(args);
 
-        switch (analyseArgument(args)){
-            case 1:
-                validationEtape1();
-                break;
-            case 2:
-                validationEtape2();
-                break;
-            case 3:
-                validationEtape3();
-                break;
-            default:
-                validationEtape1();
-                validationEtape2();
-                validationEtape3();
+        if (!argsE){
+            validationEtape1();
+            validationEtape2();
+            validationEtape3();
         }
-
+        else {
+            switch (numEtape) {
+                case "1":
+                    validationEtape1();
+                    break;
+                case "2":
+                    validationEtape2();
+                    break;
+                case "3":
+                    validationEtape3();
+                    break;
+                default:
+                    throw new ArgumentsException("Etape non valide");
+            }
+        }
     }
 }
