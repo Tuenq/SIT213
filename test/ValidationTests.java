@@ -20,9 +20,9 @@ public class ValidationTests {
     }
 
     private static void validationEtape2() {
-        String[] args1 = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "RZ", "-snr", "1000"};
-        String[] args2 = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "NRZ", "-snr", "1000"};
-        String[] args3 = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "NRZT", "-snr", "1000"};
+        String[] args1 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "RZ", "-snr", "1000"};
+        String[] args2 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZ", "-snr", "1000"};
+        String[] args3 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZT", "-snr", "1000"};
         try {
             Simulateur simulateur = new Simulateur(args1);
             simulateur.execute();
@@ -39,7 +39,7 @@ public class ValidationTests {
     }
 
     private static void validationEtape3() {
-        String[] args = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "1000", "-form", "RZ"};
+        String[] args = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "100", "-form", "RZ"};
         try {
             Simulateur simulateur = new Simulateur(args);
             simulateur.execute();
