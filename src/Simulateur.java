@@ -309,8 +309,22 @@ public class Simulateur {
         if (commandLine.hasOption("snr")) {
             try {
                 signalNoiseRatio = Float.parseFloat(commandLine.getOptionValue("snr"));
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
+            }
+            if (signalNoiseRatio < 0.0){
+                throw new ArgumentsException("Valeur du parametre -snr inférieure à 0 : " + signalNoiseRatio  +"\nLa puissance du bruit est supérieure à la puissance du signal");
+            }
+            if (signalNoiseRatio == 0.0){
+                System.out.println("\n***************************************************************************************************************************\n" +
+                        "WARNING : la Valeur du parametre -snr égale à 0 : \" + signalNoiseRatio  +\"\\nLa puissance du bruit est égale à la puissance du signal" +
+                        "\n***************************************************************************************************************************\n");
+            }
+            if (signalNoiseRatio < 20){
+                System.out.println("\n***************************************************************************************************************************\n" +
+                        "WARNING : la Valeur du parametre -snr est faible : \" + signalNoiseRatio  +\"\\nLa puissance du bruit est importante par rapport à la puissance du signal" +
+                        "\n***************************************************************************************************************************\n");
             }
         }
 
