@@ -49,7 +49,7 @@ public class ValidationTests {
         }
     }
 
-    private static int analyseArgument(String[] args) throws ArgumentsException {
+    private static String analyseArgument(String[] args) throws ArgumentsException {
         // Prepare options
         final Options options = configParameters();
         final CommandLineParser parser = new DefaultParser();
@@ -62,10 +62,10 @@ public class ValidationTests {
             throw new ArgumentsException(e.toString());
         }
 
-        int numEtape = 0;
+        String numEtape = null;
 
         if (commandLine.hasOption("e")){
-            numEtape = Integer.parseInt(commandLine.getOptionValue("e"));
+            numEtape = commandLine.getOptionValue("e");
         }
 
         return numEtape;
@@ -94,13 +94,13 @@ public class ValidationTests {
     public static void main(String[] args) throws ArgumentsException {
 
         switch (analyseArgument(args)){
-            case 1:
+            case "1":
                 validationEtape1();
                 break;
-            case 2:
+            case "2":
                 validationEtape2();
                 break;
-            case 3:
+            case "3":
                 validationEtape3();
                 break;
             default:
