@@ -44,7 +44,7 @@ public class ValidationTEBvsSNR {
     }
 
     private void display() {
-        String titre = "TEB vs SNR " + "| pas : " + pas  + " | intervale : ["+ snrMin +" ; " + snrMax + "] | \"" + String.join(" ", args) + "\"";
+        String titre = "TEB vs SNR " + "| pas : " + pas  + " | intervalle : ["+ snrMin +" ; " + snrMax + "] | \"" + String.join(" ", args) + "\"";
         Sonde dataDisplay = new SondeAnalogique(titre);
         dataDisplay.recevoir(data);
     }

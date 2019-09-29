@@ -1,6 +1,9 @@
 package bruit;
 
 import information.Information;
+import visualisations.Sonde;
+import visualisations.SondeAnalogique;
+import visualisations.SondeHistogramme;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -46,5 +49,12 @@ public class BruitGaussien {
         }
 
         return dataOut;
+    }
+
+    public static void main(String[] args) {
+        BruitGaussien bruit = new BruitGaussien();
+        bruit.initialiser(1f, 1000000);
+        Sonde<Float> histo = new SondeHistogramme(100,"Histogramme bruit gaussien - 1 000 000 échantillons - 100 plages");
+        histo.recevoir(bruit.recuperationBruit());
     }
 }

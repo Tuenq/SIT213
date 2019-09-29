@@ -31,8 +31,8 @@ public class SondeHistogramme extends SondeAnalogique {
 		Float[] histo = new Float[nbPlage];
 
 		for (int plage = 0; plage < nbPlage; plage++) {
-			float limitLow = amplMin + plage*pas;
-			float limitHigh = amplMin + plage*(pas+1);
+			float limitLow = amplMin + pas*plage;
+			float limitHigh = amplMin + pas*(plage+1);
 
 			histo[plage] = 0f;
 
@@ -40,6 +40,7 @@ public class SondeHistogramme extends SondeAnalogique {
 				if (limitLow <= datum && datum < limitHigh)
 					histo[plage]++;
 			}
+			System.out.println("Plage " + plage + " : ["+limitLow+";"+limitHigh+"] = " + histo[plage]);
 		}
 		return histo;
 	}
