@@ -39,7 +39,7 @@ public class ValidationTests {
     }
 
     private static void validationEtape3() {
-        String[] args = {"-s", "-seed", "123", "-snr", "10", "-nbEch", "1000", "-form", "RZ"};
+        String[] args = {"-s", "-seed", "123", "-snr", "100", "-nbEch", "1000", "-form", "RZ"};
         try {
             Simulateur simulateur = new Simulateur(args);
             simulateur.execute();
@@ -65,7 +65,7 @@ public class ValidationTests {
                 validationEtape3();
                 break;
             default:
-                System.out.println("Etape non reconue");
+                System.out.println("Etape non reconnue");
         }
 
     }
