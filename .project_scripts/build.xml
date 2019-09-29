@@ -108,8 +108,8 @@
     </target>
     <!-- endregion -->
 
-    <!-- region=====     target: runTest     ===== -->
-    <target name="runTest" depends="compileTest"
+    <!-- region=====     target: runUnitTest     ===== -->
+    <target name="runUnitTest" depends="compileTest"
             description="--> Run unit test">
         <echo>=====Run tests=====</echo>
         <junit printsummary="on" haltonfailure="yes" fork="true">
@@ -133,19 +133,23 @@
         <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
             <classpath refid="classpath.main"/>
             <classpath refid="classpath.test"/>
-            <arg value="-mess"/><arg value="1000"/><arg value="-nbEch"/><arg value="100"/><arg value="-form"/><arg value="RZ"/>
+            <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="RZ"/>
         </java>
         <echo>==========>Start NRZ validation</echo>
         <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
             <classpath refid="classpath.main"/>
             <classpath refid="classpath.test"/>
-            <arg value="-mess"/><arg value="1000"/><arg value="-nbEch"/><arg value="100"/><arg value="-form"/><arg value="NRZ"/>
+            <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="NRZ"/>
         </java>
         <echo>==========>Start NRZT validation</echo>
         <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
             <classpath refid="classpath.main"/>
             <classpath refid="classpath.test"/>
-            <arg value="-mess"/><arg value="1000"/><arg value="-nbEch"/><arg value="100"/><arg value="-form"/><arg value="NRZT"/>
+            <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="NRZT"/>
+        </java>
+        <echo>==========>Start Gaussian noise validation</echo>
+        <java dir="${source.build.main.dir}" classname="bruit.BruitGaussien" fork="true">
+            <classpath refid="classpath.main"/>
         </java>
     </target>
     <!-- endregion -->
