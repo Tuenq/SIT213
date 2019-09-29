@@ -10,7 +10,7 @@ addons:
     - ant-optional
 
 script:
-  - ant runTest
+  - ant runUnitTest
   - ant runDeploymentTest
  
 deploy:
