@@ -1,6 +1,8 @@
-package common;
+package communs;
 
-public class Tools {
+import information.Information;
+
+public class Outils {
     /**
      * Permet de déterminer, à partir des amplitudes théoriques, le symbole en fonction de la moyenne passé.
      *
@@ -15,5 +17,18 @@ public class Tools {
         float minDistance = Math.abs(mean - amplMin);
 
         return maxDistance < minDistance;
+    }
+
+    public static float puissanceMoyenne(Information<Float> signal) {
+        float power = 0;  // Initialisation somme des échantillons
+        for (Float datum: signal) {
+            power += Math.pow(datum, 2);
+        }
+        return power / signal.nbElements();
+    }
+
+    public static float ecartType(float puissanceMoyenne, float snr) {
+        double denom = 2f * Math.exp(snr / 10f);
+        return (float) Math.sqrt(puissanceMoyenne / denom);
     }
 }

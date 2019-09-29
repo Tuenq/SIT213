@@ -1,6 +1,6 @@
 package convertisseurs;
 
-import common.Tools;
+import communs.Outils;
 import destinations.DestinationInterface;
 import filtres.Filtre;
 import information.Information;
@@ -11,19 +11,32 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
 
     private Filtre filtre;
 
+    private float amplMinBruitee = 0;
+    private float amplMaxBruitee = 0;
+
 	public Recepteur(Filtre filtre) {
 	    this.filtre = filtre;
 	}
 
     @Override
     public void recevoir(Information<Float> information) throws InformationNonConforme {
-        informationRecue = information;
+	    informationRecue = information;
+        calculAmplBruite();
         decodage();
         emettre();
     }
 
+    private void calculAmplBruite () {
+        for (Float datum: informationRecue){
+            if (datum > amplMaxBruitee)
+                amplMaxBruitee = datum;
+            else if (datum < amplMinBruitee)
+                amplMinBruitee = datum;
+        }
+    }
+
     private void decodage(){
-        informationEmise = new Information<>();
+	    informationEmise = new Information<>();
         final int nbEch = filtre.nbEch;
         int compteur = 0;
         float sum = 0;
@@ -32,8 +45,8 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
             sum += datum;
             if (++compteur == nbEch) {
                 float mean = sum/nbEch;
-                boolean EstimatedValue = Tools.booleanDistance(mean, filtre.amplMin, filtre.amplMax);
-                informationEmise.add(EstimatedValue);
+                boolean EstimatedValue = Outils.booleanDistance(mean, amplMinBruitee, amplMaxBruitee);
+                informationEmise.add(EstimatedValue);  // FIXME: PREALLOCATE ARRAY
                 sum = compteur = 0;
             }
         }

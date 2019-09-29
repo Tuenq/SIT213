@@ -1,10 +1,10 @@
-package common;
+package communs;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ToolsTest {
+public class OutilsTest {
 
     @Test
     public void booleanDistance_limite_haute_nominal() {
@@ -14,7 +14,7 @@ public class ToolsTest {
         final boolean expected_value = true;
 
         // Act
-        final boolean actual_value = Tools.booleanDistance(max, min, max);
+        final boolean actual_value = Outils.booleanDistance(max, min, max);
 
         // Assert
         assertEquals(expected_value, actual_value);
@@ -28,7 +28,7 @@ public class ToolsTest {
         final boolean expected_value = false;
 
         // Act
-        final boolean actual_value = Tools.booleanDistance(min, min, max);
+        final boolean actual_value = Outils.booleanDistance(min, min, max);
 
         // Assert
         assertEquals(expected_value, actual_value);
@@ -42,7 +42,7 @@ public class ToolsTest {
         final boolean expected_value = false;
 
         // Act
-        final boolean actual_value = Tools.booleanDistance(min-max, min, max);
+        final boolean actual_value = Outils.booleanDistance(min-max, min, max);
 
         // Assert
         assertEquals(expected_value, actual_value);

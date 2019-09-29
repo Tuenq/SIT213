@@ -78,6 +78,13 @@ public class Simulateur {
      */
     private Float amplitudeMin = 0.0f;
 
+    // <----- OPTIONS ETAPE 3 -----> //
+
+    /**
+     * Ratio signal/bruit utilisé pour la génération du bruit
+     */
+    private Float signalNoiseRatio = 20.0f;
+
     // <----- SIMULATEUR -----> //
 
     /**
@@ -85,27 +92,26 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
-     * le composant Transmetteur parfait analogique de la chaine de transmission
+     * Codeur permettant de transformer l'information analogique dans la forme d'onde spécifiée
      */
-    private Transmetteur<Float,Float> transmetteurAnalogique = null;
-    /**
-     * le composant Destination de la chaine de transmission
-     */
-    private Destination<Boolean> destination = null;
+    private Filtre filtre = null;
     /**
      * le composant Emetteur de la chaine de transmission
      */
     private Emetteur emetteur = null;
     /**
+     * le composant Transmetteur de la chaine de transmission
+     */
+    private Transmetteur<Float,Float> transmetteur = null;
+    /**
      * le composant Recepteur de la chaine de transmission
      */
     private Recepteur recepteur = null;
     /**
-     * Codeur permettant de transformer l'information analogique dans la forme d'onde spécifiée
+     * le composant Destination de la chaine de transmission
      */
-    private Filtre filtre = null;
+    private Destination<Boolean> destination = null;
    
-
 
     /**
      * Le constructeur de Simulateur construit une chaîne de transmission composée
@@ -120,10 +126,10 @@ public class Simulateur {
      */
     public Simulateur(String[] args) throws ArgumentsException {
         analyseArguments(args);
-        simulationParfaite();
+        simulationBruitee();
     }
 
-    private void simulationParfaite() throws ArgumentsException {
+    private void simulationBruitee() throws ArgumentsException {
 
         // Configuration de la SOURCE ALEATOIRE|FIXE
         if (messageAleatoire) {
@@ -141,7 +147,7 @@ public class Simulateur {
             }
         }
 
-        // Configuration de l'encodeur
+        // Configuration du filtre
         switch (formeOnde) {
             case RZ:
                 filtre = new FiltreRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
@@ -159,8 +165,11 @@ public class Simulateur {
         // Configuration d'emetteur
         emetteur = new Emetteur(filtre);
 
-        // Configuration du TRANSMETTEUR PARFAIT
-        transmetteurAnalogique = new TransmetteurParfait<>();
+        // Configuration du TRANSMETTEUR BRUITE
+        if (aleatoireAvecGerme)
+            transmetteur = new TransmetteurBruite(signalNoiseRatio, seed);
+        else
+            transmetteur = new TransmetteurBruite(signalNoiseRatio);
 
         //Configuration de recepteur
         recepteur = new Recepteur(filtre);
@@ -170,8 +179,8 @@ public class Simulateur {
 
         // Connexion des composants
         source.connecter(emetteur);
-        emetteur.connecter(transmetteurAnalogique);
-        transmetteurAnalogique.connecter(recepteur);
+        emetteur.connecter(transmetteur);
+        transmetteur.connecter(recepteur);
         recepteur.connecter(destination);
 
         if (affichage) {
@@ -184,7 +193,7 @@ public class Simulateur {
             Sonde<Float> sonde_emission = new SondeAnalogique("Emission du système");
             emetteur.connecter(sonde_emission);
             Sonde<Float> sonde_reception = new SondeAnalogique("Reception du système");
-            transmetteurAnalogique.connecter(sonde_reception);
+            transmetteur.connecter(sonde_reception);
         }
     }
 
@@ -295,6 +304,16 @@ public class Simulateur {
             }
         }
 
+        // <----- OPTIONS ETAPE 3 -----> //
+
+        if (commandLine.hasOption("snr")) {
+            try {
+                signalNoiseRatio = Float.parseFloat(commandLine.getOptionValue("snr"));
+            } catch (NumberFormatException e) {
+                throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
+            }
+        }
+
     }
 
     /**
@@ -356,6 +375,15 @@ public class Simulateur {
                 .valueSeparator(' ')
                 .build();
 
+        // <----- OPTIONS ETAPE 3 -----> //
+
+        final Option snrOption = Option.builder("snr")
+                .desc("Permet de spécifier le rapport signal sur bruit (en dB)\n" +
+                        "(Par défaut, message de longueur 100)")
+                .hasArg()
+                .argName("s")
+                .build();
+
         // <----- CONCATENATE OPTIONS -----> //
 
         final Options options = new Options();
@@ -369,6 +397,8 @@ public class Simulateur {
         options.addOption(formeOption);
         options.addOption(nombreEchantillonOption);
         options.addOption(amplitudeOption);
+            // <----- OPTIONS ETAPE 3 -----> //
+        options.addOption(snrOption);
 
         return options;
     }
