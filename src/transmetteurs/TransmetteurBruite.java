@@ -4,6 +4,7 @@ import bruit.*;
 import communs.*;
 import destinations.DestinationInterface;
 import information.*;
+import visualisations.SondeHistogramme;
 
 public class TransmetteurBruite extends Transmetteur<Float,Float> {
 
@@ -46,7 +47,12 @@ public class TransmetteurBruite extends Transmetteur<Float,Float> {
     @Override
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Float> destination : destinationsConnectees) {
-            destination.recevoir(informationEmise);
+            if (destination.getClass() == SondeHistogramme.class) {
+                destination.recevoir(bruit.recuperationBruit());
+                destination.recevoir(informationEmise);
+            }
+            else
+                destination.recevoir(informationEmise);
         }
     }
 }

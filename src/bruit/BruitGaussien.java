@@ -33,6 +33,10 @@ public class BruitGaussien {
         }
     }
 
+    public Information<Float> recuperationBruit() {
+        return new Information<>(donneeBruit);
+    }
+
     public Float[] appliquer(Information<Float> dataIn, int dataIn_len) {
         Float[] dataOut =  new Float[dataIn_len];
         Iterator<Float> dataIn_Iterator = dataIn.iterator();

@@ -9,10 +9,7 @@ import filtres.*;
 import filtres.Filtre.encoders;
 
 import information.*;
-import visualisations.Sonde;
-import visualisations.SondeAnalogique;
-import visualisations.SondeLogique;
-import visualisations.SondePuissance;
+import visualisations.*;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -195,11 +192,14 @@ public class Simulateur {
             emetteur.connecter(sonde_emission);
             Sonde<Float> sonde_reception = new SondeAnalogique("Réception du système");
             transmetteur.connecter(sonde_reception);
-            // Ajout des SONDES PUISSANCES
-            Sonde<Float> sonde_emission_p = new SondePuissance("Emission du système - Puisance");
-            emetteur.connecter(sonde_emission_p);
-            Sonde<Float> sonde_reception_p = new SondePuissance("Réception du système - Puisance");
-            transmetteur.connecter(sonde_reception_p);
+//            // Ajout des SONDES PUISSANCES
+//            Sonde<Float> sonde_emission_p = new SondePuissance("Emission du système - Puisance");
+//            emetteur.connecter(sonde_emission_p);
+//            Sonde<Float> sonde_reception_p = new SondePuissance("Réception du système - Puisance");
+//            transmetteur.connecter(sonde_reception_p);
+            // Ajout des SONDES HISTOGRAMMES
+            Sonde<Float> sonde_emission_h = new SondeHistogramme(100, "Emission du système - Histo.");
+            transmetteur.connecter(sonde_emission_h);
         }
     }
 
