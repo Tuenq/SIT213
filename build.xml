@@ -95,7 +95,12 @@
         <target name="generateArtifacts" depends="prepareAll" 
                 description="--+--> Generate artifacts for delivery">
             <tar destfile="${package.archive}.tar.gz" compression="gzip">
-                <tarfileset dir="${basedir}" includes="${source.main.dir}/**,${source.test.dir}/**,${lib.dir}/**,${source.build.dir},${docs.dir}"/>
+                <tarfileset dir="${basedir}" includes="${source.main.dir}/**"/>
+                <tarfileset dir="${basedir}" includes="${source.test.dir}/**"/>
+                <tarfileset dir="${basedir}" includes="${source.validation.dir}/**"/>
+                <tarfileset dir="${basedir}" includes="${lib.dir}/**"/>
+                <tarfileset dir="${basedir}" includes="${source.build.dir}"/>
+                <tarfileset dir="${basedir}" includes="${docs.dir}"/>
                 <tarfileset dir="${deployment.scripts.dir}/"/>
                 <tarfileset file="${basedir}/README.md"/>
                 <tarfileset file="${basedir}/Goals.md"/>

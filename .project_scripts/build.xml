@@ -126,7 +126,7 @@
     <!-- endregion -->
 
     <!-- region=====     target: runValidationApp     ===== -->
-    <target name="runValidationApp" depends="compileTest"
+    <target name="runValidationTest" depends="compileTest"
             description="--> Run validation test">
         <echo>=====Run validation tests=====</echo>
         <echo>==========>Start RZ validation</echo>
