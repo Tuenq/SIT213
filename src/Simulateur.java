@@ -12,6 +12,7 @@ import information.*;
 import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeLogique;
+import visualisations.SondePuissance;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -192,8 +193,13 @@ public class Simulateur {
             // Ajout des SONDES ANALOGIQUES
             Sonde<Float> sonde_emission = new SondeAnalogique("Emission du système");
             emetteur.connecter(sonde_emission);
-            Sonde<Float> sonde_reception = new SondeAnalogique("Reception du système");
+            Sonde<Float> sonde_reception = new SondeAnalogique("Réception du système");
             transmetteur.connecter(sonde_reception);
+            // Ajout des SONDES PUISSANCES
+            Sonde<Float> sonde_emission_p = new SondePuissance("Emission du système - Puisance");
+            emetteur.connecter(sonde_emission_p);
+            Sonde<Float> sonde_reception_p = new SondePuissance("Réception du système - Puisance");
+            transmetteur.connecter(sonde_reception_p);
         }
     }
 
@@ -307,14 +313,14 @@ public class Simulateur {
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-            if (signalNoiseRatio < 0.0f) {
-                throw new ArgumentsException("Valeur du parametre -snr inférieure ou égale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est supérieure à la puissance du signal)");
-            }
-            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
-                System.out.println("\n***************************************************************************************************************************\n" +
-                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport à la puissance du signal)" +
-                        "\n***************************************************************************************************************************\n");
-            }
+//            if (signalNoiseRatio < 0.0f) {
+//                throw new ArgumentsException("Valeur du parametre -snr inférieure ou égale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est supérieure à la puissance du signal)");
+//            }
+//            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
+//                System.out.println("\n***************************************************************************************************************************\n" +
+//                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport à la puissance du signal)" +
+//                        "\n***************************************************************************************************************************\n");
+//            }
         }
     }
 

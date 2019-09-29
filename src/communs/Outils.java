@@ -2,11 +2,6 @@ package communs;
 
 import information.Information;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
 public class Outils {
     /**
      * Permet de déterminer, à partir des amplitudes théoriques, le symbole en fonction de la moyenne passé.
@@ -35,6 +30,25 @@ public class Outils {
     public static float ecartType(float puissanceMoyenne, float snr) {
         double denom = 2f * Math.exp(snr / 10f);
         return (float) Math.sqrt(puissanceMoyenne / denom);
+    }
+
+    public enum amplIndex { MIN, MAX; }
+
+    /**
+     * Calcule l'amplitude minimum et maximum de l'information
+     * @param data Information d'amplitude inconnue
+     * @return Tableau de taille 2 avec min puis max
+     */
+    public static Float[] calculAmplitude(Information<Float> data) {
+        Float[] ampl = new Float[]{0f,0f};  // [MIN,MAX]
+
+        for (Float datum: data) {
+            if (datum < ampl[amplIndex.MIN.ordinal()])
+                ampl[amplIndex.MIN.ordinal()] = datum;
+            else if (datum > ampl[amplIndex.MAX.ordinal()])
+                ampl[amplIndex.MAX.ordinal()] = datum;
+        }
+        return ampl;
     }
 
     public static String[] concatenate(String[] ... parms) {

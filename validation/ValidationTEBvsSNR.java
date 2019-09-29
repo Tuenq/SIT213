@@ -6,15 +6,18 @@ public class ValidationTEBvsSNR {
     private String[] args;
 
     private float pas;
+    private float snrMin;
     private float snrMax;
     private Information<Float> data;
 
     /**
-     * @param pas utilisé pour incrémenter le SNR dans l'intervale [0;snrMax]
-     * @param snrMax utilisé pour spécifier l'intervale [0;snrMax]
+     * @param pas utilisé pour incrémenter le SNR dans l'intervale [snrMin;snrMax]
+     * @param snrMin utilisé pour spécifier l'intervale [snrMin;snrMax]
+     * @param snrMax utilisé pour spécifier l'intervale [snrMin;snrMax]
      */
-    private ValidationTEBvsSNR(float pas, float snrMax) {
+    private ValidationTEBvsSNR(float pas, float snrMin, float snrMax) {
         this.pas = pas;
+        this.snrMin = snrMin;
         this.snrMax = snrMax;
     }
 
@@ -26,7 +29,7 @@ public class ValidationTEBvsSNR {
         data = new Information<>();
         this.args = args;
 
-        for (float snr = 0.0f; snr < snrMax; snr += pas) {
+        for (float snr = snrMin; snr < snrMax; snr += pas) {
             String[] snrSimu = {"-mute", "-snr", Float.toString(snr)};
             String[] argsSimu = Outils.concatenate(args, snrSimu);
 
@@ -36,23 +39,23 @@ public class ValidationTEBvsSNR {
 
             data.add(teb);
 
-//            System.out.println("SNR - TEB : " + snr + " - " + teb);
+            System.out.println("SNR - TEB : " + snr + " - " + teb);
         }
     }
 
     private void display() {
-        String titre = "TEB vs SNR " + "| pas : " + pas  + " | intervale : [0.0 ; " + snrMax + "] | \"" + String.join(" ", args) + "\"";
+        String titre = "TEB vs SNR " + "| pas : " + pas  + " | intervale : ["+ snrMin +" ; " + snrMax + "] | \"" + String.join(" ", args) + "\"";
         Sonde dataDisplay = new SondeAnalogique(titre);
         dataDisplay.recevoir(data);
     }
 
     /**
-     * Génération de la courbe pour un pas de 0.25 allant de 0 à 50
+     * Génération de la courbe pour un pas de 0.5 allant de -100 à 0
      * @param args Paramètres du simulateur
      * @throws Exception Simulateur en défaut
      */
     public static void main(String[] args) throws Exception {
-        ValidationTEBvsSNR valid = new ValidationTEBvsSNR(0.25f, 50f);
+        ValidationTEBvsSNR valid = new ValidationTEBvsSNR(1f, -100f, 0f);
         valid.sampling(args);
         valid.display();
     }

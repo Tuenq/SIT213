@@ -22,6 +22,7 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
     public void recevoir(Information<Float> information) throws InformationNonConforme {
 	    informationRecue = information;
         calculAmplBruite();
+
         decodage();
         emettre();
     }
@@ -41,10 +42,19 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
         int compteur = 0;
         float sum = 0;
 
+        Float[] ampl = Outils.calculAmplitude(informationRecue);
+        amplMinBruitee = ampl[Outils.amplIndex.MIN.ordinal()];
+        amplMaxBruitee = ampl[Outils.amplIndex.MAX.ordinal()];
+
+        float tier1 = (1/3f) * nbEch;
+        float tier2 = (2/3f) * nbEch;
+
         for (Float datum: informationRecue) {
-            sum += datum;
+            if (compteur >= tier1 && compteur < tier2)
+                sum += datum;
+
             if (++compteur == nbEch) {
-                float mean = sum/nbEch;
+                float mean = sum/tier1;
                 boolean EstimatedValue = Outils.booleanDistance(mean, amplMinBruitee, amplMaxBruitee);
                 informationEmise.add(EstimatedValue);  // FIXME: PREALLOCATE ARRAY
                 sum = compteur = 0;
