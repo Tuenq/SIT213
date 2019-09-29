@@ -312,8 +312,9 @@ public class Simulateur {
             } catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
+            if (signalNoiseRatio < 0)
+                throw new ArgumentsException("Valeur du parametre -snr doit être supérieur ou égale à 0 : " + commandLine.getOptionValue("snr"));
         }
-
     }
 
     /**

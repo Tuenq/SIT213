@@ -2,6 +2,11 @@ package communs;
 
 import information.Information;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class Outils {
     /**
      * Permet de déterminer, à partir des amplitudes théoriques, le symbole en fonction de la moyenne passé.
@@ -30,5 +35,23 @@ public class Outils {
     public static float ecartType(float puissanceMoyenne, float snr) {
         double denom = 2f * Math.exp(snr / 10f);
         return (float) Math.sqrt(puissanceMoyenne / denom);
+    }
+
+    public static String[] concatenate(String[] ... parms) {
+        // calculate size of target array
+        int size = 0;
+        for (String[] array : parms) {
+            size += array.length;
+        }
+
+        String[] result = new String[size];
+
+        int j = 0;
+        for (String[] array : parms) {
+            for (String s : array) {
+                result[j++] = s;
+            }
+        }
+        return result;
     }
 }

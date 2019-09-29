@@ -7,6 +7,7 @@
 
     <property name="source.main.dir" value="src"/>
     <property name="source.test.dir" value="test"/>
+    <property name="source.validation.dir" value="validation"/>
     <property name="source.build.dir" value="bin"/>
     <property name="source.build.main.dir" value="${source.build.dir}/main"/>
     <property name="source.build.test.dir" value="${source.build.dir}/test"/>
@@ -88,6 +89,11 @@
                 <classpath refid="classpath.main"/>
                 <classpath refid="classpath.test"/>
             </javac>
+            <echo>=====Compiling ${source.validation.dir} files...=====</echo>
+            <javac srcdir="${source.validation.dir}" destdir="${source.build.test.dir}" includeantruntime="false">
+                <classpath refid="classpath.main"/>
+                <classpath refid="classpath.test"/>
+            </javac>
         </target>
     <!-- endregion -->
 
@@ -116,6 +122,31 @@
                 <fileset dir="${source.test.dir}" includes="SimulateurTest.java" />
             </batchtest>
         </junit>
+    </target>
+    <!-- endregion -->
+
+    <!-- region=====     target: runValidationApp     ===== -->
+    <target name="runValidationApp" depends="compileTest"
+            description="--> Run validation test">
+        <echo>=====Run validation tests=====</echo>
+        <echo>==========>Start RZ validation</echo>
+        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
+            <classpath refid="classpath.main"/>
+            <classpath refid="classpath.test"/>
+            <arg value="-mess"/><arg value="1000"/><arg value="-nbEch"/><arg value="100"/><arg value="-form"/><arg value="RZ"/>
+        </java>
+        <echo>==========>Start NRZ validation</echo>
+        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
+            <classpath refid="classpath.main"/>
+            <classpath refid="classpath.test"/>
+            <arg value="-mess"/><arg value="1000"/><arg value="-nbEch"/><arg value="100"/><arg value="-form"/><arg value="NRZ"/>
+        </java>
+        <echo>==========>Start NRZT validation</echo>
+        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
+            <classpath refid="classpath.main"/>
+            <classpath refid="classpath.test"/>
+            <arg value="-mess"/><arg value="1000"/><arg value="-nbEch"/><arg value="100"/><arg value="-form"/><arg value="NRZT"/>
+        </java>
     </target>
     <!-- endregion -->
 

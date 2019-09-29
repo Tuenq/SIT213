@@ -30,7 +30,7 @@ public class Step3 {
         for(int i=0;i<100;i++){
             String[] args = {"-s", "-mess", "00000000000", "-snr", "0", "-nbEch", "1000", "-form", "NRZ"};
             Simulateur simulateur = new Simulateur(args);
-
+            simulateur.execute();
         }
     }
 }

@@ -24,9 +24,9 @@ public class SourceAleatoire extends Source<Boolean> {
 
     }
 
-    public SourceAleatoire(int nbBit, long seed) {
+    public SourceAleatoire(int nbBit, Integer seed) {
         informationGeneree = new Information<>();
-        Random random = new Random(seed);
+        Random random = new Random(seed);  // FIXME: Call super and extract Random
 
         boolean value;
         for (int j = 0; j < nbBit; j++) {
@@ -40,7 +40,7 @@ public class SourceAleatoire extends Source<Boolean> {
         try {
             instance1.emettre();
         } catch (Exception exception) {
-            System.out.println(exception);
+            System.out.println(exception.toString());
         }
         System.out.println(instance1.getInformationEmise());
     }
