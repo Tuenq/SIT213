@@ -39,19 +39,10 @@ public class ValidationTests {
     }
 
     private static void validationEtape3() {
-        String[] args = {"-s", "-seed", "123", "-nbEch", "1000", "-form", "RZ"};
-        String[] args2;
+        String[] args = {"-s", "-seed", "123", "-snr", "10", "-nbEch", "1000", "-form", "RZ"};
         try {
             Simulateur simulateur = new Simulateur(args);
             simulateur.execute();
-
-            int snr;
-            for(int i = 0 ; i < 1000000 ; i++){
-                snr = 10 - (10/1000000) * i;
-                args2 = new String[]{"-mess", "100000", "-snr", Integer.toString(snr), "-nbEch", "1000", "-form", "NRZ"};
-                simulateur = new Simulateur(args2);
-                simulateur.execute();
-            }
         }
         catch (Exception exception){
             System.out.println("Erreur durant le test de validation etape 3 affichage signal bruité");
