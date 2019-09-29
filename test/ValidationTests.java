@@ -3,8 +3,8 @@ import org.apache.commons.cli.*;
 public class ValidationTests {
 
     private static void validationEtape1() {
-        String[] args1 = {"-s", "-seed", "123", "-snr", "1000"};
-        String[] args2 = {"-s", "-mess", "000000111111", "-snr", "1000"};
+        String[] args1 = {"-s", "-seed", "123"};
+        String[] args2 = {"-s", "-mess", "000000111111"};
 
         try {
             Simulateur simulateur = new Simulateur(args1);
@@ -20,9 +20,9 @@ public class ValidationTests {
     }
 
     private static void validationEtape2() {
-        String[] args1 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "RZ", "-snr", "1000"};
-        String[] args2 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZ", "-snr", "1000"};
-        String[] args3 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZT", "-snr", "1000"};
+        String[] args1 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "RZ"};
+        String[] args2 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZ"};
+        String[] args3 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZT"};
         try {
             Simulateur simulateur = new Simulateur(args1);
             simulateur.execute();
