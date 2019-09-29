@@ -27,7 +27,7 @@ public class ValidationTEBvsSNR {
         this.args = args;
 
         for (float snr = 0.0f; snr < snrMax; snr += pas) {
-            String[] snrSimu = {"-snr", Float.toString(snr)};
+            String[] snrSimu = {"-mute", "-snr", Float.toString(snr)};
             String[] argsSimu = Outils.concatenate(args, snrSimu);
 
             Simulateur simu = new Simulateur(argsSimu);
@@ -46,8 +46,13 @@ public class ValidationTEBvsSNR {
         dataDisplay.recevoir(data);
     }
 
+    /**
+     * Génération de la courbe pour un pas de 0.25 allant de 0 à 50
+     * @param args Paramètres du simulateur
+     * @throws Exception Simulateur en défaut
+     */
     public static void main(String[] args) throws Exception {
-        ValidationTEBvsSNR valid = new ValidationTEBvsSNR(0.01f, 10f);
+        ValidationTEBvsSNR valid = new ValidationTEBvsSNR(0.25f, 50f);
         valid.sampling(args);
         valid.display();
     }

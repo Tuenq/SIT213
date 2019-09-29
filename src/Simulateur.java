@@ -275,15 +275,9 @@ public class Simulateur {
                 throw new ArgumentsException("Valeur du parametre -nbEch invalide : " + commandLine.getOptionValue("nbEch"));
             }
 
-            if (nombreEchantillon == 0)
-                throw new ArgumentsException("Valeur du parametre -nbEch égale à 0");
-            if (nombreEchantillon < 0)
-                throw new ArgumentsException("Valeur du parametre -nbEch inférieure à 0 : " + nombreEchantillon);
-            if (nombreEchantillon == 1)
-                throw new ArgumentsException("Valeur du parametre -nbEch trop faible pour coder le message : " + nombreEchantillon + " échantillon n'est pas suffisant pour coder un bit");
-            if (nombreEchantillon == 2)
-                throw new ArgumentsException("Valeur du parametre -nbEch trop faible pour coder le message : " + nombreEchantillon + "échantillons ne sont pas suffisants pour coder un bit");
-            if (nombreEchantillon < 30)
+            if (nombreEchantillon <= 0)
+                throw new ArgumentsException("Valeur du parametre -nbEch inférieure ou égale à 0 : " + nombreEchantillon);
+            else if (nombreEchantillon < 30 && !commandLine.hasOption("mute"))
                 System.out.println("\n***************************************************************************************************************************\n" +
                         "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal" +
                         "\n***************************************************************************************************************************\n");
@@ -313,17 +307,12 @@ public class Simulateur {
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-            if (signalNoiseRatio < 0.0){
-                throw new ArgumentsException("Valeur du parametre -snr inférieure à 0 : " + signalNoiseRatio  +"\nLa puissance du bruit est supérieure à la puissance du signal");
+            if (signalNoiseRatio < 0.0f) {
+                throw new ArgumentsException("Valeur du parametre -snr inférieure ou égale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est supérieure à la puissance du signal)");
             }
-            if (signalNoiseRatio == 0.0){
+            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
                 System.out.println("\n***************************************************************************************************************************\n" +
-                        "WARNING : la Valeur du parametre -snr égale à 0 : \" + signalNoiseRatio  +\"\\nLa puissance du bruit est égale à la puissance du signal" +
-                        "\n***************************************************************************************************************************\n");
-            }
-            if (signalNoiseRatio < 20){
-                System.out.println("\n***************************************************************************************************************************\n" +
-                        "WARNING : la Valeur du parametre -snr est faible : \" + signalNoiseRatio  +\"\\nLa puissance du bruit est importante par rapport à la puissance du signal" +
+                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport à la puissance du signal)" +
                         "\n***************************************************************************************************************************\n");
             }
         }
@@ -337,6 +326,10 @@ public class Simulateur {
 
         final Option aideOption = Option.builder("h")
                 .desc("Affiche cette liste des usages")
+                .build();
+
+        final Option silenceOption = Option.builder("mute")
+                .desc("Supprime les sorties des cas limites")
                 .build();
 
         // <----- OPTIONS ETAPE 1 -----> //
@@ -402,6 +395,7 @@ public class Simulateur {
         final Options options = new Options();
 
         options.addOption(aideOption);
+        options.addOption(silenceOption);
             // <----- OPTIONS ETAPE 1 -----> //
         options.addOption(sondeOption);
         options.addOption(messageOption);
