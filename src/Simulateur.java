@@ -83,6 +83,11 @@ public class Simulateur {
      */
     private Float signalNoiseRatio = 20.0f;
 
+    /**
+     * Boolean si le canal est bruité ou non
+     */
+    private Boolean snr = false;
+
     // <----- SIMULATEUR -----> //
 
     /**
@@ -124,10 +129,10 @@ public class Simulateur {
      */
     public Simulateur(String[] args) throws ArgumentsException {
         analyseArguments(args);
-        simulationBruitee();
+        simulation();
     }
 
-    private void simulationBruitee() throws ArgumentsException {
+    private void simulation() throws ArgumentsException {
 
         // Configuration de la SOURCE ALEATOIRE|FIXE
         if (messageAleatoire) {
@@ -163,11 +168,15 @@ public class Simulateur {
         // Configuration d'emetteur
         emetteur = new Emetteur(filtre);
 
-        // Configuration du TRANSMETTEUR BRUITE
-        if (aleatoireAvecGerme)
-            transmetteur = new TransmetteurBruite(signalNoiseRatio, seed);
-        else
-            transmetteur = new TransmetteurBruite(signalNoiseRatio);
+        //Configuration des transmetteur
+        if (snr){
+            // Configuration du TRANSMETTEUR BRUITE
+            if (aleatoireAvecGerme)
+                transmetteur = new TransmetteurBruite(signalNoiseRatio, seed);
+            else
+                transmetteur = new TransmetteurBruite(signalNoiseRatio);
+        }
+        else transmetteur = new TransmetteurParfait<>();
 
         //Configuration de recepteur
         recepteur = new Recepteur(filtre);
@@ -302,6 +311,8 @@ public class Simulateur {
         }
 
         // <----- OPTIONS ETAPE 3 -----> //
+
+        snr = commandLine.hasOption("snr");
 
         if (commandLine.hasOption("snr")) {
             try {
