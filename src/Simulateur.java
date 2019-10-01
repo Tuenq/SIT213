@@ -1,3 +1,4 @@
+import communs.Outils;
 import convertisseurs.Emetteur;
 import convertisseurs.Recepteur;
 import org.apache.commons.cli.*;
@@ -82,11 +83,15 @@ public class Simulateur {
      * Ratio signal/bruit utilisé pour la génération du bruit
      */
     private Float signalNoiseRatio = 20.0f;
-
     /**
      * Boolean si le canal est bruité ou non
      */
     private Boolean snr = false;
+
+    // <----- OPTIONS ETAPE 4 -----> //
+
+    private Integer[] decalageTemporel;
+    private Float[] amplitudeRelative;
 
     // <----- SIMULATEUR -----> //
 
@@ -330,6 +335,26 @@ public class Simulateur {
 //                        "\n***************************************************************************************************************************\n");
 //            }
         }
+
+        if (commandLine.hasOption("ti")) {
+            String[] optionsValues = commandLine.getOptionValues("ti");
+
+            if (Outils.isOdd(optionsValues.length))
+                throw new ArgumentsException("Valeurs du paramètre -ti doivent être par couple de 2 valeurs : " + String.join(" ", optionsValues));
+
+            int sizeArray = optionsValues.length / 2;
+            decalageTemporel = new Integer[sizeArray];
+            amplitudeRelative = new Float[sizeArray];
+
+            for (int i = 0; i < sizeArray; i++) {
+                try {
+                    decalageTemporel[i] = Integer.parseInt(optionsValues[2*i]);
+                    amplitudeRelative[i] = Float.parseFloat(optionsValues[2*i+1]);
+                } catch (NumberFormatException e) {
+                    throw new ArgumentsException("Valeur du paramètre -ti invalide (couple " + i + ") : " + String.join(" ", optionsValues));
+                }
+            }
+        }
     }
 
     /**
@@ -404,6 +429,21 @@ public class Simulateur {
                 .argName("s")
                 .build();
 
+        // <----- OPTIONS ETAPE 4 -----> //
+
+        final Option trajetIndirectOption = Option.builder("ti")
+                .desc("Permet de spécifier les différents trajets indirects, par couple de valeur \"dt ar\" (5 max)\n" +
+                        "> dt : Décalage temporel (en nombre d'échantillons)\n" +
+                        "> ar : Amplitude relative, compris entre [0.0;1.0]\n" +
+                        "(Par défaut, \"0 0.0\")")
+                .hasArg()
+                .argName("dt ar")
+                .numberOfArgs(10)
+                .optionalArg(true)
+                .valueSeparator(' ')
+                .build();
+
+
         // <----- CONCATENATE OPTIONS -----> //
 
         final Options options = new Options();
@@ -420,6 +460,8 @@ public class Simulateur {
         options.addOption(amplitudeOption);
             // <----- OPTIONS ETAPE 3 -----> //
         options.addOption(snrOption);
+        // <----- OPTIONS ETAPE 4 -----> //
+        options.addOption(trajetIndirectOption);
 
         return options;
     }
