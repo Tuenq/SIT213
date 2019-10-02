@@ -1,8 +1,7 @@
-package bruit;
+package bruits;
 
 import information.Information;
 import visualisations.Sonde;
-import visualisations.SondeAnalogique;
 import visualisations.SondeHistogramme;
 
 import java.util.Iterator;

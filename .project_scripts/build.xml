@@ -148,7 +148,7 @@
             <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="NRZT"/>
         </java>
         <echo>==========>Start Gaussian noise validation</echo>
-        <java dir="${source.build.main.dir}" classname="bruit.BruitGaussien" fork="true">
+        <java dir="${source.build.main.dir}" classname="bruits.BruitGaussien" fork="true">
             <classpath refid="classpath.main"/>
         </java>
     </target>

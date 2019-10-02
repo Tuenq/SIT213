@@ -1,10 +1,9 @@
 package transmetteurs;
 
-import bruit.*;
+import bruits.*;
 import communs.*;
 import destinations.DestinationInterface;
 import information.*;
-import visualisations.SondeHistogramme;
 
 public class TransmetteurBruite extends Transmetteur<Float,Float> {
 

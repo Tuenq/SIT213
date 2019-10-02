@@ -2,9 +2,6 @@ package information;
 
 import java.util.*;
 
-/**
- * @author prou
- */
 public class Information<T> implements Iterable<T> {
 
 	private LinkedList<T> content;
@@ -54,8 +51,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour connaître le nombre d'éléments d'une information
-     *
+     * Pour connaître le nombre d'éléments d'une information
      * @return le nombre d'éléments de l'information
      */
     public int nbElements() {
@@ -63,7 +59,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour renvoyer un élément d'une information
+     * Pour renvoyer un élément d'une information
      * @param i Valeur de l'index de l'élément
      * @return le ieme élément de l'information
      */
@@ -72,7 +68,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour modifier le ième élément d'une information
+     * Pour modifier le ième élément d'une information
      * @param i Valeur de l'index de l'élément
      * @param v Valeur de l'élément
      */
@@ -81,8 +77,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour ajouter un élément à la fin de l'information
-     *
+     * Pour ajouter un élément à la fin de l'information
      * @param valeur l'élément à rajouter
      */
     public void add(T valeur) {
@@ -90,8 +85,7 @@ public class Information<T> implements Iterable<T> {
     }
 
     /**
-     * pour comparer l'information courante avec une autre information
-     *
+     * Pour comparer l'information courante avec une autre information
      * @param o l'information  avec laquelle se comparer
      * @return "true" si les 2 informations contiennent les mêmes
      * éléments aux mêmes places; "false" dans les autres cas
@@ -126,5 +120,10 @@ public class Information<T> implements Iterable<T> {
      */
     public Iterator<T> iterator() {
         return content.iterator();
+    }
+
+    @SuppressWarnings("unchecked")
+    public T[] getArray() {
+        return (T[]) content.toArray();
     }
 }
