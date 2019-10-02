@@ -127,4 +127,25 @@ public class Information<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return content.iterator();
     }
+    
+    //FIX ME A ameliorer
+    public Information<Float> amplifierAttenuer(Information<Float> dataIn, float ampl) {
+    	Information<Float> dataOut = new Information<Float>();
+    	for(float datum: dataIn) {
+    		dataOut.add(datum*ampl);
+    	}
+		return dataOut;	
+    }
+    
+    public Information<Float> additioner(Information<Float> dataIn1, Information<Float> dataIn2) throws InformationNonConforme {
+
+    	//FIX ME en attendant que les informations soient des tableaux
+    	//float[] tabDataIn1 =  dataIn1.getArray();
+    	Information<Float> dataOut = new Information<Float>();
+    	for(int i=0; i<dataIn1.nbElements(); i++) {
+    		dataOut.add(dataIn1.iemeElement(i)+dataIn2.iemeElement(i));
+    	}
+		return dataOut;	
+    }
+    
 }
