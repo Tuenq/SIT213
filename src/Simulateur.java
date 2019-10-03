@@ -347,11 +347,11 @@ public class Simulateur {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
             if (signalNoiseRatio < 0.0f) {
-                throw new ArgumentsException("Valeur du parametre -snr inférieure ou égale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est supérieure à la puissance du signal)");
+                throw new ArgumentsException("Valeur du parametre -snr inferieure ou egale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est superieure a la puissance du signal)");
             }
             else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
                 System.out.println("\n****************************************************************************************************************************************************************\n" +
-                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport à la puissance du signal). Nous vous conseillons un snr de 100." +
+                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 100." +
                         "\n****************************************************************************************************************************************************************\n");
             }
         }
@@ -361,9 +361,12 @@ public class Simulateur {
             String[] optionsValues = commandLine.getOptionValues("ti");
 
             if (Outils.isOdd(optionsValues.length))
-                throw new ArgumentsException("Valeurs du paramètre -ti doivent être par couple de 2 valeurs : " + String.join(" ", optionsValues));
+                throw new ArgumentsException("Valeurs du paramètre -ti doivent etre par couple de 2 valeurs : " + String.join(" ", optionsValues));
 
             int sizeArray = optionsValues.length / 2;
+//            if (sizeArray > 4) {
+//                throw new ArgumentsException("Le nombre de trajets multiples maximum est 5 et non :" + (sizeArray+1) + " trajets multiples.");
+//            }
             decalageTemporel = new int[sizeArray];
             amplitudeRelative = new Float[sizeArray];
 
@@ -372,21 +375,21 @@ public class Simulateur {
                     decalageTemporel[i] = Integer.parseInt(optionsValues[2*i]);
                     amplitudeRelative[i] = Float.parseFloat(optionsValues[2*i+1]);
                 } catch (NumberFormatException e) {
-                    throw new ArgumentsException("Valeur du paramètre -ti invalide (couple " + i + ") : " + String.join(" ", optionsValues));
+                    throw new ArgumentsException("Valeur du parametre -ti invalide (couple " + i + ") : " + String.join(" ", optionsValues));
                 }
                 if (decalageTemporel[i] < 0) {
-                    throw new ArgumentsException("Signal non causal : le décalage (en nombre d'échantillons) ne peut pas être inférieur à 0 : " + decalageTemporel[i]);
+                    throw new ArgumentsException("Signal non causal : le decalage (en nombre d'échantillons) ne peut pas etre inferieur à 0 : " + decalageTemporel[i]);
                 }
                 else if (decalageTemporel[i] > nombreEchantillon) {
                     System.out.println("\n****************************************************************************************************************************************************************\n" +
-                            "WARNING : le décalage du "+ (int)(i+1) +"ème trajet multiple est important: " + decalageTemporel[i]  +" cela risque d'entrainer un risque d'erreurs important" +
+                            "WARNING : le decalage du "+ (int)(i+1) +"eme trajet multiple est important: " + decalageTemporel[i]  +" cela risque d'entrainer un risque d'erreurs important" +
                             "\n****************************************************************************************************************************************************************\n");
                 }
                 if (amplitudeRelative[i] < 0) {
-                    throw new ArgumentsException("L'atténuation minimale est 0, elle ne peut pas être négative (l'atténuation est un rapport par rapport au signal direct)");
+                    throw new ArgumentsException("L'attenuation minimale est 0, elle ne peut pas etre négative (l'attenuation est un rapport par rapport au signal direct)");
                 }
                 else if (amplitudeRelative[i] > 1) {
-                    throw new ArgumentsException("L'atténuation maximale est 1, l'atténuation ne peut pas amplifier le signal");
+                    throw new ArgumentsException("L'attenuation maximale est 1, l'attenuation ne peut pas amplifier le signal");
                 }
             }
         }
