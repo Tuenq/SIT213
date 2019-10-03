@@ -90,7 +90,8 @@ public class Simulateur {
 
     // <----- OPTIONS ETAPE 4 -----> //
 
-    private Integer[] decalageTemporel;
+    private boolean trajetMultiple = false;
+    private int[] decalageTemporel;
     private Float[] amplitudeRelative;
 
     // <----- SIMULATEUR -----> //
@@ -111,6 +112,7 @@ public class Simulateur {
      * le composant Transmetteur de la chaine de transmission
      */
     private Transmetteur<Float,Float> transmetteur = null;
+    private Transmetteur<Float,Float> transmetteurTM = null;
     /**
      * le composant Recepteur de la chaine de transmission
      */
@@ -183,6 +185,11 @@ public class Simulateur {
         }
         else transmetteur = new TransmetteurParfait<>();
 
+        if (trajetMultiple)
+            transmetteurTM = new TransmetteurTrajetMultiples(amplitudeRelative, decalageTemporel);
+        else
+            transmetteurTM = new TransmetteurParfait<>();
+
         //Configuration de recepteur
         recepteur = new Recepteur(filtre);
 
@@ -191,7 +198,8 @@ public class Simulateur {
 
         // Connexion des composants
         source.connecter(emetteur);
-        emetteur.connecter(transmetteur);
+        emetteur.connecter(transmetteurTM);
+        transmetteurTM.connecter(transmetteur);
         transmetteur.connecter(recepteur);
         recepteur.connecter(destination);
 
@@ -336,14 +344,15 @@ public class Simulateur {
 //            }
         }
 
-        if (commandLine.hasOption("ti")) {
+        trajetMultiple = commandLine.hasOption("ti");
+        if (trajetMultiple) {
             String[] optionsValues = commandLine.getOptionValues("ti");
 
             if (Outils.isOdd(optionsValues.length))
                 throw new ArgumentsException("Valeurs du paramètre -ti doivent être par couple de 2 valeurs : " + String.join(" ", optionsValues));
 
             int sizeArray = optionsValues.length / 2;
-            decalageTemporel = new Integer[sizeArray];
+            decalageTemporel = new int[sizeArray];
             amplitudeRelative = new Float[sizeArray];
 
             for (int i = 0; i < sizeArray; i++) {

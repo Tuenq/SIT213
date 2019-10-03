@@ -17,7 +17,7 @@ public class TransmetteurParfait<T> extends Transmetteur <T, T> {
      */
     @Override
     public void recevoir(Information<T> information) throws InformationNonConforme {
-        informationRecue = new Information<>(information);
+        informationRecue = information;
         emettre();
     }
 
