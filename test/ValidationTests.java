@@ -53,7 +53,7 @@ public class ValidationTests {
     }
 
     private static void validationEtape4() {
-        // Test de validation avec 3 trajets indirects
+        // Test de validation avec 4 trajets indirects
         String[] args = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "100", "-form", "RZ", "-ti", "5", "0.5",
                 "30", "0.3", "39", "0.211"};
         try {
@@ -61,7 +61,7 @@ public class ValidationTests {
             simulateur.execute();
         }
         catch (Exception exception){
-            System.out.println("Erreur durant le test de validation etape 3");
+            System.out.println("Erreur durant le test de validation etape 4");
         }
     }
 
@@ -107,6 +107,8 @@ public class ValidationTests {
 
     public static void main(String[] args) throws ArgumentsException {
         analyseArgument(args);
+
+
 
         if (!argsE){
             validationEtape1();
