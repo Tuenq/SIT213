@@ -2,7 +2,7 @@ import communs.Outils;
 import information.Information;
 import visualisations.*;
 
-public class ValidationTEBvsSNR {
+public class generationValeursTEB {
     private String[] args;
 
     private float pas;
@@ -15,7 +15,7 @@ public class ValidationTEBvsSNR {
      * @param snrMin utilisé pour spécifier l'intervale [snrMin;snrMax]
      * @param snrMax utilisé pour spécifier l'intervale [snrMin;snrMax]
      */
-    private ValidationTEBvsSNR(float pas, float snrMin, float snrMax) {
+    private generationValeursTEB(float pas, float snrMin, float snrMax) {
         this.pas = pas;
         this.snrMin = snrMin;
         this.snrMax = snrMax;
@@ -30,7 +30,7 @@ public class ValidationTEBvsSNR {
         this.args = args;
 
         for (float snr = snrMin; snr < snrMax; snr += pas) {
-            String[] snrSimu = {"-mute", "-snr", Float.toString(snr), "-csv", "test.csv"};
+            String[] snrSimu = {"-mute", "-snr", Float.toString(snr), "-csv", "/Users/lucas/NRZT.csv", "-nbEch", "100", "-form", "NRZT", "-mess", "10000"};
             String[] argsSimu = Outils.concatenate(args, snrSimu);
 
             Simulateur simu = new Simulateur(argsSimu);
@@ -43,20 +43,13 @@ public class ValidationTEBvsSNR {
         }
     }
 
-    private void display() {
-        String titre = "TEB vs SNR " + "| pas : " + pas  + " | intervalle : ["+ snrMin +" ; " + snrMax + "] | \"" + String.join(" ", args) + "\"";
-        Sonde dataDisplay = new SondeAnalogique(titre);
-        dataDisplay.recevoir(data);
-    }
-
     /**
      * Génération de la courbe pour un pas de 0.5 allant de -100 à 0
      * @param args Paramètres du simulateur
      * @throws Exception Simulateur en défaut
      */
     public static void main(String[] args) throws Exception {
-        ValidationTEBvsSNR valid = new ValidationTEBvsSNR(1f, -100f, 0f);
+        generationValeursTEB valid = new generationValeursTEB(1f, -100f, 0f);
         valid.sampling(args);
-        //valid.display();
     }
 }
