@@ -79,11 +79,14 @@
     </target>
     <!-- endregion -->
 
-    <!-- region=====     target: generateAll     ===== -->
+    <!-- region=====     target: runDeployment     ===== -->
     <target name="runDeployment" depends="generateArtifacts"
             description="--> Run deployment of artifact">
         <untar src="${package.archive}.tar.gz" dest="${deployment.test.dir}"
                overwrite="true" compression="gzip"/>
+        <chmod perm="755">
+            <fileset dir="${deployment.test.dir}"/>
+        </chmod>
     </target>
     <!-- endregion -->
 
