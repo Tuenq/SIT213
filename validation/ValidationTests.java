@@ -59,7 +59,7 @@ public class ValidationTests {
                 "-snr", "20",
                 "-nbEch", "100",
                 "-form", "RZ",
-                "-ti", "50", "0.5", "10", "0.2", "30", "0.3"};
+                "-ti", "50", "0.5", "10", "0.2", "30", "0.3", "150", "0.5", "200", "0.2"};
         try {
             System.out.println("Validation Simulateur avec : " + String.join(" ", args));
             Simulateur simulateur = new Simulateur(args);
