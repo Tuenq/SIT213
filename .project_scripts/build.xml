@@ -159,10 +159,10 @@
 <!--            <arg value="-ti"/><arg value="15"/><arg value="0.5"/>-->
 <!--            <arg value="-form"/><arg value="NRZT"/>-->
 <!--        </java>-->
-        <echo>==========>Start Gaussian noise validation</echo>
-        <java dir="${source.build.main.dir}" classname="bruit.BruitGaussien" fork="true">
-            <classpath refid="classpath.main"/>
-        </java>
+<!--        <echo>==========>Start Gaussian noise validation</echo>-->
+<!--        <java dir="${source.build.main.dir}" classname="bruit.BruitGaussien" fork="true">-->
+<!--            <classpath refid="classpath.main"/>-->
+<!--        </java>-->
     </target>
     <!-- endregion -->
 
