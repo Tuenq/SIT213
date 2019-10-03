@@ -129,6 +129,12 @@
     <target name="runValidationTest" depends="compileTest"
             description="--> Run validation test">
         <echo>=====Run validation tests=====</echo>
+        <echo>==========>Start Step 4 validation</echo>
+        <java dir="${source.build.test.dir}" classname="ValidationTests" fork="true">
+            <classpath refid="classpath.main"/>
+            <classpath refid="classpath.test"/>
+            <arg value="-e"/><arg value="4"/>
+        </java>
         <echo>==========>Start RZ validation</echo>
         <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
             <classpath refid="classpath.main"/>
