@@ -93,6 +93,18 @@ public class Simulateur {
     private Integer[] decalageTemporel;
     private Float[] amplitudeRelative;
 
+    // <----- OPTIONS PERSO -----> //
+
+    /**
+     * Boolean si le TEB doit être enregistré dans un fichier csv
+     */
+    private Boolean csv = false;
+
+    /**
+     * String définissant dans quel fichier csv il faut ajouter le TEB
+     */
+    private String csvFile = "";
+
     // <----- SIMULATEUR -----> //
 
     /**
@@ -355,6 +367,14 @@ public class Simulateur {
                 }
             }
         }
+
+        // <----- OPTIONS PERSO -----> //
+
+        csv = commandLine.hasOption("csv");
+
+        if (commandLine.hasOption("csv")){
+            csvFile = commandLine.getOptionValue("csv");
+        }
     }
 
     /**
@@ -443,6 +463,14 @@ public class Simulateur {
                 .valueSeparator(' ')
                 .build();
 
+        // <----- OPTIONS PERSO -----> //
+
+        final Option csvOption = Option.builder("csv")
+                .desc("Permet d'enregistrer dans un fichier défini")
+                .hasArg()
+                .argName("csv")
+                .build();
+
 
         // <----- CONCATENATE OPTIONS -----> //
 
@@ -462,6 +490,8 @@ public class Simulateur {
         options.addOption(snrOption);
         // <----- OPTIONS ETAPE 4 -----> //
         options.addOption(trajetIndirectOption);
+        // <----- OPTIONS PERSO -----> //
+        options.addOption(csvOption);
 
         return options;
     }
@@ -492,7 +522,13 @@ public class Simulateur {
             if (datum_sent != datum_received) nb_error++;
         }
 
-        return (float)nb_error / data_sent.nbElements() * 100f;
+        Float teb = (float)nb_error / data_sent.nbElements() * 100f;
+
+        if (csv){
+            extractionCSV.sauvegardeData(csvFile, teb, signalNoiseRatio);
+        }
+
+        return teb;
     }
 
     /**
