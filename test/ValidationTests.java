@@ -109,9 +109,7 @@ public class ValidationTests {
         analyseArgument(args);
 
         if (!argsE){
-            validationEtape1();
-            validationEtape2();
-            validationEtape3();
+            validationEtape4();
         }
         else {
             switch (numEtape) {
