@@ -37,7 +37,26 @@
 
 				Float[] signalTrajetDirect = informationRecue.getArray();
 				Float[] signalPrecedent = signalTrajetDirect;
-				
+
+				int longueur = retard.length;
+				int tampon = 0;
+				boolean permut;
+
+				do {
+					// hypothèse : le tableau est trié
+					permut = false;
+					for (int i = 0; i < longueur - 1; i++) {
+						// Teste si 2 éléments successifs sont dans le bon ordre ou non
+						if (retard[i] > retard[i + 1]) {
+							// s'ils ne le sont pas, on échange leurs positions
+							tampon = retard[i];
+							retard[i] = retard[i + 1];
+							retard[i + 1] = tampon;
+							permut = true;
+						}
+					}
+				} while (permut);
+
 				for(int i=0; i<nombreTrajet; i++) {
 			
 					Float[] signalGenere = new Float[signalTrajetDirect.length + retard[i]];
