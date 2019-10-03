@@ -492,7 +492,7 @@ public class Simulateur {
             if (datum_sent != datum_received) nb_error++;
         }
 
-        return (float)nb_error / data_sent.nbElements() * 100f;
+        return (float)nb_error / data_sent.nbElements();
     }
 
     /**
