@@ -30,7 +30,7 @@ public class generationValeursTEB {
         this.args = args;
 
         for (float snr = snrMin; snr < snrMax; snr += pas) {
-            String[] snrSimu = {"-mute", "-snr", Float.toString(snr), "-csv", "/Users/lucas/test.csv"};
+            String[] snrSimu = {"-mute", "-snr", Float.toString(snr), "-csv", "/Users/lucas/NRZT.csv", "-nbEch", "100", "-form", "NRZT", "-mess", "10000"};
             String[] argsSimu = Outils.concatenate(args, snrSimu);
 
             Simulateur simu = new Simulateur(argsSimu);
