@@ -5,6 +5,8 @@ import visualisations.Sonde;
 import visualisations.SondeAnalogique;
 import visualisations.SondeHistogramme;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -54,7 +56,17 @@ public class BruitGaussien {
     public static void main(String[] args) {
         BruitGaussien bruit = new BruitGaussien();
         bruit.initialiser(1f, 1000000);
-        Sonde<Float> histo = new SondeHistogramme(100,"Histogramme bruit gaussien - 1 000 000 échantillons - 100 plages");
-        histo.recevoir(bruit.recuperationBruit());
+        Information<Float> information = bruit.recuperationBruit();
+
+        for (int i = 0 ; i < information.nbElements() ; i++){
+            try {
+                FileWriter fileWriter = new FileWriter("BruitGaussien.csv", true);
+                fileWriter.write( information.iemeElement(i) + "\n");
+                fileWriter.close();
+            }
+            catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 }
