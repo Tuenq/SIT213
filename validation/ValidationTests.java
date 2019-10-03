@@ -66,7 +66,7 @@ public class ValidationTests {
             simulateur.execute();
         }
         catch (Exception exception){
-            System.out.println("Erreur durant le test de validation etape 3");
+            System.out.println("Erreur durant le test de validation etape 4");
         }
     }
 
