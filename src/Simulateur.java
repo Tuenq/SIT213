@@ -303,9 +303,9 @@ public class Simulateur {
             if (nombreEchantillon <= 0)
                 throw new ArgumentsException("Valeur du parametre -nbEch inférieure ou égale à 0 : " + nombreEchantillon);
             else if (nombreEchantillon < 30 && !commandLine.hasOption("mute"))
-                System.out.println("\n***************************************************************************************************************************\n" +
-                        "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal" +
-                        "\n***************************************************************************************************************************\n");
+                System.out.println("\n*************************************************************************************************************************************************\n" +
+                        "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal. Nous vous conseillons 100 échantillons" +
+                        "\n*************************************************************************************************************************************************\n");
         }
 
         if (commandLine.hasOption("ampl")) {
@@ -334,14 +334,14 @@ public class Simulateur {
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-//            if (signalNoiseRatio < 0.0f) {
-//                throw new ArgumentsException("Valeur du parametre -snr inférieure ou égale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est supérieure à la puissance du signal)");
-//            }
-//            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
-//                System.out.println("\n***************************************************************************************************************************\n" +
-//                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport à la puissance du signal)" +
-//                        "\n***************************************************************************************************************************\n");
-//            }
+            if (signalNoiseRatio < 0.0f) {
+                throw new ArgumentsException("Valeur du parametre -snr inférieure ou égale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est supérieure à la puissance du signal)");
+            }
+            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
+                System.out.println("\n****************************************************************************************************************************************************************\n" +
+                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport à la puissance du signal). Nous vous conseillons un snr de 100." +
+                        "\n****************************************************************************************************************************************************************\n");
+            }
         }
 
         trajetMultiple = commandLine.hasOption("ti");
@@ -361,6 +361,20 @@ public class Simulateur {
                     amplitudeRelative[i] = Float.parseFloat(optionsValues[2*i+1]);
                 } catch (NumberFormatException e) {
                     throw new ArgumentsException("Valeur du paramètre -ti invalide (couple " + i + ") : " + String.join(" ", optionsValues));
+                }
+                if (decalageTemporel[i] < 0) {
+                    throw new ArgumentsException("Signal non causal : le décalage (en nombre d'échantillons) ne peut pas être inférieur à 0 : " + decalageTemporel[i]);
+                }
+                else if (decalageTemporel[i] > nombreEchantillon) {
+                    System.out.println("\n****************************************************************************************************************************************************************\n" +
+                            "WARNING : le décalage du "+ (int)(i+1) +"ème trajet multiple est important: " + decalageTemporel[i]  +" cela risque d'entrainer un risque d'erreurs important" +
+                            "\n****************************************************************************************************************************************************************\n");
+                }
+                if (amplitudeRelative[i] < 0) {
+                    throw new ArgumentsException("L'atténuation minimale est 0, elle ne peut pas être négative (l'atténuation est un rapport par rapport au signal direct)");
+                }
+                else if (amplitudeRelative[i] > 1) {
+                    throw new ArgumentsException("L'atténuation maximale est 1, l'atténuation ne peut pas amplifier le signal");
                 }
             }
         }
