@@ -129,24 +129,36 @@
     <target name="runValidationTest" depends="compileTest"
             description="--> Run validation test">
         <echo>=====Run validation tests=====</echo>
-        <echo>==========>Start RZ validation</echo>
-        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
+        <echo>==========>Start Step 4 validation</echo>
+        <java dir="${source.build.test.dir}" classname="ValidationTests" fork="true">
             <classpath refid="classpath.main"/>
             <classpath refid="classpath.test"/>
-            <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="RZ"/>
+            <arg value="-e"/><arg value="4"/>
         </java>
-        <echo>==========>Start NRZ validation</echo>
-        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
-            <classpath refid="classpath.main"/>
-            <classpath refid="classpath.test"/>
-            <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="NRZ"/>
-        </java>
-        <echo>==========>Start NRZT validation</echo>
-        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">
-            <classpath refid="classpath.main"/>
-            <classpath refid="classpath.test"/>
-            <arg value="-mess"/><arg value="5000"/><arg value="-form"/><arg value="NRZT"/>
-        </java>
+<!--        <echo>==========>Start RZ validation</echo>-->
+<!--        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">-->
+<!--            <classpath refid="classpath.main"/>-->
+<!--            <classpath refid="classpath.test"/>-->
+<!--            <arg value="-mess"/><arg value="5000"/>-->
+<!--            <arg value="-ti"/><arg value="15"/><arg value="0.5"/>-->
+<!--            <arg value="-form"/><arg value="RZ"/>-->
+<!--        </java>-->
+<!--        <echo>==========>Start NRZ validation</echo>-->
+<!--        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">-->
+<!--            <classpath refid="classpath.main"/>-->
+<!--            <classpath refid="classpath.test"/>-->
+<!--            <arg value="-mess"/><arg value="5000"/>-->
+<!--            <arg value="-ti"/><arg value="15"/><arg value="0.5"/>-->
+<!--            <arg value="-form"/><arg value="NRZ"/>-->
+<!--        </java>-->
+<!--        <echo>==========>Start NRZT validation</echo>-->
+<!--        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">-->
+<!--            <classpath refid="classpath.main"/>-->
+<!--            <classpath refid="classpath.test"/>-->
+<!--            <arg value="-mess"/><arg value="5000"/>-->
+<!--            <arg value="-ti"/><arg value="15"/><arg value="0.5"/>-->
+<!--            <arg value="-form"/><arg value="NRZT"/>-->
+<!--        </java>-->
         <echo>==========>Start Gaussian noise validation</echo>
         <java dir="${source.build.main.dir}" classname="bruit.BruitGaussien" fork="true">
             <classpath refid="classpath.main"/>

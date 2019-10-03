@@ -19,3 +19,5 @@ out/
 
 # MAC OS [related stuff]
 .DS_Store
+
+.settings/

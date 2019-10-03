@@ -3,7 +3,7 @@ import org.apache.commons.cli.*;
 public class ValidationTests {
 
     private static boolean argsE = false;
-    private static String numEtape = null;
+    private static String numEtape = "4";
 
     private static void validationEtape1() {
         String[] args1 = {"-s", "-seed", "123"};
@@ -53,10 +53,15 @@ public class ValidationTests {
     }
 
     private static void validationEtape4() {
-        // Test de validation avec 4 trajets indirects
-        String[] args = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "100", "-form", "RZ", "-ti", "5", "0.5",
-                "30", "0.3", "39", "0.211"};
+        // Test de validation avec 3 trajets indirects
+        String[] args = {"-s",
+                "-seed", "123",
+                "-snr", "20",
+                "-nbEch", "100",
+                "-form", "RZ",
+                "-ti", "5", "0.5", "30", "0.3", "39", "0.211"};
         try {
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args));
             Simulateur simulateur = new Simulateur(args);
             simulateur.execute();
         }
@@ -69,7 +74,7 @@ public class ValidationTests {
         // Prepare options
         final Options options = configParameters();
         final CommandLineParser parser = new DefaultParser();
-        CommandLine commandLine = null;
+        CommandLine commandLine;
 
         // Parse the options
         try {
@@ -108,30 +113,23 @@ public class ValidationTests {
     public static void main(String[] args) throws ArgumentsException {
         analyseArgument(args);
 
+        System.out.println("Lancement de l'étape : " + numEtape);
 
-
-        if (!argsE){
-            validationEtape1();
-            validationEtape2();
-            validationEtape3();
-        }
-        else {
-            switch (numEtape) {
-                case "1":
-                    validationEtape1();
-                    break;
-                case "2":
-                    validationEtape2();
-                    break;
-                case "3":
-                    validationEtape3();
-                    break;
-                case "4":
-                    validationEtape4();
-                    break;
-                default:
-                    throw new ArgumentsException("Etape non valide");
-            }
+        switch (numEtape) {
+            case "1":
+                validationEtape1();
+                break;
+            case "2":
+                validationEtape2();
+                break;
+            case "3":
+                validationEtape3();
+                break;
+            case "4":
+                validationEtape4();
+                break;
+            default:
+                throw new ArgumentsException("Etape non valide");
         }
     }
 }
