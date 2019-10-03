@@ -127,4 +127,11 @@ public class Information<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return content.iterator();
     }
+    /**FIX ME
+     * convertir le linkedlist en tableau
+     * @return
+     */
+	public T[] getArray() {
+		return (T[]) content.toArray();
+	}
 }
