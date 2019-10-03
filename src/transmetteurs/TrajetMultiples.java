@@ -1,3 +1,4 @@
+		SondeAnalogique sonde=new SondeAnalogique("testinfoFloat ");
 package transmetteurs;
 
 import destinations.DestinationInterface;
