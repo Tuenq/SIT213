@@ -380,7 +380,7 @@ public class Simulateur {
                 if (decalageTemporel[i] < 0) {
                     throw new ArgumentsException("Signal non causal : le decalage (en nombre d'échantillons) ne peut pas etre inferieur à 0 : " + decalageTemporel[i]);
                 }
-                else if (decalageTemporel[i] > nombreEchantillon) {
+                else if (decalageTemporel[i] > nombreEchantillon && !commandLine.hasOption("mute")) {
                     System.out.println("\n****************************************************************************************************************************************************************\n" +
                             "WARNING : le decalage du "+ (int)(i+1) +"eme trajet multiple est important: " + decalageTemporel[i]  +" cela risque d'entrainer un risque d'erreurs important" +
                             "\n****************************************************************************************************************************************************************\n");
