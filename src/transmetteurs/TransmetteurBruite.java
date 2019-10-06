@@ -4,7 +4,6 @@ import bruit.*;
 import communs.*;
 import destinations.DestinationInterface;
 import information.*;
-import visualisations.SondeHistogramme;
 
 public class TransmetteurBruite extends Transmetteur<Float,Float> {
 

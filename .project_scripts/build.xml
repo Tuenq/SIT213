@@ -119,7 +119,7 @@
             </classpath>
             <formatter type="brief" usefile="false" />
             <batchtest>
-                <fileset dir="${source.test.dir}" includes="SimulateurTest.java" />
+                <fileset dir="${source.test.dir}"/>
             </batchtest>
         </junit>
     </target>

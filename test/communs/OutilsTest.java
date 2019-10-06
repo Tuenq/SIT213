@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class OutilsTest {
-
     @Test
     public void booleanDistance_limite_haute_nominal() {
         // Arrange
@@ -47,5 +46,4 @@ public class OutilsTest {
         // Assert
         assertEquals(expected_value, actual_value);
     }
-
 }

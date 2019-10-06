@@ -31,8 +31,4 @@ public class SourceFixeTest {
         Information<Boolean> actualMessage = source.informationEmise;
         Assert.assertEquals(expectedMessage, actualMessage);
     }
-    
-//    public static void main (String[] args) {
-//    	emettreNominal();
-//    }
 }
