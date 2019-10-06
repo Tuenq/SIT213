@@ -53,8 +53,6 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
      */
     @Override
     public void emettre() throws InformationNonConforme {
-        for (DestinationInterface<Float> destination : destinationsConnectees) {
-        	destination.recevoir(informationEmise);
-        }
+
     }
 }

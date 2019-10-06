@@ -28,7 +28,7 @@ public  abstract class Destination <T> implements DestinationInterface <T> {
      * @return une information   
      */
     public Information  <T>  getInformationRecue() {
-	return this.informationRecue;
+	    return this.informationRecue;
     }
    	    
     /**
