@@ -1,5 +1,7 @@
 import org.apache.commons.cli.*;
 
+import java.util.Scanner;
+
 public class ValidationTests {
 
     private static boolean argsE = false;
@@ -12,6 +14,7 @@ public class ValidationTests {
         try {
             Simulateur simulateur = new Simulateur(args1);
             simulateur.execute();
+
 
             simulateur = new Simulateur(args2);
             simulateur.execute();
@@ -113,20 +116,38 @@ public class ValidationTests {
     public static void main(String[] args) throws ArgumentsException {
         analyseArgument(args);
 
+        Scanner scanner = new Scanner(System.in);
+
+        Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            @Override
+            public void run()
+            {
+                for (int i = 0 ; i < 10 ; i++) {
+                    String[] args2 = {"-s", "-seed", "123"};
+                    Simulateur.main(args2);
+
+                    args2 = new String[]{"-s", "-seed", "123"};
+                    Simulateur.main(args2);
+                    System.out.println();
+                }
+            }
+        });
+
         System.out.println("Lancement de l'étape : " + numEtape);
 
         switch (numEtape) {
             case "1":
-                validationEtape1();
+                //validationEtape1();
                 break;
             case "2":
-                validationEtape2();
+                //validationEtape2();
                 break;
             case "3":
-                validationEtape3();
+                //validationEtape3();
                 break;
             case "4":
-                validationEtape4();
+                //validationEtape4();
                 break;
             default:
                 throw new ArgumentsException("Etape non valide");

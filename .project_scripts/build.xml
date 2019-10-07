@@ -129,11 +129,164 @@
     <target name="runValidationTest" depends="compileTest"
             description="--> Run validation test">
         <echo>=====Run validation tests=====</echo>
-        <echo>==========>Start Step 4 validation</echo>
-        <java dir="${source.build.test.dir}" classname="ValidationTests" fork="true">
+        <echo>==========>Start Step 1 validation</echo>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <classpath refid="classpath.test"/>
-            <arg value="-e"/><arg value="4"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="0100100100111"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="123"/>
+        </java>
+        <echo>==========>Start Step 2 validation</echo>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="123"/>
+            <arg value="-form"/><arg value="RZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-ampl"/><arg value="0"/><arg value="1"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="70"/>
+            <arg value="-seed"/><arg value="1897"/>
+            <arg value="-form"/><arg value="NRZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="120"/>
+            <arg value="-seed"/><arg value="12375675"/>
+            <arg value="-form"/><arg value="NRZT"/>
+            <arg value="-nbEch"/><arg value="30"/>
+        </java>
+        <echo>==========>Start Step 3 validation</echo>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="1233231"/>
+            <arg value="-form"/><arg value="RZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="1"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="200"/>
+            <arg value="-seed"/><arg value="12323"/>
+            <arg value="-form"/><arg value="NRZT"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="100"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="220"/>
+            <arg value="-seed"/><arg value="123653"/>
+            <arg value="-form"/><arg value="NRZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="0"/>
+        </java>
+        <echo>==========>Start Step 4 validation</echo>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="1233231"/>
+            <arg value="-form"/><arg value="RZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-ti"/><arg value="5"/><arg value="0.3"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="5762"/>
+            <arg value="-form"/><arg value="NRZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-ti"/><arg value="7"/><arg value="0.8"/>
+            <arg value="-ti"/><arg value="17"/><arg value="0.3"/>
+            <arg value="-ti"/><arg value="29"/><arg value="0.4"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="500"/>
+            <arg value="-seed"/><arg value="57562"/>
+            <arg value="-form"/><arg value="NRZT"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-ti"/><arg value="7"/><arg value="0.8"/>
+            <arg value="-ti"/><arg value="14"/><arg value="0.3"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="250"/>
+            <arg value="-seed"/><arg value="57545"/>
+            <arg value="-form"/><arg value="RZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="1"/>
+            <arg value="-ti"/><arg value="13"/><arg value="0.8"/>
+            <arg value="-ti"/><arg value="19"/><arg value="0.3"/>
+        </java>
+        <echo>==========>Start Step 5 validation</echo>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="1233231"/>
+            <arg value="-form"/><arg value="RZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-codeur"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="12431"/>
+            <arg value="-form"/><arg value="NRZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-codeur"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="20"/>
+            <arg value="-seed"/><arg value="231"/>
+            <arg value="-form"/><arg value="NRZT"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-codeur"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="50"/>
+            <arg value="-seed"/><arg value="1233231"/>
+            <arg value="-form"/><arg value="RZ"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-ti"/><arg value="7"/><arg value="0.8"/>
+            <arg value="-ti"/><arg value="19"/><arg value="0.2"/>
+            <arg value="-codeur"/>
+        </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mess"/><arg value="70"/>
+            <arg value="-seed"/><arg value="153231"/>
+            <arg value="-form"/><arg value="NRZT"/>
+            <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="2"/>
+            <arg value="-ti"/><arg value="13"/><arg value="0.7"/>
+            <arg value="-ti"/><arg value="19"/><arg value="0.2"/>
+            <arg value="-codeur"/>
         </java>
 <!--        <echo>==========>Start RZ validation</echo>-->
 <!--        <java dir="${source.build.test.dir}" classname="ValidationTEBvsSNR" fork="true">-->
