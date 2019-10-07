@@ -23,11 +23,8 @@ public class BruitGaussien {
     }
 
     private float genererEchantillon(float ecartType) {
-        double pa1 = -2.0f * Math.log(1.0f - uniformLaw.nextFloat());
-        double pa2 = Math.cos(2.0f * Math.PI * uniformLaw.nextFloat());
-
-        double data = ecartType * Math.sqrt(pa1) * pa2;
-        return (float) data;
+        float data = (float) (uniformLaw.nextGaussian()*ecartType);
+        return data;
     }
 
     public void initialiser(float ecartType, int size) {

@@ -100,7 +100,10 @@ public class Simulateur {
      * Boolean si le TEB doit être enregistré dans un fichier csv
      */
     private Boolean csv = false;
-
+    /**
+     * Renseigne si les signaux trajets multiples doivent �tre affich�s
+     */
+    boolean atm = false;
     /**
      * String définissant dans quel fichier csv il faut ajouter le TEB
      */
@@ -197,8 +200,11 @@ public class Simulateur {
         }
         else transmetteur = new TransmetteurParfait<>();
 
-        if (trajetMultiple)
-            transmetteurTM = new TransmetteurTrajetMultiples(amplitudeRelative, decalageTemporel);
+        if (trajetMultiple) {
+        	transmetteurTM = new TransmetteurTrajetMultiples(amplitudeRelative, decalageTemporel);
+        	if(atm)
+        		((TransmetteurTrajetMultiples) transmetteurTM).afficherTrajetsIndirects();
+        	}
         else
             transmetteurTM = new TransmetteurParfait<>();
 
@@ -346,16 +352,14 @@ public class Simulateur {
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-            if (signalNoiseRatio < 0.0f) {
-                throw new ArgumentsException("Valeur du parametre -snr inferieure ou egale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est superieure a la puissance du signal)");
-            }
-            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
+            if (signalNoiseRatio < -5f && !commandLine.hasOption("mute")) {
                 System.out.println("\n****************************************************************************************************************************************************************\n" +
-                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 100." +
+                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 5." +
                         "\n****************************************************************************************************************************************************************\n");
             }
         }
-
+        // <----- OPTIONS ETAPE 4 -----> //
+        
         trajetMultiple = commandLine.hasOption("ti");
         if (trajetMultiple) {
             String[] optionsValues = commandLine.getOptionValues("ti");
@@ -396,8 +400,13 @@ public class Simulateur {
 
         // <----- OPTIONS PERSO -----> //
 
+        
+        atm = commandLine.hasOption("atm");
+        if (commandLine.hasOption("csv")){
+            atm = true;
+        }
+        
         csv = commandLine.hasOption("csv");
-
         if (commandLine.hasOption("csv")){
             csvFile = commandLine.getOptionValue("csv");
         }
@@ -497,6 +506,11 @@ public class Simulateur {
                 .argName("csv")
                 .build();
 
+        final Option atmOption = Option.builder("atm")
+                .desc("Permet d'afficher les signaux trajet multiple")
+                .argName("atm")
+                .build();
+
 
         // <----- CONCATENATE OPTIONS -----> //
 
@@ -518,7 +532,8 @@ public class Simulateur {
         options.addOption(trajetIndirectOption);
         // <----- OPTIONS PERSO -----> //
         options.addOption(csvOption);
-
+        options.addOption(atmOption);
+        
         return options;
     }
 
