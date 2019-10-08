@@ -303,7 +303,7 @@
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-snr"/><arg value="2"/>
-            <arg value="-ti"/><arg value="13"/><arg value="0.7"/>><arg value="19"/><arg value="0.2"/>
+            <arg value="-ti"/><arg value="13"/><arg value="0.7"/><arg value="19"/><arg value="0.2"/>
             <arg value="-codeur"/>
         </java>
 <!--        <echo>==========>Start Gaussian noise validation</echo>-->
