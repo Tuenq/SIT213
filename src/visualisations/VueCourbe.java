@@ -20,9 +20,8 @@ public class VueCourbe  extends Vue {
     private float yMin = 0;
    	
    	
-    public  VueCourbe (boolean [] valeurs, int nbPixels, String nom) {   
-       
-	super(nom); 
+    public VueCourbe (boolean [] valeurs, int nbPixels, String nom) {
+	super(nom);
       	
 	int xPosition = Vue.getXPosition();
 	int yPosition = Vue.getYPosition();

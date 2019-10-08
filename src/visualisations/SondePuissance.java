@@ -18,13 +18,18 @@ public class SondePuissance extends Sonde <Float> {
     }
    	 
     public void recevoir (Information <Float> information) { 
-	informationRecue = information;
-	int nbElements = information.nbElements();
-	Double puissance = 0.0;
-	for (int i = 0; i < nbElements; i++) {
-            puissance +=  information.iemeElement(i) *  information.iemeElement(i);
-	}
-	puissance = puissance / nbElements;
-	new VueValeur (puissance,  nom); 
+		informationRecue = information;
+		int nbElements = information.nbElements();
+		Double puissance = 0.0;
+		for (int i = 0; i < nbElements; i++) {
+				puissance +=  information.iemeElement(i) *  information.iemeElement(i);
+		}
+		puissance = puissance / nbElements;
+
+		try {
+			new VueValeur (puissance,  nom);
+		} catch (java.awt.HeadlessException e) {
+			System.out.println("<NO X WINDOW>");
+		}
     }
 }

@@ -18,7 +18,7 @@ public class SondeTextuelle <T> extends Sonde <T> {
     }
    
     public void recevoir (Information <T> information) { 		 		 	
-	informationRecue = information;
-	System.out.println(nom + " : " + information);
+        informationRecue = information;
+        System.out.println(nom + " : " + information);
     }
 }

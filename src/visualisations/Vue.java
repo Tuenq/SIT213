@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.geom.*;
 import java.lang.*;
 
-public class Vue extends JFrame{
+public class Vue extends JFrame {
     private static LinkedList<Vue> lesVues=new LinkedList<Vue>();
     private static final long serialVersionUID = 1917L;
     
@@ -31,21 +31,21 @@ public class Vue extends JFrame{
     }  
    	
    
-    public  Vue (String nom) {          
-	super(nom);
-	lesVues.add(this);
-    }
-    public static void resetPosition(){
-	yPosition = 0;
-    }
-    public static void setXPosition(int x){
-	xPosition = x;
-    }
-    public static void kill(){
-	for(Vue v:lesVues)
-	    v.dispose();
-	lesVues.clear();
-	resetPosition();
+    public Vue (String nom) {
+        super(nom);
+        lesVues.add(this);
+        }
+        public static void resetPosition(){
+        yPosition = 0;
+        }
+        public static void setXPosition(int x){
+        xPosition = x;
+        }
+        public static void kill(){
+        for(Vue v:lesVues)
+            v.dispose();
+        lesVues.clear();
+        resetPosition();
     }
    
 }

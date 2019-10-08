@@ -36,6 +36,10 @@ public class SondeLogique extends Sonde<Boolean> {
             table[i] = b;
             i++;
         }
-        new VueCourbe(table, nbPixels, nom);
+        try {
+            new VueCourbe(table, nbPixels, nom);
+        } catch (java.awt.HeadlessException e) {
+            System.out.println("<NO X WINDOW>");
+        }
     }
 }

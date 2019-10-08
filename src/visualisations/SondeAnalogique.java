@@ -26,6 +26,10 @@ public class SondeAnalogique extends Sonde <Float> {
 				table[i] = f;
 				i++;
 		}
-		new VueCourbe(table, nom);
+		try {
+			new VueCourbe(table, nom);
+		} catch (java.awt.HeadlessException e) {
+			System.out.println("<NO X WINDOW>");
+		}
     }
 }
