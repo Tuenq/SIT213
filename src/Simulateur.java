@@ -31,6 +31,11 @@ public class Simulateur {
      */
     private boolean affichageAide = false;
 
+    /**
+     * Renseigne si les signaux trajets multiples doivent �tre affich�s
+     */
+    private boolean affichageTrajetMultiple = false;
+
     // <----- OPTIONS ETAPE 1 -----> //
 
     /**
@@ -309,6 +314,9 @@ public class Simulateur {
                 transmetteurTrajetMultiple.connecter(sonde_trajetMultiple);
                 Sonde sonde_bruite = new SondeAnalogique("Canal [Transmetteur bruité]");
                 transmetteurBruite.connecter(sonde_bruite);
+
+                if (affichageTrajetMultiple)
+                    ((TransmetteurTrajetMultiples) transmetteurTrajetMultiple).afficher();
             }
         }
 
@@ -353,6 +361,8 @@ public class Simulateur {
         csv = commandLine.hasOption("csv");
         if (csv)
             csvFile = commandLine.getOptionValue("csv");
+
+        affichageTrajetMultiple = commandLine.hasOption("atm");
 
         mute = commandLine.hasOption("mute");
 
@@ -411,7 +421,7 @@ public class Simulateur {
                 throw new ArgumentsException("Valeur du parametre -nbEch inférieure ou égale à 0 : " + nombreEchantillon);
             else if (nombreEchantillon < 30 && !mute)
                 System.out.println("\n*************************************************************************************************************************************************\n" +
-                        "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal. Nous vous conseillons 100 échantillons" +
+                        "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal. Nous vous conseillons 15 échantillons minimum" +
                         "\n*************************************************************************************************************************************************\n");
             transmissionAnalogique = true;  // Enable analog transmission
         }
@@ -441,7 +451,7 @@ public class Simulateur {
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-            if (ratioSignalSurBruit < 20f && !mute) {
+            if (ratioSignalSurBruit < -5f && !mute) {
                 System.out.println("\n****************************************************************************************************************************************************************\n" +
                         "WARNING : la Valeur du parametre -snr est faible : " + ratioSignalSurBruit +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 100." +
                         "\n****************************************************************************************************************************************************************\n");
@@ -596,6 +606,10 @@ public class Simulateur {
                 .argName("csv")
                 .build();
 
+        final Option atmOption = Option.builder("atm")
+                .desc("Permet d'afficher les signaux trajet multiple")
+                .argName("atm")
+                .build();
 
         // <----- CONCATENATE OPTIONS -----> //
 
@@ -619,6 +633,7 @@ public class Simulateur {
         options.addOption(codeurOption);
         // <----- OPTIONS PERSO -----> //
         options.addOption(csvOption);
+        options.addOption(atmOption);
 
         return options;
     }

@@ -6,12 +6,13 @@
 		import visualisations.SondeAnalogique;
 		
 		public class TransmetteurTrajetMultiples extends Transmetteur<Float,Float>{
-		
-			int nombreTrajet=0;
-			Float[] amplitude;
-			int[] retard;
-			Information<Information<Float>> infoTrajetsIndirects=new Information<Information<Float>>();
-			
+
+			private int[] retard;
+			private int nombreTrajet;
+			private Float[] amplitude;
+			private boolean afficherTrajetsIndirects = false;
+
+
 			public TransmetteurTrajetMultiples(int[] retard, Float[] amplitude) {
 				nombreTrajet=amplitude.length;
 				this.amplitude=amplitude;
@@ -33,7 +34,7 @@
 				
 			}
 			
-			private Information<Float> genererSignalTrajetMultiple(){
+			private void genererSignalTrajetMultiple(){
 
 				Float[] signalTrajetDirect = informationRecue.getArray();
 				Float[] signalPrecedent = signalTrajetDirect;
@@ -70,29 +71,26 @@
 					
 					for(int j=0; j<signalPrecedent.length; j++) 
 						signalGenere[j] = signalPrecedent[j] + signalAttenueRetarde[j];
-						
-					for(int j=signalPrecedent.length; j<signalTrajetDirect.length + retard[i];j++) 
-						signalGenere[j] = signalAttenueRetarde[j-retard[i]];
+
+					if (signalAttenueRetarde.length - signalPrecedent.length >= 0)
+						System.arraycopy(signalAttenueRetarde, signalPrecedent.length, signalGenere, signalPrecedent.length, signalAttenueRetarde.length - signalPrecedent.length);
 					
-					infoTrajetsIndirects.add(new Information<>(signalAttenueRetarde));
 					signalPrecedent=signalGenere;
-		
+
+					if(afficherTrajetsIndirects) {
+						SondeAnalogique sonde=new SondeAnalogique(" signal trajet indirect " + (i+1));
+						sonde.recevoir(new Information<>(signalAttenueRetarde));
+					}
 				}
 			
 				informationEmise=new Information<>(signalPrecedent);
-				return informationEmise;
 			}
 		
 			/**
 			 * Affichage des signaux de trajets indirects
 			 */
-			public void afficherTrajetsIndirects() {
-
-				int numeroTrajet=1;
-				for(Information<Float> trajetIndirect : infoTrajetsIndirects) {
-				SondeAnalogique sonde=new SondeAnalogique(" signal du trajet " +  numeroTrajet++);
-				sonde.recevoir(trajetIndirect);
-				}
+			public void afficher() {
+				afficherTrajetsIndirects = true;
 			}
 
 		}

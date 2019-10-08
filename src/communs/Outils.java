@@ -28,7 +28,7 @@ public class Outils {
     }
 
     public static float ecartType(float puissanceMoyenne, float snr) {
-        double denom = 2f * Math.exp(snr / 10f);
+        double denom = Math.pow(10, snr / 10f);
         return (float) Math.sqrt(puissanceMoyenne / denom);
     }
 
