@@ -178,7 +178,7 @@
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-            <arg value="-snr"/><arg value="1"/>
+            <arg value="-snr"/><arg value="0"/>
         </java>
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
@@ -189,7 +189,7 @@
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-            <arg value="-snr"/><arg value="100"/>
+            <arg value="-snr"/><arg value="10"/>
         </java>
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
@@ -200,7 +200,7 @@
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-            <arg value="-snr"/><arg value="0"/>
+            <arg value="-snr"/><arg value="-10"/>
         </java>
         <echo>==========>Start Step 4 validation</echo>
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
@@ -244,7 +244,7 @@
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
             <arg value="-nbEch"/><arg value="30"/>
-            <arg value="-snr"/><arg value="1"/>
+            <arg value="-snr"/><arg value="2"/>
             <arg value="-ti"/><arg value="15"/><arg value="0.8"/><arg value="20"/><arg value="0.3"/>
         </java>
         <echo>==========>Start Step 5 validation</echo>
