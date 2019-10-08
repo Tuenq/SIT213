@@ -228,7 +228,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="70"/>
+            <arg value="-mess"/><arg value="50"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
@@ -239,7 +239,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="80"/>
+            <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
@@ -252,7 +252,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="20"/>
+            <arg value="-mess"/><arg value="10"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
@@ -263,7 +263,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="20"/>
+            <arg value="-mess"/><arg value="10"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
@@ -274,7 +274,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="20"/>
+            <arg value="-mess"/><arg value="10"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
@@ -285,7 +285,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="50"/>
+            <arg value="-mess"/><arg value="10"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
@@ -297,7 +297,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="70"/>
+            <arg value="-mess"/><arg value="10"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
