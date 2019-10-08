@@ -12,7 +12,7 @@
 			int[] retard;
 			Information<Information<Float>> infoTrajetsIndirects=new Information<Information<Float>>();
 			
-			public TransmetteurTrajetMultiples(Float[] amplitude, int[] retard) {
+			public TransmetteurTrajetMultiples(int[] retard, Float[] amplitude) {
 				nombreTrajet=amplitude.length;
 				this.amplitude=amplitude;
 				this.retard=retard;

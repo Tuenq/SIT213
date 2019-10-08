@@ -1,4 +1,6 @@
 import communs.Outils;
+import convertisseurs.CodeurCanal;
+import convertisseurs.DecodeurCanal;
 import convertisseurs.Emetteur;
 import convertisseurs.Recepteur;
 import org.apache.commons.cli.*;
@@ -6,8 +8,7 @@ import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
-import filtres.*;
-import filtres.Filtre.encoders;
+import filtres.Filtre.miseEnForme;
 
 import information.*;
 import visualisations.*;
@@ -44,11 +45,11 @@ public class Simulateur {
      * indique si le Simulateur utilise un germe pour initialiser les générateurs
      * aléatoires
      */
-    private boolean aleatoireAvecGerme = false;
+    private boolean germeAleatoire = false;
     /**
      * la valeur de la semence utilisée pour les générateurs aléatoires
      */
-    private Integer seed = null;
+    private Integer germeAleatoireValeur = null;
     /**
      * la longueur du message aléatoire à transmettre si un message n'est pas impose
      */
@@ -56,14 +57,17 @@ public class Simulateur {
     /**
      * la chaîne de caractères correspondant à m dans l'argument -mess m
      */
-    private String messageString = "100";
+    private String messageFixeValeur = "100";
+    private InformationBooleen informationFixeValeur = null;
 
     // <----- OPTIONS ETAPE 2 -----> //
+
+    private boolean transmissionAnalogique = false;
 
     /**
      * La forme d'onde par défaut (initialisée par -form)
      */
-    private encoders formeOnde = encoders.RZ;
+    private miseEnForme formeOnde = miseEnForme.RZ;
     /**
      * Le nombre d'échantillons par bit (initialisée par -nbEch) avec comme valeur par défaut = 30
      */
@@ -82,11 +86,11 @@ public class Simulateur {
     /**
      * Ratio signal/bruit utilisé pour la génération du bruit
      */
-    private Float signalNoiseRatio = 20.0f;
+    private Float ratioSignalSurBruit = 20.0f;
     /**
      * Boolean si le canal est bruité ou non
      */
-    private Boolean snr = false;
+    private Boolean bruite = false;
 
     // <----- OPTIONS ETAPE 4 -----> //
 
@@ -94,12 +98,18 @@ public class Simulateur {
     private int[] decalageTemporel;
     private Float[] amplitudeRelative;
 
+    // <----- OPTIONS ETAPE 5 -----> //
+
+    private boolean codageCanal = false;
+
     // <----- OPTIONS PERSO -----> //
+
+    private boolean mute = false;
 
     /**
      * Boolean si le TEB doit être enregistré dans un fichier csv
      */
-    private Boolean csv = false;
+    private boolean csv = false;
 
     /**
      * String définissant dans quel fichier csv il faut ajouter le TEB
@@ -113,27 +123,34 @@ public class Simulateur {
      */
     private Source<Boolean> source = null;
     /**
-     * Codeur permettant de transformer l'information analogique dans la forme d'onde spécifiée
-     */
-    private Filtre filtre = null;
-    /**
-     * le composant Emetteur de la chaine de transmission
-     */
-    private Emetteur emetteur = null;
-    /**
-     * le composant Transmetteur de la chaine de transmission
-     */
-    private Transmetteur<Float,Float> transmetteur = null;
-    private Transmetteur<Float,Float> transmetteurTM = null;
-    /**
-     * le composant Recepteur de la chaine de transmission
-     */
-    private Recepteur recepteur = null;
-    /**
      * le composant Destination de la chaine de transmission
      */
     private Destination<Boolean> destination = null;
-   
+
+    /**
+     * TODO: Add javadoc
+     */
+    private Transmetteur codeur = null;
+    /**
+     * TODO: Add javadoc
+     */
+    private Transmetteur decodeur = null;
+
+    /**
+     * le composant Emetteur de la chaine de transmission
+     */
+    private Transmetteur emetteur = null;
+    /**
+     * le composant Recepteur de la chaine de transmission
+     */
+    private Transmetteur recepteur = null;
+
+    /**
+     * le composant Transmetteur de la chaine de transmission
+     */
+    private Transmetteur transmetteur = null;
+    private Transmetteur transmetteurBruite = null;
+    private Transmetteur transmetteurTrajetMultiple = null;
 
     /**
      * Le constructeur de Simulateur construit une chaîne de transmission composée
@@ -151,87 +168,151 @@ public class Simulateur {
         simulation();
     }
 
-    private void simulation() throws ArgumentsException {
+    @SuppressWarnings("unchecked")
+    private void simulation() {
 
-        // Configuration de la SOURCE ALEATOIRE|FIXE
+        // region =====[CONFIGURATION SOURCE/DESTINATION]=====
+
         if (messageAleatoire) {
-            if (aleatoireAvecGerme)
-                source = new SourceAleatoire(nbBitsMess, seed);
+            if (germeAleatoire)
+                source = new SourceAleatoire(nbBitsMess, germeAleatoireValeur);
             else
                 source = new SourceAleatoire(nbBitsMess);
-        }
-        else {
-            try {
-                source = new SourceFixe(Information.stringToBoolean(messageString));
-            }
-            catch (InformationNonConforme exception) {
-                throw new ArgumentsException(exception.toString());
-            }
+        } else {
+            source = new SourceFixe(informationFixeValeur);
         }
 
-        // Configuration du filtre
-        switch (formeOnde) {
-            case RZ:
-                filtre = new FiltreRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
-                break;
-
-            case NRZ:
-                filtre = new FiltreNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
-                break;
-
-            case NRZT:
-                filtre = new FiltreNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
-                break;
-        }
-
-        // Configuration d'emetteur
-        emetteur = new Emetteur(filtre);
-
-        //Configuration des transmetteur
-        if (snr){
-            // Configuration du TRANSMETTEUR BRUITE
-            if (aleatoireAvecGerme)
-                transmetteur = new TransmetteurBruite(signalNoiseRatio, seed);
-            else
-                transmetteur = new TransmetteurBruite(signalNoiseRatio);
-        }
-        else transmetteur = new TransmetteurParfait<>();
-
-        if (trajetMultiple)
-            transmetteurTM = new TransmetteurTrajetMultiples(amplitudeRelative, decalageTemporel);
-        else
-            transmetteurTM = new TransmetteurParfait<>();
-
-        //Configuration de recepteur
-        recepteur = new Recepteur(filtre);
-
-        // Configuration de la DESTINATION
         destination = new DestinationFinale();
 
-        // Connexion des composants
-        source.connecter(emetteur);
-        emetteur.connecter(transmetteurTM);
-        transmetteurTM.connecter(transmetteur);
-        transmetteur.connecter(recepteur);
-        recepteur.connecter(destination);
+        // endregion
+
+        // region =====[CONFIGURATION CODAGE DE CANAL : Codeur/Décodeur]=====
+
+        if (codageCanal) {
+            codeur = new CodeurCanal();
+            decodeur = new DecodeurCanal();
+        } else {
+            codeur = new TransmetteurParfait<Boolean>();
+            decodeur = new TransmetteurParfait<Boolean>();
+        }
+
+        // endregion
+
+        // region =====[CONFIGURATION TRANSMISSION ANALOGIQUE - CONVERTISSEUR]=====
+
+        if (transmissionAnalogique) {
+            emetteur = new Emetteur(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
+            recepteur = new Recepteur(nombreEchantillon);  // TODO: MOVE filtreAdapte TO recepteur
+        }
+
+        // endregion
+
+        // region =====[CONFIGURATION TRANSMISSION ANALOGIQUE - CANAL]=====
+
+        if (transmissionAnalogique) {
+            if (trajetMultiple) {
+                transmetteurTrajetMultiple = new TransmetteurTrajetMultiples(decalageTemporel, amplitudeRelative);
+            } else {
+                transmetteurTrajetMultiple = new TransmetteurParfait<>();
+            }
+
+            if (bruite) {
+                if (germeAleatoire)
+                    transmetteurBruite = new TransmetteurBruite(ratioSignalSurBruit, germeAleatoireValeur);
+                else
+                    transmetteurBruite = new TransmetteurBruite(ratioSignalSurBruit);
+            } else {
+                transmetteurBruite = new TransmetteurParfait<>();
+            }
+        } else {
+            transmetteur = new TransmetteurParfait();
+        }
+
+        // endregion
+
+
+        // region =====[CONNEXION CHAINE DE TRANSMISSION]=====
+
+        /* GESTION DE LA SOURCE */
+        if (codageCanal) {                      // Codage de canal activé
+            source.connecter(codeur);
+        } else if (transmissionAnalogique) {    // Transmission analogique activée
+            source.connecter(emetteur);
+        } else {                                // Transmission logique par défaut
+            source.connecter(transmetteur);
+        }
+
+        /* GESTION DU CODEUR */
+        if (codageCanal && transmissionAnalogique)  // Codage de canal actif transmis au convertisseur analogique
+            codeur.connecter(emetteur);
+        else if (codageCanal)
+            codeur.connecter(transmetteur);         // Codage de canal actif transmis au canal logique
+
+        /* GESTION DE L'EMETTEUR */
+        if (transmissionAnalogique) {
+            emetteur.connecter(transmetteurTrajetMultiple);
+        }
+
+        /* GESTION DU CANAL */
+        if (transmissionAnalogique) {
+            transmetteurTrajetMultiple.connecter(transmetteurBruite);
+            transmetteurBruite.connecter(recepteur);
+        } else {
+            if (codageCanal)
+                transmetteur.connecter(decodeur);
+            else
+                transmetteur.connecter(destination);
+        }
+
+        /* GESTION DU RECEPTEUR*/
+        if (codageCanal && transmissionAnalogique) {
+            recepteur.connecter(decodeur);
+        } else if (transmissionAnalogique) {
+            recepteur.connecter(destination);
+        }
+
+        /* GESTION DU DECODEUR */
+        if (codageCanal)
+            decodeur.connecter(destination);
+
+        // endregion
+
+        // region =====[CONNEXION SONDES]=====
 
         if (affichage) {
-            // Ajout des SONDES LOGIQUES
+            // -----> Ajout des SONDES LOGIQUES
             Sonde<Boolean> sonde_entree = new SondeLogique("Entrée du système", nombreEchantillon);
             source.connecter(sonde_entree);
-            Sonde<Boolean> sonde_sortie = new SondeLogique("Sortie du système", nombreEchantillon);
-            recepteur.connecter(sonde_sortie);
-            // Ajout des SONDES ANALOGIQUES
-            Sonde<Float> sonde_emission = new SondeAnalogique("Emission du système");
-            emetteur.connecter(sonde_emission);
-            Sonde<Float> sonde_reception = new SondeAnalogique("Réception du système");
-            transmetteur.connecter(sonde_reception);
-            // Ajout des SONDES PUISSANCES
-            Sonde<Float> sonde_emission_p = new SondePuissance("Emission du système - Puisance");
-            emetteur.connecter(sonde_emission_p);
-            Sonde<Float> sonde_reception_p = new SondePuissance("Réception du système - Puisance");
-            transmetteur.connecter(sonde_reception_p);
+
+            if (codageCanal) {
+                Sonde<Boolean> sonde_codage = new SondeLogique("Codage de l'entrée du système", nombreEchantillon);
+                codeur.connecter(sonde_codage);
+
+                Sonde<Boolean> sonde_decodage = new SondeLogique("Décodage de la sortie du système", nombreEchantillon);
+                decodeur.connecter(sonde_decodage);
+            }
+
+            if (transmissionAnalogique) {
+                Sonde sonde_sortie = new SondeLogique("Sortie du système [Chaîne analogique]", nombreEchantillon);
+                recepteur.connecter(sonde_sortie);
+            } else {
+                Sonde sonde_sortie = new SondeLogique("Sortie du système [Chaîne logique]", nombreEchantillon);
+                transmetteur.connecter(sonde_sortie);
+            }
+
+            // -----> Ajout des SONDES ANALOGIQUES
+            if (transmissionAnalogique) {
+                Sonde sonde_emission = new SondeAnalogique("Emission du système");
+                emetteur.connecter(sonde_emission);
+
+                Sonde sonde_trajetMultiple = new SondeAnalogique("Canal [Transmetteur trajet multiple]");
+                transmetteurTrajetMultiple.connecter(sonde_trajetMultiple);
+                Sonde sonde_bruite = new SondeAnalogique("Canal [Transmetteur bruité]");
+                transmetteurBruite.connecter(sonde_bruite);
+            }
         }
+
+        // endregion
     }
 
     /**
@@ -267,42 +348,56 @@ public class Simulateur {
             return;
         }
 
+        // <----- OPTIONS PERSONALISE -----> //
+
+        csv = commandLine.hasOption("csv");
+        if (csv)
+            csvFile = commandLine.getOptionValue("csv");
+
+        mute = commandLine.hasOption("mute");
+
         // <----- OPTIONS ETAPE 1 -----> //
 
         affichage = commandLine.hasOption("s");
 
-        aleatoireAvecGerme = commandLine.hasOption("seed");
-        if (aleatoireAvecGerme) {
+        germeAleatoire = commandLine.hasOption("seed");
+        if (germeAleatoire) {
             try {
-                seed = Integer.parseInt(commandLine.getOptionValue("seed"));
+                germeAleatoireValeur = Integer.parseInt(commandLine.getOptionValue("seed"));
             } catch (Exception e) {
                 throw new ArgumentsException("Valeur du parametre -seed  invalide :" + commandLine.getOptionValue("seed"));
             }
         }
 
         if (commandLine.hasOption("mess")) {
-            messageString = commandLine.getOptionValue("mess");
-            if (messageString.matches("[0-1]{7,}")) {
+            messageFixeValeur = commandLine.getOptionValue("mess");
+            if (messageFixeValeur.matches("[0-1]{7,}")) {
                 messageAleatoire = false;
-                nbBitsMess = messageString.length();
+                nbBitsMess = messageFixeValeur.length();
+                try {
+                     informationFixeValeur = new InformationBooleen(messageFixeValeur);
+                } catch (InformationNonConforme e) {
+                    throw new ArgumentsException("Exception levé durant la transformation String->Info<Boolean> : " + e.toString());
+                }
             }
-            else if (messageString.matches("[0-9]{1,6}")) {
+            else if (messageFixeValeur.matches("[0-9]{1,6}")) {
                 messageAleatoire = true;
-                nbBitsMess = Integer.parseInt(messageString);
+                nbBitsMess = Integer.parseInt(messageFixeValeur);
                 if (nbBitsMess < 1)
                     throw new ArgumentsException("Valeur du parametre -mess invalide : " + nbBitsMess);
             } else
-                throw new ArgumentsException("Valeur du parametre -mess invalide : " + messageString);
+                throw new ArgumentsException("Valeur du parametre -mess invalide : " + messageFixeValeur);
         }
 
         // <----- OPTIONS ETAPE 2 -----> //
 
         if (commandLine.hasOption("form")) {
             try {
-                formeOnde = encoders.valueOf(commandLine.getOptionValue("form"));
+                formeOnde = miseEnForme.valueOf(commandLine.getOptionValue("form"));
             } catch (IllegalArgumentException e) {
                 throw new ArgumentsException("Valeur du parametre -form invalide : " + commandLine.getOptionValue("form"));
             }
+            transmissionAnalogique = true;  // Enable analog transmission
         }
 
         if (commandLine.hasOption("nbEch")) {
@@ -314,16 +409,15 @@ public class Simulateur {
 
             if (nombreEchantillon <= 0)
                 throw new ArgumentsException("Valeur du parametre -nbEch inférieure ou égale à 0 : " + nombreEchantillon);
-            else if (nombreEchantillon < 30 && !commandLine.hasOption("mute"))
+            else if (nombreEchantillon < 30 && !mute)
                 System.out.println("\n*************************************************************************************************************************************************\n" +
                         "WARNING : vous avez demandé " + nombreEchantillon + " échantillons. Le faible nombre d'échantillons risque d'altérer la forme du signal. Nous vous conseillons 100 échantillons" +
                         "\n*************************************************************************************************************************************************\n");
+            transmissionAnalogique = true;  // Enable analog transmission
         }
 
         if (commandLine.hasOption("ampl")) {
-
             final String[] amplitudes = commandLine.getOptionValues("ampl");
-
             try {
                 amplitudeMin = Float.parseFloat(amplitudes[0]);
                 amplitudeMax = Float.parseFloat(amplitudes[1]);
@@ -333,28 +427,29 @@ public class Simulateur {
             if (amplitudeMin >= amplitudeMax) {
                 throw new ArgumentsException("Valeur du parametre -ampl ne respecte pas min < max : " + Arrays.toString(amplitudes));
             }
+            transmissionAnalogique = true;  // Enable analog transmission
         }
 
         // <----- OPTIONS ETAPE 3 -----> //
 
-        snr = commandLine.hasOption("snr");
+        bruite = commandLine.hasOption("snr");
 
         if (commandLine.hasOption("snr")) {
             try {
-                signalNoiseRatio = Float.parseFloat(commandLine.getOptionValue("snr"));
+                ratioSignalSurBruit = Float.parseFloat(commandLine.getOptionValue("snr"));
             }
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-            if (signalNoiseRatio < 0.0f) {
-                throw new ArgumentsException("Valeur du parametre -snr inferieure ou egale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est superieure a la puissance du signal)");
-            }
-            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
+            if (ratioSignalSurBruit < 20f && !mute) {
                 System.out.println("\n****************************************************************************************************************************************************************\n" +
-                        "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 100." +
+                        "WARNING : la Valeur du parametre -snr est faible : " + ratioSignalSurBruit +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 100." +
                         "\n****************************************************************************************************************************************************************\n");
             }
+            transmissionAnalogique = true;  // Enable analog transmission
         }
+
+        // <----- OPTIONS ETAPE 4 -----> //
 
         trajetMultiple = commandLine.hasOption("ti");
         if (trajetMultiple) {
@@ -364,9 +459,6 @@ public class Simulateur {
                 throw new ArgumentsException("Valeurs du paramètre -ti doivent etre par couple de 2 valeurs : " + String.join(" ", optionsValues));
 
             int sizeArray = optionsValues.length / 2;
-//            if (sizeArray > 4) {
-//                throw new ArgumentsException("Le nombre de trajets multiples maximum est 5 et non :" + (sizeArray+1) + " trajets multiples.");
-//            }
             decalageTemporel = new int[sizeArray];
             amplitudeRelative = new Float[sizeArray];
 
@@ -380,7 +472,7 @@ public class Simulateur {
                 if (decalageTemporel[i] < 0) {
                     throw new ArgumentsException("Signal non causal : le decalage (en nombre d'échantillons) ne peut pas etre inferieur à 0 : " + decalageTemporel[i]);
                 }
-                else if (decalageTemporel[i] > nombreEchantillon && !commandLine.hasOption("mute")) {
+                else if (decalageTemporel[i] > nombreEchantillon && !mute) {
                     System.out.println("\n****************************************************************************************************************************************************************\n" +
                             "WARNING : le decalage du "+ (int)(i+1) +"eme trajet multiple est important: " + decalageTemporel[i]  +" cela risque d'entrainer un risque d'erreurs important" +
                             "\n****************************************************************************************************************************************************************\n");
@@ -392,15 +484,13 @@ public class Simulateur {
                     throw new ArgumentsException("L'attenuation maximale est 1, l'attenuation ne peut pas amplifier le signal");
                 }
             }
+
+            transmissionAnalogique = true;  // Enable analog transmission
         }
 
-        // <----- OPTIONS PERSO -----> //
+        // <----- OPTIONS ETAPE 5 -----> //
 
-        csv = commandLine.hasOption("csv");
-
-        if (commandLine.hasOption("csv")){
-            csvFile = commandLine.getOptionValue("csv");
-        }
+        codageCanal = commandLine.hasOption("codeur");
     }
 
     /**
@@ -489,6 +579,15 @@ public class Simulateur {
                 .valueSeparator(' ')
                 .build();
 
+        // <----- OPTIONS ETAPE 5 -----> //
+
+        final Option codeurOption = Option.builder("codeur")
+                .desc("Permet d'activer l'utilisation du codage de canal\n" +
+                        "(Par défaut désactivée)")
+                .hasArg(false)
+                .build();
+
+
         // <----- OPTIONS PERSO -----> //
 
         final Option csvOption = Option.builder("csv")
@@ -516,6 +615,8 @@ public class Simulateur {
         options.addOption(snrOption);
         // <----- OPTIONS ETAPE 4 -----> //
         options.addOption(trajetIndirectOption);
+        // <----- OPTIONS ETAPE 5 -----> //
+        options.addOption(codeurOption);
         // <----- OPTIONS PERSO -----> //
         options.addOption(csvOption);
 
@@ -536,7 +637,7 @@ public class Simulateur {
      * La méthode qui calcule le taux d'erreur binaire en comparant les bits du
      * message émis avec ceux du message reçu.
      *
-     * @return La valeur du Taux d'Erreur Binaire.
+     * @return La valeur du Taux d'Erreur Binaire (comprise entre 0 et 1).
      */
     public float calculTauxErreurBinaire() {  // TODO: Add test that check public access
         int nb_error = 0;
@@ -551,7 +652,7 @@ public class Simulateur {
         float teb = (float)nb_error / data_sent.nbElements();
         
         if (csv){
-            extractionCSV.sauvegardeData(csvFile, teb, signalNoiseRatio);
+            extractionCSV.sauvegardeData(csvFile, teb, ratioSignalSurBruit);
         }
         return teb;
     }
@@ -568,8 +669,8 @@ public class Simulateur {
 
         try {
             simulateur = new Simulateur(args);
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (ArgumentsException e) {
+            System.out.println(e.toString());
             System.exit(-1);
         }
 
@@ -579,13 +680,13 @@ public class Simulateur {
         try {
             simulateur.execute();
             float tauxErreurBinaire = simulateur.calculTauxErreurBinaire();
-            String s = "java  Simulateur  ";
-            for (int i = 0; i < args.length; i++) {
-                s += args[i] + "  ";
+            StringBuilder s = new StringBuilder("java  Simulateur  ");
+            for (String arg : args) {
+                s.append(arg).append("  ");
             }
             System.out.println(s + " =>   TEB : " + tauxErreurBinaire);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.toString());
             e.printStackTrace();
             System.exit(-2);
         }

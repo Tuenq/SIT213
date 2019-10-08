@@ -1,6 +1,7 @@
 package sources;
 
 import information.Information;
+import information.InformationBooleen;
 import information.InformationNonConforme;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class SourceFixeTest {
     public void emettreNominal() {
         Information<Boolean> expectedMessage = new Information<>();
         try {
-            expectedMessage = Information.stringToBoolean("0100100100101100100100");
+            expectedMessage = new InformationBooleen("0100100100101100100100");
         }
         catch (InformationNonConforme exception){
             fail("Cast information invalide");

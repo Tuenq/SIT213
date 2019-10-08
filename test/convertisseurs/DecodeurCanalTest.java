@@ -1,28 +1,24 @@
 package convertisseurs;
 
-import destinations.Destination;
-import destinations.DestinationFinale;
-import information.Information;
-import information.InformationBooleen;
-import information.InformationNonConforme;
 import org.junit.Test;
-import sources.Source;
-import sources.SourceFixe;
-
 import static org.junit.Assert.*;
 
-public class CodeurCanalTest {
+import destinations.*;
+import information.*;
+import sources.*;
 
+
+public class DecodeurCanalTest {
     @Test
     public void nominalTest() throws InformationNonConforme {
         // ARRANGE : expected - actual
-        String emitedBoolean = "01010011";
+        String emitedBoolean = "010101010101010010101101";
         Information<Boolean> emitedInfo = new InformationBooleen(emitedBoolean);
-        String expectedBoolean = "010101010101010010101101";
+        String expectedBoolean = "01010011";
         Information<Boolean> expectedInfo = new InformationBooleen(expectedBoolean);
 
         Source<Boolean> source = new SourceFixe(emitedInfo);
-        CodeurCanal codageCanal = new CodeurCanal();
+        DecodeurCanal codageCanal = new DecodeurCanal();
         Destination<Boolean> destination = new DestinationFinale();
         // Connecting
         source.connecter(codageCanal);
@@ -36,3 +32,4 @@ public class CodeurCanalTest {
         assertEquals(expectedInfo, actualInfo);
     }
 }
+

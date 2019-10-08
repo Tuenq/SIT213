@@ -26,16 +26,15 @@ public class DecodeurCanal extends Transmetteur<Boolean, Boolean> {
             r1 = received.next();
             r2 = received.next();
 
-            if ()
+            informationEmise.add(tableDeVerite(r0, r1, r2));
         }
     }
 
-    private boolean tableDeVerite(boolean r0, boolean r1, boolean r2) {
-        if (r0 && r1 && r2)       // 111 -> 1
-            return true;
-        else if (r0 && r1 && !r2) // 110 -> 0
-            return false;
-
+    boolean tableDeVerite(boolean r0, boolean r1, boolean r2) {
+        boolean and0 = !r1 && r2;       // AND
+        boolean and1 = r0 && !r1;       // AND
+        boolean and2 = r0 && r2;        // AND
+        return and0 || and1 || and2;    // OR
     }
 
     @Override

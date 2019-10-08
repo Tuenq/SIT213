@@ -31,25 +31,6 @@ public class Information<T> implements Iterable<T> {
         contentIterator.forEachRemaining(this.content::add);
     }
 
-    public static Information<Boolean> stringToBoolean(String messageString)
-            throws InformationNonConforme {
-        Information<Boolean> message = new Information<>();
-
-        for (int i = 0; i < messageString.length(); i++) {
-            switch (messageString.charAt(i)) {
-                case '1':
-                    message.add(true);
-                    break;
-                case '0':
-                    message.add(false);
-                    break;
-                default:
-                    throw new InformationNonConforme("un ou plusieurs caractères ne sont pas de type booleen");
-            }
-        }
-        return message;
-    }
-
     /**
      * Pour connaître le nombre d'éléments d'une information
      * @return le nombre d'éléments de l'information

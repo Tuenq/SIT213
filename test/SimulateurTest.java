@@ -1,9 +1,12 @@
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public class SimulateurTest {
 
-// region TEST OPTIONNEL
+// region TEST ETAPE OPTIONNEL
 
     @Test
     public void utilisationSimulateur_nominal() throws ArgumentsException {
@@ -34,7 +37,36 @@ public class SimulateurTest {
 
 // endregion
 
+// region TEST ETAPE CONSEILLE
+
+    @Test
+    public void accesPubliqueExecute() throws NoSuchMethodException {
+        Method method = Simulateur.class.getMethod("execute");
+        Assert.assertTrue(Modifier.isPublic(method.getModifiers()));
+    }
+
+    @Test
+    public void accesPubliqueCalculTEB() throws NoSuchMethodException {
+        Method method = Simulateur.class.getMethod("calculTauxErreurBinaire");
+        Assert.assertTrue(Modifier.isPublic(method.getModifiers()));
+    }
+
+//    TODO: Implement !
+//    @Test
+//    public void calculTauxErreurBinaire_min() {
+//
+//    }
+
+//    TODO: Implement !
+//    @Test
+//    public void calculTauxErreurBinaire_max() {
+//
+//    }
+
+// endregion
+
 // region TEST ETAPE 1
+
     // region TEST ETAPE 1 - OPTION : -mess m
 
     @Test
@@ -92,6 +124,7 @@ public class SimulateurTest {
     }
 
     // endregion
+
     // region TEST ETAPE 1 - OPTION : -s
 
     @Test
@@ -104,6 +137,7 @@ public class SimulateurTest {
     }
 
     // endregion
+
     // region TEST ETAPE 1 - OPTION : -seed v
 
     @Test
@@ -134,6 +168,7 @@ public class SimulateurTest {
     }
 
     // endregion
+
 // endregion
 
 // region TEST ETAPE 2
@@ -242,4 +277,92 @@ public class SimulateurTest {
 
 // endregion
 
+// region TEST ETAPE 3
+
+    // region TEST ETAPE 3 - OPTION : -snr s
+    @Test
+    public void ratioSignalSurBruit_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-snr", "1"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+// endregion
+
+// region TEST ETAPE 4
+
+    // region TEST ETAPE 4 - OPTION : -ti dt0 ar0
+    @Test
+    public void trajetIndirect_unique_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-ti", "0", "0.0"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+    // region TEST ETAPE 4 - OPTION : -ti dt0 ar0 dt1 ar1
+    @Test
+    public void trajetIndirect_double_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-ti", "0", "0.0", "0", "0.0"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+    // region TEST ETAPE 4 - OPTION : -ti dt0 ar0 dt1 ar1 dt2 ar2
+    @Test
+    public void trajetIndirect_triple_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-ti", "0", "0.0", "0", "0.0", "0", "0.0"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+    // region TEST ETAPE 4 - OPTION : -ti dt0 ar0 dt1 ar1 dt2 ar2 dt3 ar3
+    @Test
+    public void trajetIndirect_quadruple_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-ti", "0", "0.0", "0", "0.0", "0", "0.0", "0", "0.0"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+    // region TEST ETAPE 4 - OPTION : -ti dt0 ar0 dt1 ar1 dt2 ar2 dt3 ar3 dt4 ar4
+    @Test
+    public void trajetIndirect_pentuple_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-ti", "0", "0.0", "0", "0.0", "0", "0.0", "0", "0.0", "0", "0.0"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+// endregion
+
+// region TEST ETAPE 5
+
+    // region TEST ETAPE 3 - OPTION : -snr s
+    @Test
+    public void codeur_nominal() throws ArgumentsException {
+        // Arrange
+        String[] args = {"-codeur"};
+
+        // Act & Assert
+        new Simulateur(args);
+    }
+    // endregion
+
+// endregion
 }

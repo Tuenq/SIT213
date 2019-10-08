@@ -2,7 +2,7 @@ package filtres;
 
 public abstract class Filtre {
 
-	public enum encoders {
+	public enum miseEnForme {
 		RZ, NRZ, NRZT;
 	}
 

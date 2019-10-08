@@ -1,19 +1,32 @@
 package convertisseurs;
 
 import destinations.DestinationInterface;
-import filtres.Filtre;
-import information.Information;
-import information.InformationNonConforme;
+import filtres.*;
+import information.*;
 import transmetteurs.Transmetteur;
 
 import java.util.Arrays;
 
+import static filtres.Filtre.miseEnForme.*;
+
 
 public class Emetteur extends Transmetteur<Boolean,Float> {
-	private Filtre filtre;
+	private Filtre filtreMiseEnForme;
 
-	public Emetteur(Filtre filtre) {
-        this.filtre = filtre;
+	public Emetteur(Filtre.miseEnForme formeOnde, int nombreEchantillon, float amplitudeMin, float amplitudeMax) {
+        switch (formeOnde) {
+            case RZ:
+                filtreMiseEnForme = new FiltreRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                break;
+
+            case NRZ:
+                filtreMiseEnForme = new FiltreNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                break;
+
+            case NRZT:
+                filtreMiseEnForme = new FiltreNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
+                break;
+        }
 	}
     
     @Override
@@ -30,12 +43,12 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
 
     private Float[] echantillonage(Information<Boolean> data) {
 	    int cpt = 0;
-	    Float[] dataOut = new Float[data.nbElements() * filtre.nbEch];
+	    Float[] dataOut = new Float[data.nbElements() * filtreMiseEnForme.nbEch];
 
         for (Boolean datum : data) {
-            final float value_ech = datum ? filtre.amplMax : filtre.amplMin;
-            final int index_start = cpt++ * filtre.nbEch;
-            final int index_stop = index_start + filtre.nbEch;
+            final float value_ech = datum ? filtreMiseEnForme.amplMax : filtreMiseEnForme.amplMin;
+            final int index_start = cpt++ * filtreMiseEnForme.nbEch;
+            final int index_stop = index_start + filtreMiseEnForme.nbEch;
 
             Arrays.fill(dataOut, index_start, index_stop, value_ech);
         }
@@ -43,7 +56,7 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
     }
 
     private Information<Float> applicationFiltreMiseEnForme(Float[] data) {
-        filtre.appliquerMiseEnForme(data);
+        filtreMiseEnForme.appliquerMiseEnForme(data);
         return new Information<>(data);
     }
 
@@ -53,6 +66,8 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
      */
     @Override
     public void emettre() throws InformationNonConforme {
-
+        for (DestinationInterface<Float> destination : destinationsConnectees) {
+            destination.recevoir(informationEmise);
+        }
     }
 }

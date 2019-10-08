@@ -9,13 +9,12 @@ import transmetteurs.Transmetteur;
 
 public class Recepteur extends Transmetteur<Float,Boolean> {
 
-    private Filtre filtre;
-
+    private int nombreEchantillon;
     private float amplMinBruitee = 0;
     private float amplMaxBruitee = 0;
 
-	public Recepteur(Filtre filtre) {
-	    this.filtre = filtre;
+	public Recepteur(int nombreEchantillon) {
+	    this.nombreEchantillon = nombreEchantillon;
 	}
 
     @Override
@@ -38,7 +37,7 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
 
     private void decodage(){
 	    informationEmise = new Information<>();
-        final int nbEch = filtre.nbEch;
+        final int nbEch = nombreEchantillon;
         int compteur = 0;
         float sum = 0;
 
