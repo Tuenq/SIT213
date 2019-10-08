@@ -154,7 +154,7 @@
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
-            <arg value="-mess"/><arg value="70"/>
+            <arg value="-mess"/><arg value="60"/>
             <arg value="-seed"/><arg value="1897"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
@@ -162,7 +162,7 @@
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
-            <arg value="-mess"/><arg value="120"/>
+            <arg value="-mess"/><arg value="50"/>
             <arg value="-seed"/><arg value="12375675"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-nbEch"/><arg value="30"/>
@@ -180,7 +180,7 @@
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
-            <arg value="-mess"/><arg value="200"/>
+            <arg value="-mess"/><arg value="60"/>
             <arg value="-seed"/><arg value="12323"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-nbEch"/><arg value="30"/>
@@ -189,7 +189,7 @@
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
-            <arg value="-mess"/><arg value="220"/>
+            <arg value="-mess"/><arg value="50"/>
             <arg value="-seed"/><arg value="123653"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
@@ -219,7 +219,7 @@
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
-            <arg value="-mess"/><arg value="500"/>
+            <arg value="-mess"/><arg value="70"/>
             <arg value="-seed"/><arg value="57562"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-nbEch"/><arg value="30"/>
@@ -229,7 +229,7 @@
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
-            <arg value="-mess"/><arg value="250"/>
+            <arg value="-mess"/><arg value="80"/>
             <arg value="-seed"/><arg value="57545"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-nbEch"/><arg value="30"/>
