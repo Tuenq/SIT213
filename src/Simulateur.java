@@ -346,10 +346,7 @@ public class Simulateur {
             catch (NumberFormatException e) {
                 throw new ArgumentsException("Valeur du parametre -snr invalide : " + commandLine.getOptionValue("snr"));
             }
-            if (signalNoiseRatio < 0.0f) {
-                throw new ArgumentsException("Valeur du parametre -snr inferieure ou egale à 0 : " + signalNoiseRatio  +" (La puissance du bruit est superieure a la puissance du signal)");
-            }
-            else if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
+            if (signalNoiseRatio < 20f && !commandLine.hasOption("mute")) {
                 System.out.println("\n****************************************************************************************************************************************************************\n" +
                         "WARNING : la Valeur du parametre -snr est faible : " + signalNoiseRatio  +" (La puissance du bruit est importante par rapport a la puissance du signal). Nous vous conseillons un snr de 100." +
                         "\n****************************************************************************************************************************************************************\n");

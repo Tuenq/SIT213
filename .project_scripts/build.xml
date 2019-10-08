@@ -168,6 +168,15 @@
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
             <arg value="-nbEch"/><arg value="30"/>
         </java>
+        <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
+            <classpath refid="classpath.main"/>
+            <arg value="-s"/>
+            <arg value="-mute"/>
+            <arg value="-mess"/><arg value="00011010100100100100111"/>
+            <arg value="-form"/><arg value="NRZT"/>
+            <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
+            <arg value="-nbEch"/><arg value="30"/>
+        </java>
         <echo>==========>Start Step 3 validation</echo>
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
