@@ -1,20 +1,30 @@
 import org.apache.commons.cli.*;
 
+import java.util.Scanner;
+
 public class ValidationTests {
 
     private static boolean argsE = false;
     private static String numEtape = "4";
+
+    private static void execution_parametre(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        Simulateur simulateur = new Simulateur(args);
+        simulateur.execute();
+        System.out.println("PAUSE en attente de saisie de la touche ENTREE");
+        String str = sc.nextLine();
+        while(!str.equals("")){}
+    }
 
     private static void validationEtape1() {
         String[] args1 = {"-s", "-seed", "123"};
         String[] args2 = {"-s", "-mess", "000000111111"};
 
         try {
-            Simulateur simulateur = new Simulateur(args1);
-            simulateur.execute();
-
-            simulateur = new Simulateur(args2);
-            simulateur.execute();
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args1));
+            execution_parametre(args1);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args2));
+            execution_parametre(args2);
         }
         catch (Exception exception){
             exception.printStackTrace();
@@ -27,14 +37,12 @@ public class ValidationTests {
         String[] args2 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZ"};
         String[] args3 = {"-s", "-seed", "123", "-nbEch", "100", "-form", "NRZT"};
         try {
-            Simulateur simulateur = new Simulateur(args1);
-            simulateur.execute();
-
-            simulateur = new Simulateur(args2);
-            simulateur.execute();
-
-            simulateur = new Simulateur(args3);
-            simulateur.execute();
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args1));
+            execution_parametre(args1);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args2));
+            execution_parametre(args2);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args3));
+            execution_parametre(args3);
         }
         catch (Exception exception){
             System.out.println("Erreur durant le test de validation etape 2");
@@ -42,10 +50,16 @@ public class ValidationTests {
     }
 
     private static void validationEtape3() {
-        String[] args = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "100", "-form", "RZ"};
+        String[] args1 = {"-s", "-seed", "123", "-snr", "20", "-nbEch", "100", "-form", "RZ"};
+        String[] args2 = {"-s", "-seed", "123", "-snr", "0", "-nbEch", "100", "-form", "NRZ"};
+        String[] args3 = {"-s", "-seed", "123", "-snr", "-20", "-nbEch", "100", "-form", "NRZT"};
         try {
-            Simulateur simulateur = new Simulateur(args);
-            simulateur.execute();
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args1));
+            execution_parametre(args1);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args2));
+            execution_parametre(args2);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args3));
+            execution_parametre(args3);
         }
         catch (Exception exception){
             System.out.println("Erreur durant le test de validation etape 3");
@@ -54,16 +68,31 @@ public class ValidationTests {
 
     private static void validationEtape4() {
         // Test de validation avec 3 trajets indirects
-        String[] args = {"-s",
+        String[] args1 = {"-s",
+                "-seed", "123",
+                "-snr", "20",
+                "-nbEch", "100",
+                "-form", "RZ",
+                "-ti", "50", "0.5", "10", "0.2", "30", "0.3", "150", "0.5", "200", "0.2"};
+        String[] args2 = {"-s",
+                "-seed", "123",
+                "-snr", "20",
+                "-nbEch", "100",
+                "-form", "RZ",
+                "-ti", "50", "0.5", "10", "0.2", "30", "0.3", "150", "0.5", "200", "0.2"};
+        String[] args3 = {"-s",
                 "-seed", "123",
                 "-snr", "20",
                 "-nbEch", "100",
                 "-form", "RZ",
                 "-ti", "50", "0.5", "10", "0.2", "30", "0.3", "150", "0.5", "200", "0.2"};
         try {
-            System.out.println("Validation Simulateur avec : " + String.join(" ", args));
-            Simulateur simulateur = new Simulateur(args);
-            simulateur.execute();
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args1));
+            execution_parametre(args1);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args2));
+            execution_parametre(args2);
+            System.out.println("Validation Simulateur avec : " + String.join(" ", args3));
+            execution_parametre(args3);
         }
         catch (Exception exception){
             System.out.println("Erreur durant le test de validation etape 4 (" + exception + ")");
