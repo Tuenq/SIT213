@@ -217,6 +217,7 @@ public class Simulateur {
         if (transmissionAnalogique) {
             if (trajetMultiple) {
                 transmetteurTrajetMultiple = new TransmetteurTrajetMultiples(decalageTemporel, amplitudeRelative);
+                recepteur = new Recepteur(nombreEchantillon, amplitudeRelative, decalageTemporel);
             } else {
                 transmetteurTrajetMultiple = new TransmetteurParfait<>();
             }
@@ -494,7 +495,26 @@ public class Simulateur {
                     throw new ArgumentsException("L'attenuation maximale est 1, l'attenuation ne peut pas amplifier le signal");
                 }
             }
-
+            // Mettre les paramètres attenuation-retard dans le bon ordre
+            boolean permut = false;
+			do {
+				// hypothèse : le tableau est trié
+				int tampon = 0;
+				permut = false;
+				for (int i = 0; i < sizeArray - 1; i++) {
+					// Teste si 2 éléments successifs sont dans le bon ordre ou non
+					if (decalageTemporel[i] > decalageTemporel[i + 1]) {
+						// s'ils ne le sont pas, on échange leurs positions
+						tampon = decalageTemporel[i];
+						decalageTemporel[i] = decalageTemporel[i + 1];
+						decalageTemporel[i + 1] = tampon;
+						Float tampon2 = amplitudeRelative[i];
+						amplitudeRelative[i] = amplitudeRelative[i+1];
+						amplitudeRelative[i + 1] = tampon2;
+						permut = true;
+					}
+				}
+			} while (permut);
             transmissionAnalogique = true;  // Enable analog transmission
         }
 
