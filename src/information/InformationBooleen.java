@@ -1,6 +1,11 @@
 package information;
 
 public class InformationBooleen extends Information<Boolean> {
+    public InformationBooleen(boolean valeur) {
+        super();
+        this.add(valeur);
+    }
+
     public InformationBooleen(String booleanString) throws InformationNonConforme {
         super();
 

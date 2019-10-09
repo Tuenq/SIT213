@@ -1,10 +1,9 @@
 package filtres;
 
-import information.Information;
 import visualisations.VueCourbe;
 
-public class FiltreRZ extends Filtre {
-    public FiltreRZ(int nbEch, float amplMin, float amplMax) {
+public class FiltreMiseEnFormeRZ extends FiltreMiseEnForme {
+    public FiltreMiseEnFormeRZ(int nbEch, float amplMin, float amplMax) {
         super(nbEch, amplMin, amplMax);
     }
 
@@ -30,9 +29,15 @@ public class FiltreRZ extends Filtre {
         }
     }
 
-    public static void main(String[] args) {
-        Filtre visu = new FiltreRZ(30, 1, 0);
+    public static void main(String[] args) throws SymboleNulException {
+        FiltreMiseEnForme visu = new FiltreMiseEnFormeRZ(100, -10f, 10f);
         new VueCourbe(visu.donneeFiltre, "Filtre RZ");
+
+        float[] symbole_0 = visu.genererSymbole(false);
+        new VueCourbe(symbole_0, "Filtre RZ - Symbole 0");
+
+        float[] symbole_1 = visu.genererSymbole(true);
+        new VueCourbe(symbole_1, "Filtre RZ - Symbole 1");
     }
 }
 

@@ -3,12 +3,13 @@ import convertisseurs.CodeurCanal;
 import convertisseurs.DecodeurCanal;
 import convertisseurs.Emetteur;
 import convertisseurs.Recepteur;
+import filtres.FiltreMiseEnForme;
 import org.apache.commons.cli.*;
 import sources.*;
 import destinations.*;
 import transmetteurs.*;
 
-import filtres.Filtre.miseEnForme;
+import filtres.FiltreMiseEnForme.forme;
 
 import information.*;
 import visualisations.*;
@@ -72,7 +73,7 @@ public class Simulateur {
     /**
      * La forme d'onde par défaut (initialisée par -form)
      */
-    private miseEnForme formeOnde = miseEnForme.RZ;
+    private forme formeOnde = forme.RZ;
     /**
      * Le nombre d'échantillons par bit (initialisée par -nbEch) avec comme valeur par défaut = 30
      */
@@ -207,7 +208,8 @@ public class Simulateur {
 
         if (transmissionAnalogique) {
             emetteur = new Emetteur(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
-            recepteur = new Recepteur(nombreEchantillon);  // TODO: MOVE filtreAdapte TO recepteur
+            FiltreMiseEnForme filtreMiseEnForme = ((Emetteur) emetteur).getFiltreMiseEnForme();
+            recepteur = new Recepteur(filtreMiseEnForme);
         }
 
         // endregion
@@ -286,14 +288,18 @@ public class Simulateur {
 
         if (affichage) {
             // -----> Ajout des SONDES LOGIQUES
-            Sonde<Boolean> sonde_entree = new SondeLogique("Entrée du système", nombreEchantillon);
+            Sonde<Boolean> sonde_entree;
+            if (codageCanal)
+                sonde_entree = new SondeLogique("Entrée du système", nombreEchantillon*3);
+            else
+                sonde_entree = new SondeLogique("Entrée du système", nombreEchantillon);
             source.connecter(sonde_entree);
 
             if (codageCanal) {
                 Sonde<Boolean> sonde_codage = new SondeLogique("Codage de l'entrée du système", nombreEchantillon);
                 codeur.connecter(sonde_codage);
 
-                Sonde<Boolean> sonde_decodage = new SondeLogique("Décodage de la sortie du système", nombreEchantillon);
+                Sonde<Boolean> sonde_decodage = new SondeLogique("Décodage de la sortie du système", nombreEchantillon*3);
                 decodeur.connecter(sonde_decodage);
             }
 
@@ -403,7 +409,7 @@ public class Simulateur {
 
         if (commandLine.hasOption("form")) {
             try {
-                formeOnde = miseEnForme.valueOf(commandLine.getOptionValue("form"));
+                formeOnde = forme.valueOf(commandLine.getOptionValue("form"));
             } catch (IllegalArgumentException e) {
                 throw new ArgumentsException("Valeur du parametre -form invalide : " + commandLine.getOptionValue("form"));
             }

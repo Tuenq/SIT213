@@ -76,4 +76,44 @@ public class Outils {
     public static boolean isOdd(int n) {
         return (n % 2 == 1);
     }
+
+    public static double[] convertToDoubleArray(float[] array) {
+        double[] doubleArray = new double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            doubleArray[i] = array[i];
+        }
+        return doubleArray;
+    }
+
+    public static double[] convertToDoubleArray(Float[] array) {
+        double[] doubleArray = new double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            doubleArray[i] = array[i];
+        }
+        return doubleArray;
+    }
+
+    public static float[] convertToFloatArray(double[] array) {
+        float[] floatArray = new float[array.length];
+        for (int i = 0; i < array.length; i++) floatArray[i] = (float) array[i];
+        return floatArray;
+    }
+
+    public static double getMaximumValue(double[] array) {
+        double max = 0;
+        for (double datum:array) {
+            if (datum > max)
+                max = datum;
+        }
+        return max;
+    }
+
+    public static double getMinimumValue(double[] array) {
+        double min = 0;
+        for (double datum:array) {
+            if (datum < min)
+                min = datum;
+        }
+        return min;
+    }
 }

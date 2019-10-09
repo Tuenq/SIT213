@@ -82,9 +82,8 @@ public class VueCourbe  extends Vue {
 	setVisible(true);  
 	repaint();
     }
-   
-   
-    public  void changer (boolean [] valeurs) {   
+
+	public  void changer (boolean [] valeurs) {
              	
 	this.coordonnees = new Point2D.Float [(2 * valeurs.length) + 1];
 	yMax = 1;

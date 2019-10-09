@@ -5,30 +5,34 @@ import filtres.*;
 import information.*;
 import transmetteurs.Transmetteur;
 
-import java.util.Arrays;
-
-import static filtres.Filtre.miseEnForme.*;
-
 
 public class Emetteur extends Transmetteur<Boolean,Float> {
-	private Filtre filtreMiseEnForme;
+	private FiltreMiseEnForme filtreMiseEnForme;
 
-	public Emetteur(Filtre.miseEnForme formeOnde, int nombreEchantillon, float amplitudeMin, float amplitudeMax) {
-        switch (formeOnde) {
+	public Emetteur(FiltreMiseEnForme.forme formeOnde, int nombreEchantillon, float amplitudeMin, float amplitudeMax) {
+        configureFiltre(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
+	}
+
+	private void configureFiltre(FiltreMiseEnForme.forme fo, int ne, float ami, float ama) {
+        switch (fo) {
             case RZ:
-                filtreMiseEnForme = new FiltreRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtreMiseEnForme = new FiltreMiseEnFormeRZ(ne, ami, ama);
                 break;
 
             case NRZ:
-                filtreMiseEnForme = new FiltreNRZ(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtreMiseEnForme = new FiltreMiseEnFormeNRZ(ne, ami, ama);
                 break;
 
             case NRZT:
-                filtreMiseEnForme = new FiltreNRZT(nombreEchantillon, amplitudeMin, amplitudeMax);
+                filtreMiseEnForme = new FiltreMiseEnFormeNRZT(ne, ami, ama);
                 break;
         }
-	}
-    
+    }
+
+    public FiltreMiseEnForme getFiltreMiseEnForme() {
+	    return filtreMiseEnForme;
+    }
+
     @Override
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
@@ -37,27 +41,9 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
     }
 
     private void conversionInformation() {
-        Float[] data_conversion = echantillonage(informationRecue);
-        informationEmise = applicationFiltreMiseEnForme(data_conversion);
-    }
-
-    private Float[] echantillonage(Information<Boolean> data) {
-	    int cpt = 0;
-	    Float[] dataOut = new Float[data.nbElements() * filtreMiseEnForme.nbEch];
-
-        for (Boolean datum : data) {
-            final float value_ech = datum ? filtreMiseEnForme.amplMax : filtreMiseEnForme.amplMin;
-            final int index_start = cpt++ * filtreMiseEnForme.nbEch;
-            final int index_stop = index_start + filtreMiseEnForme.nbEch;
-
-            Arrays.fill(dataOut, index_start, index_stop, value_ech);
-        }
-        return dataOut;
-    }
-
-    private Information<Float> applicationFiltreMiseEnForme(Float[] data) {
-        filtreMiseEnForme.appliquerMiseEnForme(data);
-        return new Information<>(data);
+        float[] data_conversion = filtreMiseEnForme.echantillonage(informationRecue);
+        filtreMiseEnForme.appliquer(data_conversion);
+        informationEmise = new InformationAnalogique(data_conversion);
     }
 
     /**
