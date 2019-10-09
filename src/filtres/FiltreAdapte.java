@@ -2,7 +2,6 @@ package filtres;
 
 import communs.Outils;
 import org.apache.commons.math3.util.MathArrays;
-import visualisations.VueCourbe;
 
 public class FiltreAdapte {
     private int nombreEchantillon;

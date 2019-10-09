@@ -6,9 +6,7 @@ import filtres.FiltreAdapte;
 import filtres.FiltreMiseEnForme;
 import information.Information;
 import information.InformationNonConforme;
-import org.apache.commons.math3.util.MathArrays;
 import transmetteurs.Transmetteur;
-import visualisations.VueCourbe;
 
 public class Recepteur extends Transmetteur<Float,Boolean> {
     private FiltreAdapte filtreAdapte;

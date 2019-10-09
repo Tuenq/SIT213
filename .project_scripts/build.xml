@@ -316,18 +316,15 @@
             <arg value="-ti"/><arg value="13"/><arg value="0.7"/><arg value="19"/><arg value="0.2"/>
             <arg value="-codeur"/>
         </java>
-<!--        <echo>==========>Start Gaussian noise validation</echo>-->
-<!--        <java dir="${source.build.main.dir}" classname="bruit.BruitGaussien" fork="true">-->
-<!--            <classpath refid="classpath.main"/>-->
-<!--        </java>-->
     </target>
     <!-- endregion -->
 
     <!-- =====     target: generateDocumentation     ===== -->
     <target name="generateDocumentation" depends="prepareDocumentation"
             description="--+--> Generate java documentation">
-        <javadoc sourcepath="${source.main.dir}" destdir="${docs.dir}" access="package"
-            encoding="utf8" docencoding="utf8" charset="utf8"/>
+        <javadoc destdir="${docs.dir}" access="package"
+                 sourcepath="${source.main.dir}" classpathref="classpath.main"
+                 encoding="utf8" docencoding="utf8" charset="utf8"/>
     </target>
 
 </project>
