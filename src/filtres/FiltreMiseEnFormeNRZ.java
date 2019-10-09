@@ -4,9 +4,9 @@ import visualisations.VueCourbe;
 
 import java.util.Arrays;
 
-public class FiltreNRZ extends Filtre {
+public class FiltreMiseEnFormeNRZ extends FiltreMiseEnForme {
 
-    public FiltreNRZ(int nbEch, float amplMin, float amplMax) {
+    public FiltreMiseEnFormeNRZ(int nbEch, float amplMin, float amplMax) {
         super(nbEch, amplMin, amplMax);
     }
 
@@ -23,9 +23,15 @@ public class FiltreNRZ extends Filtre {
         Arrays.fill(donneeFiltre, 1f);
     }
 
-    public static void main(String[] args) {
-        Filtre visu = new FiltreNRZ(30, 1, 0);
+    public static void main(String[] args) throws SymboleNulException {
+        FiltreMiseEnForme visu = new FiltreMiseEnFormeNRZ(100, -10f, 10f);
         new VueCourbe(visu.donneeFiltre, "Filtre NRZ");
+
+        float[] symbole_0 = visu.genererSymbole(false);
+        new VueCourbe(symbole_0, "Filtre RZ - Symbole 0");
+
+        float[] symbole_1 = visu.genererSymbole(true);
+        new VueCourbe(symbole_1, "Filtre RZ - Symbole 1");
     }
 }
 

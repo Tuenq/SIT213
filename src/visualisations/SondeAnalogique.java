@@ -17,7 +17,7 @@ public class SondeAnalogique extends Sonde <Float> {
 		super(nom);
     }
    	 
-    public void recevoir (Information <Float> information) { 
+    public void recevoir (Information<Float> information) {
 		informationRecue = information;
 		int nbElements = information.nbElements();
 		float [] table = new float[nbElements];
