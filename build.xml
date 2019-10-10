@@ -44,6 +44,13 @@
             <mkdir dir="${artifacts.dir}"/>
         </target>
 
+        <!-- =====     target: prepareCurves     ===== -->
+        <target name="prepareCurves" depends="prepareArtifacts" description="--+--> Initialize artifacts structure">
+            <mkdir dir="${artifacts.dir}/RZ"/>
+            <mkdir dir="${artifacts.dir}/NRZ"/>
+            <mkdir dir="${artifacts.dir}/NRZT"/>
+        </target>
+
         <!-- =====     target: prepareDeployment     ===== -->
         <target name="prepareDeployment" description="--+--> Initialize deployment structure">
             <mkdir dir="${deployment.test.dir}"/>
@@ -108,6 +115,23 @@
                 <tarfileset file="${basedir}/README.md"/>
                 <tarfileset file="${basedir}/Goals.md"/>
             </tar>
+        </target>
+
+        <!-- =====     target: generateCurves     ===== -->
+        <target name="generateCurves" depends="prepareCurves"
+                description="--+--> Generate BER curves">
+            <echo>TEST generationValeursTEB</echo>
+            <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
+                <classpath refid="classpath.main"/>
+                <arg value="-mute"/>
+                <arg value="-mess"/><arg value="10"/>
+                <arg value="-seed"/><arg value="123"/>
+                <arg value="-form"/><arg value="RZ"/>
+                <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
+                <arg value="-nbEch"/><arg value="30"/>
+                <arg value="-ti"/><arg value="7"/><arg value="0.8"/><arg value="19"/><arg value="0.2"/>
+                <arg value="-codeur"/>
+            </java>
         </target>
     <!-- endregion -->
 </project>

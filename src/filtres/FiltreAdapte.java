@@ -2,6 +2,7 @@ package filtres;
 
 import communs.Outils;
 import org.apache.commons.math3.util.MathArrays;
+import visualisations.VueCourbe;
 
 public class FiltreAdapte {
     private int nombreEchantillon;
@@ -34,13 +35,13 @@ public class FiltreAdapte {
         double[] convolution_true = new double[0];
         if (!zeroTrue) {
             convolution_true = MathArrays.convolve(symbole_true, donneesSignal);
-//            new VueCourbe(Outils.convertToFloatArray(convolution_true), "Convolution symbole TRUE");
+            new VueCourbe(Outils.convertToFloatArray(convolution_true), "Convolution symbole TRUE");
         }
 
         double[] convolution_false = new double[0];
         if (!zeroFalse) {
             convolution_false = MathArrays.convolve(symbole_false, donneesSignal);
-//            new VueCourbe(Outils.convertToFloatArray(convolution_false), "Convolution symbole FALSE");
+            new VueCourbe(Outils.convertToFloatArray(convolution_false), "Convolution symbole FALSE");
         }
 
         if (zeroTrue)
