@@ -52,21 +52,21 @@ public class generationValeursTEB {
     private static void sampling() throws Exception {
         data = new Information<>();
 
-        String[] argsSimu = {"-mute", "-form", form, "-mess", mess, "-nbEch", "15"};
+        String[] argsFixes = {"-mute", "-form", form, "-mess", mess, "-nbEch", "15"};
         if (codeur)
-            argsSimu = append(argsSimu, "-codeur");
+            argsFixes = append(argsFixes, "-codeur");
         if (trajetMultiple){
-            argsSimu = append(argsSimu, "-ti");
+            argsFixes = append(argsFixes, "-ti");
             for (int trajet = 0 ; trajet < decalageTemporel.length ; trajet++){
-                argsSimu = append(argsSimu, decalageTemporel[trajet]);
-                argsSimu = append(argsSimu, amplitudeRelative[trajet]);
+                argsFixes = append(argsFixes, decalageTemporel[trajet]);
+                argsFixes = append(argsFixes, amplitudeRelative[trajet]);
             }
         }
 
         for (float snr = snrMin; snr < snrMax; snr += pas) {
             float averageTEB = 0.0F;
             for (int simulation = 0 ; simulation < nbSimulations ; simulation++) {
-                argsSimu = append(argsSimu, "-snr");
+                String[] argsSimu = append(argsFixes, "-snr");
                 argsSimu = append(argsSimu, Float.toString(snr));
 
                 Simulateur simulateur = new Simulateur(argsSimu);
