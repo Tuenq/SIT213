@@ -5,7 +5,9 @@ public class extractionCSV {
     public static void sauvegardeData(String file, float TEB, float snr){
         try {
             FileWriter fileWriter = new FileWriter(file, true);
-            fileWriter.write(snr + ";" + TEB + "\n");
+            String stringTEB = Float.toString(TEB).replace(".", ",");
+            String stringSnr = Float.toString(snr).replace(".", ",");
+            fileWriter.write(stringSnr + ";" + stringTEB + "\n");
             fileWriter.close();
         }
         catch (IOException exception) {
