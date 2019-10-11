@@ -673,7 +673,9 @@ public class Simulateur {
         float teb = (float)nb_error / data_sent.nbElements();
         
         if (csv){
-            extractionCSV.sauvegardeData(csvFile, teb, ratioSignalSurBruit);
+            float[] teb_array = new float[]{teb};
+            float[] snr_array = new float[]{ratioSignalSurBruit};
+            extractionCSV.sauvegardeData(csvFile, teb_array, snr_array);
         }
         return teb;
     }

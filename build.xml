@@ -120,17 +120,33 @@
         <!-- =====     target: generateCurves     ===== -->
         <target name="generateCurves" depends="prepareCurves"
                 description="--+--> Generate BER curves">
-            <echo>TEST generationValeursTEB</echo>
+            <echo>Generation des valeurs TEB</echo>
+            <echo>==> Courbe TEB : RZ</echo>
             <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
                 <classpath refid="classpath.main"/>
-                <arg value="-mute"/>
-                <arg value="-mess"/><arg value="10"/>
-                <arg value="-seed"/><arg value="123"/>
                 <arg value="-form"/><arg value="RZ"/>
-                <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-                <arg value="-nbEch"/><arg value="30"/>
-                <arg value="-ti"/><arg value="7"/><arg value="0.8"/><arg value="19"/><arg value="0.2"/>
-                <arg value="-codeur"/>
+                <arg value="-mess"/><arg value="50000"/>
+                <arg value="-snr"/><arg value="-10"/><arg value="15"/><arg value="0.1"/>
+                <arg value="-simu"/><arg value="20"/>
+                <arg value="-directory"/><arg value="${basedir}/${artifacts.dir}/RZ/"/>
+            </java>
+            <echo>==> Courbe TEB : NRZ</echo>
+            <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
+                <classpath refid="classpath.main"/>
+                <arg value="-form"/><arg value="NRZ"/>
+                <arg value="-mess"/><arg value="50000"/>
+                <arg value="-snr"/><arg value="-10"/><arg value="15"/><arg value="0.1"/>
+                <arg value="-simu"/><arg value="20"/>
+                <arg value="-directory"/><arg value="${basedir}/${artifacts.dir}/NRZ/"/>
+            </java>
+            <echo>==> Courbe TEB : NRZT</echo>
+            <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
+                <classpath refid="classpath.main"/>
+                <arg value="-form"/><arg value="NRZT"/>
+                <arg value="-mess"/><arg value="50000"/>
+                <arg value="-snr"/><arg value="-10"/><arg value="15"/><arg value="0.1"/>
+                <arg value="-simu"/><arg value="20"/>
+                <arg value="-directory"/><arg value="${basedir}/${artifacts.dir}/NRZT/"/>
             </java>
         </target>
     <!-- endregion -->

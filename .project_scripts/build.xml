@@ -23,6 +23,7 @@
     <path id="classpath.main">
         <pathelement location="${basedir}/${lib.dir}/commons-cli-1.4.jar"/>
         <pathelement location="${basedir}/${lib.dir}/commons-math3-3.6.1.jar"/>
+        <pathelement location="${basedir}/${lib.dir}/commons-lang3-3.9.jar"/>
         <pathelement location="${source.build.main.dir}"/>
     </path>
 
