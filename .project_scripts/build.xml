@@ -160,8 +160,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="20"/>
-            <arg value="-seed"/><arg value="000011110101011100110011"/>
+            <arg value="-mess"/><arg value="000011110101011100110011"/>
             <arg value="-form"/><arg value="RZ"/>
         </java>
         <!-- Test simulateur parfait avec aleatoire premiere seed form RZ-->
@@ -176,7 +175,6 @@
         <!-- Test simulateur parfait avec aleatoire premiere seed form RZ avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="1"/>
@@ -242,8 +240,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="20"/>
-            <arg value="-seed"/><arg value="000011110101011100110011"/>
+            <arg value="-mess"/><arg value="000011110101011100110011"/>
             <arg value="-form"/><arg value="NRZ"/>
         </java>
         <!-- Test simulateur parfait avec aleatoire premiere seed form NRZ-->
@@ -258,7 +255,6 @@
         <!-- Test simulateur parfait avec aleatoire premiere seed form NRZ avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="1"/>
@@ -268,7 +264,6 @@
         <!-- Test simulateur parfait avec aleatoire seconde seed form NRZ avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="123"/>
@@ -288,7 +283,6 @@
         <!-- Test simulateur parfait avec aleatoire premiere seed form NRZ avec nbEch avec une amplitude min negative max positive-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="1"/>
@@ -324,8 +318,7 @@
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
             <arg value="-mute"/>
-            <arg value="-mess"/><arg value="20"/>
-            <arg value="-seed"/><arg value="000011110101011100110011"/>
+            <arg value="-mess"/><arg value="000011110101011100110011"/>
             <arg value="-form"/><arg value="NRZT"/>
         </java>
         <!-- Test simulateur parfait avec aleatoire premiere seed form NRZT-->
@@ -340,7 +333,6 @@
         <!-- Test simulateur parfait avec aleatoire premiere seed form NRZT avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="1"/>
@@ -350,7 +342,6 @@
         <!-- Test simulateur parfait avec aleatoire seconde seed form NRZT avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="123"/>
@@ -370,7 +361,6 @@
         <!-- Test simulateur parfait avec aleatoire premiere seed form NRZT avec nbEch avec une amplitude min negative max positive-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="20"/>
             <arg value="-seed"/><arg value="1"/>
@@ -810,7 +800,6 @@
         <!-- Test simulateur parfait sans aleatoire avec 1 trajet multiple avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="0110110011011"/>
             <arg value="-form"/><arg value="RZ"/>
@@ -850,7 +839,6 @@
         <!-- Test simulateur bruite avec aleatoire premiere seed avec 2 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-atm"/>
             <arg value="-mess"/><arg value="20"/>
@@ -876,7 +864,6 @@
         <!-- Test simulateur bruite avec aleatoire premiere seed avec 4 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-atm"/>
             <arg value="-mess"/><arg value="20"/>
@@ -915,7 +902,6 @@
         <!-- Test simulateur bruite avec aleatoire premiere seed avec 5 trajets multiples avec snr important-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-atm"/>
             <arg value="-mess"/><arg value="20"/>
@@ -935,23 +921,24 @@
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
         </java>
-        <!-- Test simulateur parfait sans aleatoire avec 1 trajet multiple avec nbEch-->
+        <!-- Test simulateur bruite sans aleatoire avec 1 trajet multiple avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="0110110011011"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
         </java>
-        <!-- Test simulateur parfait avec aleatoire premiere seed avec 1 trajet multiple-->
+        <!-- Test simulateur bruite avec aleatoire premiere seed avec 1 trajet multiple-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="25"/>
             <arg value="-seed"/><arg value="1"/>
             <arg value="-form"/><arg value="NRZ"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
         </java>
         <!-- Test simulateur parfait avec aleatoire seconde seed avec 1 trajet multiple-->
@@ -964,7 +951,7 @@
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
         </java>
-        <!-- Test simulateur parfait avec aleatoire premiere seed avec 2 trajets multiples-->
+        <!-- Test simulateur bruite avec aleatoire premiere seed avec 2 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
@@ -974,9 +961,10 @@
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.7"/>
         </java>
-        <!-- Test simulateur parfait avec aleatoire premiere seed avec 3 trajets multiples-->
+        <!-- Test simulateur bruite avec aleatoire premiere seed avec 3 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-mute"/>
@@ -985,9 +973,10 @@
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.7"/><arg value="50"/><arg value="0.1"/>
         </java>
-        <!-- Test simulateur parfait avec aleatoire premiere seed avec 4 trajets multiples-->
+        <!-- Test simulateur bruite avec aleatoire premiere seed avec 4 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-mute"/>
@@ -996,9 +985,10 @@
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.7"/><arg value="50"/><arg value="0.1"/><arg value="60"/><arg value="0.6"/>
         </java>
-        <!-- Test simulateur parfait avec aleatoire premiere seed avec 5 trajets multiples-->
+        <!-- Test simulateur bruite avec aleatoire premiere seed avec 5 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-s"/>
@@ -1008,9 +998,10 @@
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.7"/><arg value="50"/><arg value="0.1"/><arg value="60"/><arg value="0.6"/><arg value="15"/><arg value="0.75"/>
         </java>
-        <!-- Test simulateur parfait avec aleatoire premiere seed avec 5 trajets multiples dont 1 excessif-->
+        <!-- Test simulateur bruite avec aleatoire premiere seed avec 5 trajets multiples dont 1 excessif-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
             <arg value="-mute"/>
@@ -1019,6 +1010,7 @@
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.7"/><arg value="50"/><arg value="0.1"/><arg value="60"/><arg value="0.6"/><arg value="150"/><arg value="0.8"/>
         </java>
         <!-- Forme NRZT-->
@@ -1031,14 +1023,14 @@
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
         </java>
-        <!-- Test simulateur parfait sans aleatoire avec 1 trajet multiple avec nbEch-->
+        <!-- Test simulateur bruite sans aleatoire avec 1 trajet multiple avec nbEch-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="0110110011011"/>
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-nbEch"/><arg value="30"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
         </java>
         <!-- Test simulateur bruite avec aleatoire premiere seed avec 1 trajet multiple-->
@@ -1115,7 +1107,6 @@
         <!-- Test simulateur bruite avec aleatoire premiere seed avec 5 trajets multiples-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-atm"/>
             <arg value="-mess"/><arg value="20"/>
@@ -1159,7 +1150,7 @@
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-            <arg value="-snr"/><arg value="10"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-nbEch"/><arg value="30"/>
         </java>
         <!-- Test avec bruit avec codeur 1ere seed-->
@@ -1171,20 +1162,19 @@
             <arg value="-seed"/><arg value="1"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-            <arg value="-snr"/><arg value="10"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-codeur"/>
         </java>
         <!-- Test avec bruit avec codeur 2eme seed-->
         <java dir="${source.build.main.dir}" classname="Simulateur" fork="true">
             <classpath refid="classpath.main"/>
-            <arg value="-s"/>
             <arg value="-mute"/>
             <arg value="-mess"/><arg value="10"/>
             <arg value="-seed"/><arg value="123"/>
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-ampl"/><arg value="-9.5"/><arg value="9.5"/>
-            <arg value="-snr"/><arg value="10"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-nbEch"/><arg value="30"/>
             <arg value="-codeur"/>
         </java>
@@ -1198,7 +1188,6 @@
             <arg value="-form"/><arg value="RZ"/>
             <arg value="-snr"/><arg value="10"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
-            <arg value="-snr"/><arg value="10"/>
             <arg value="-codeur"/>
         </java>
         <!-- Test avec bruit avec codeur avec 5 trajets multiples-->
@@ -1208,9 +1197,8 @@
             <arg value="-mess"/><arg value="25"/>
             <arg value="-seed"/><arg value="1"/>
             <arg value="-form"/><arg value="RZ"/>
-            <arg value="-snr"/><arg value="10"/>
+            <arg value="-snr"/><arg value="0"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.4"/><arg value="30"/><arg value="0.6"/><arg value="70"/><arg value="0.7"/><arg value="15"/><arg value="0.9"/>
-            <arg value="-snr"/><arg value="10"/>
             <arg value="-codeur"/>
         </java>
         <!-- Forme NRZ-->
@@ -1272,7 +1260,6 @@
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-snr"/><arg value="10"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
-            <arg value="-snr"/><arg value="10"/>
             <arg value="-codeur"/>
         </java>
         <!-- Test avec bruit avec codeur avec 5 trajets multiples-->
@@ -1284,7 +1271,6 @@
             <arg value="-form"/><arg value="NRZ"/>
             <arg value="-snr"/><arg value="10"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.4"/><arg value="30"/><arg value="0.6"/><arg value="70"/><arg value="0.7"/><arg value="15"/><arg value="0.9"/>
-            <arg value="-snr"/><arg value="10"/>
             <arg value="-codeur"/>
         </java>
         <!-- Forme NRZT-->
@@ -1346,7 +1332,6 @@
             <arg value="-form"/><arg value="NRZT"/>
             <arg value="-snr"/><arg value="10"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/>
-            <arg value="-snr"/><arg value="10"/>
             <arg value="-codeur"/>
         </java>
         <!-- Test avec bruit avec codeur avec 5 trajets multiples-->
@@ -1356,9 +1341,8 @@
             <arg value="-mess"/><arg value="25"/>
             <arg value="-seed"/><arg value="1"/>
             <arg value="-form"/><arg value="NRZT"/>
-            <arg value="-snr"/><arg value="10"/>
+            <arg value="-snr"/><arg value="5"/>
             <arg value="-ti"/><arg value="10"/><arg value="0.5"/><arg value="20"/><arg value="0.4"/><arg value="30"/><arg value="0.6"/><arg value="70"/><arg value="0.7"/><arg value="15"/><arg value="0.9"/>
-            <arg value="-snr"/><arg value="10"/>
             <arg value="-codeur"/>
         </java>
     </target>
