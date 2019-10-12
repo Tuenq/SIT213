@@ -77,29 +77,30 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
     public void filtreTrajetMultiple() {
     	// recupérer le nbElement d'origine
     	int nbTrajetIndirect = retardCanal.length;
-    	int maxRetard = (int) retardCanal[nbTrajetIndirect - 1];
-    	Float[] infomelangee = informationRecue.getArray();
-    	Float[] infoDetectee = new Float[infomelangee.length - maxRetard];
-
+    	int maxRetard = retardCanal[nbTrajetIndirect - 1];
+    	Float[] infoMelangee = informationRecue.getArray();
+    	Float[] infoDetectee = new Float[infoMelangee.length - maxRetard];
+    		
+		//Suppression du premier trajet indirect
     	int debut = 0;
     	int fin = retardCanal[0];
-    	
-		for (int j = debut; j<fin; j++)
-			infoDetectee[j] = infomelangee[j];
-		
+		for (int j = debut; j<fin; j++) 
+			infoDetectee[j] = infoMelangee[j];
+	
 		debut = fin;
-		fin = (nbTrajetIndirect>1)? retardCanal[0] : infoDetectee.length; 
-		for (int j = debut; j<fin; j++)
-			infoDetectee[j] = infomelangee[j] - (attenuationCanal[0] * infoDetectee[j-retardCanal[0]]);
+		fin = (nbTrajetIndirect>1)? retardCanal[1] : infoDetectee.length; 
+		for (int j = debut; j<fin; j++) 
+			infoDetectee[j] = infoMelangee[j] - (attenuationCanal[0]* infoDetectee[j-retardCanal[0]]);
 		
-		debut = fin;
-		fin = (nbTrajetIndirect>2)? retardCanal[1] : infoDetectee.length; 
-		for (int j = debut; j<fin; j++)
-			infoDetectee[j] = infomelangee[j] - (attenuationCanal[0] * infoDetectee[j-retardCanal[0]]) - (attenuationCanal[1] * infoDetectee[j-retardCanal[1]]);
-		
+		//Suppression du second trajet multiple
+		if(nbTrajetIndirect>=2) {
+			debut = fin;
+			fin = infoDetectee.length; 
+			for (int j = debut; j<fin; j++) 
+				infoDetectee[j] = infoMelangee[j] - (attenuationCanal[1] * infoDetectee[j-retardCanal[1]]);
+		}
 		//TODO : renvoyer une donnée au lieu de modifier informationRecue
 		informationRecue = new Information<Float>(infoDetectee); 
-	
     }
 
     @Override
