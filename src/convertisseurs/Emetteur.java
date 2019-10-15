@@ -44,6 +44,7 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
         float[] data_conversion = filtreMiseEnForme.echantillonage(informationRecue);
         filtreMiseEnForme.appliquer(data_conversion);
         informationEmise = new InformationAnalogique(data_conversion);
+        informationEmise.setPuissanceMoyenne(filtreMiseEnForme.getPuissanceMoyenneSortieFiltre());
     }
 
     /**

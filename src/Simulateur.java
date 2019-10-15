@@ -219,7 +219,8 @@ public class Simulateur {
         if (transmissionAnalogique) {
             if (trajetMultiple) {
                 transmetteurTrajetMultiple = new TransmetteurTrajetMultiples(decalageTemporel, amplitudeRelative);
-                recepteur = new Recepteur(nombreEchantillon, amplitudeRelative, decalageTemporel);
+                FiltreMiseEnForme filtreMiseEnForme = ((Emetteur) emetteur).getFiltreMiseEnForme();
+                recepteur = new Recepteur(filtreMiseEnForme, amplitudeRelative, decalageTemporel, amplitudeMin,amplitudeMax); //TODO regropuer les paramètres
             } else {
                 transmetteurTrajetMultiple = new TransmetteurParfait<>();
             }
@@ -263,7 +264,7 @@ public class Simulateur {
 
         /* GESTION DU CANAL */
         if (transmissionAnalogique) {
-            transmetteurTrajetMultiple.connecter(transmetteurBruite);
+        	transmetteurTrajetMultiple.connecter(transmetteurBruite);
             transmetteurBruite.connecter(recepteur);
         } else {
             if (codageCanal)

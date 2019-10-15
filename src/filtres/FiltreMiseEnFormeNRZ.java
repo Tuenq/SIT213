@@ -8,6 +8,7 @@ public class FiltreMiseEnFormeNRZ extends FiltreMiseEnForme {
 
     public FiltreMiseEnFormeNRZ(int nbEch, float amplMin, float amplMax) {
         super(nbEch, amplMin, amplMax);
+        puissanceFiltre = 1;
     }
 
     /**

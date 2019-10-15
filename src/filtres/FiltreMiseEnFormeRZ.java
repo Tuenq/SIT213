@@ -5,6 +5,7 @@ import visualisations.VueCourbe;
 public class FiltreMiseEnFormeRZ extends FiltreMiseEnForme {
     public FiltreMiseEnFormeRZ(int nbEch, float amplMin, float amplMax) {
         super(nbEch, amplMin, amplMax);
+        puissanceFiltre = 1/3;
     }
 
     /**

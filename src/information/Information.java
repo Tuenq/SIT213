@@ -4,13 +4,14 @@ import java.util.*;
 
 public class Information<T> implements Iterable<T> {
 
-	private LinkedList<T> content;
+	private ArrayList<T> content;
+	private float puissanceMoyenne = 0;
 
     /**
      * pour construire une information vide
      */
     public Information() {
-        this.content = new LinkedList<>();
+        this.content = new ArrayList<>();
     }
 
     /**
@@ -19,14 +20,11 @@ public class Information<T> implements Iterable<T> {
      * @param content le tableau d'éléments pour initialiser l'information construite
      */
     public Information(T[] content) {
-        this.content = new LinkedList<T>();
-        for (T t : content) {
-            this.content.addLast(t);
-        }
+       this.content = new ArrayList(Arrays.asList(content));
     }
 
     public Information(Information<T> information) {
-        this.content = new LinkedList<>();
+        this.content = new ArrayList<>();
         Iterator<T> contentIterator = information.iterator();
         contentIterator.forEachRemaining(this.content::add);
     }
@@ -107,4 +105,22 @@ public class Information<T> implements Iterable<T> {
 		Float[] tab = new Float[0];
         return content.toArray(tab);
     }
+    
+    /**
+     * Pour recupérer la puissance moyenne du signal
+     * @return
+     */
+    public float getPuissaanceMoyenne() {
+    	return puissanceMoyenne;
+    }
+    
+    /**
+     * change la valeur de la puissance moyenne du signal
+     * @param pm
+     */
+    public void setPuissanceMoyenne(float pm) {
+    	puissanceMoyenne  = pm;
+    }
+    
+    
 }

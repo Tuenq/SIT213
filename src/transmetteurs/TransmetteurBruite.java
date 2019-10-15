@@ -9,7 +9,6 @@ public class TransmetteurBruite extends Transmetteur<Float,Float> {
 
     private float snr;
     private BruitGaussien bruit;
-
     public TransmetteurBruite(float snr) {
         this.snr = snr;
         bruit = new BruitGaussien();
@@ -22,17 +21,15 @@ public class TransmetteurBruite extends Transmetteur<Float,Float> {
 
     @Override
     public void recevoir(Information<Float> information) throws InformationNonConforme {
-        informationRecue = new Information<>(information);
+        informationRecue = information;
         appliquerBruit();
         emettre();
     }
 
     private void appliquerBruit() {
         int data_length = informationRecue.nbElements();
-
-        float puissanceMoyenne = Outils.puissanceMoyenne(informationRecue);
+        float puissanceMoyenne = informationRecue.getPuissaanceMoyenne();
         float ecartType = Outils.ecartType(puissanceMoyenne, snr);
-
         bruit.initialiser(ecartType, data_length);
         Float[] donneesBruitee = bruit.appliquer(informationRecue, data_length);
 

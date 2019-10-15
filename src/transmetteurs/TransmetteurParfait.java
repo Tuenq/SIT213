@@ -27,7 +27,7 @@ public class TransmetteurParfait<T> extends Transmetteur <T, T> {
      */
     @Override
     public void emettre() throws InformationNonConforme {
-        informationEmise = new Information<>(informationRecue);
+        informationEmise = informationRecue;
         for (DestinationInterface<T> destination : destinationsConnectees) {
             destination.recevoir(informationEmise);
         }

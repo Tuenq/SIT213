@@ -19,14 +19,6 @@ public class Outils {
         return maxDistance < minDistance;
     }
 
-    public static float puissanceMoyenne(Information<Float> signal) {
-        float power = 0;  // Initialisation somme des échantillons
-        for (Float datum: signal) {
-            power += Math.pow(datum, 2);
-        }
-        return power / signal.nbElements();
-    }
-
     public static float ecartType(float puissanceMoyenne, float snr) {
         double denom = Math.pow(10, snr / 10f);
         return (float) Math.sqrt(puissanceMoyenne / denom);

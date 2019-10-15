@@ -15,6 +15,8 @@ public abstract class FiltreMiseEnForme {
 	private float amplMax;
 	private float amplMin;
 	float[] donneeFiltre;
+	protected float puissanceFiltre = 0;
+	private float puissanceMoyenneSortieFiltre = 0;
 
 
 	FiltreMiseEnForme(int nbEch, float amplMin, float amplMax) {
@@ -30,14 +32,15 @@ public abstract class FiltreMiseEnForme {
 	public float[] echantillonage(Information<Boolean> data) {
 		int cpt = 0;
 		float[] dataOut = new float[data.nbElements() * nbEch];
-
 		for (Boolean datum : data) {
 			final float value_ech = datum ? amplMax : amplMin;
+			puissanceMoyenneSortieFiltre += Math.abs(puissanceFiltre * Math.pow(value_ech, 2));
 			final int index_start = cpt++ * nbEch;
 			final int index_stop = index_start + nbEch;
 
 			Arrays.fill(dataOut, index_start, index_stop, value_ech);
 		}
+		puissanceMoyenneSortieFiltre = puissanceMoyenneSortieFiltre / data.nbElements();
 		return dataOut;
 	}
 
@@ -58,5 +61,15 @@ public abstract class FiltreMiseEnForme {
 		appliquer(symbole);
 		return symbole;
 	}
+	
+    /**
+     * Pour recup�rer la puissance moyenne en sortie du filtre de mise en forme
+     * @return
+     */
+    public float getPuissanceMoyenneSortieFiltre() {
+    	return puissanceMoyenneSortieFiltre;
+    }
+    
+    
 }
 

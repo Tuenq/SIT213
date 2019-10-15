@@ -38,6 +38,7 @@
 
 				Float[] signalTrajetDirect = informationRecue.getArray();
 				Float[] signalPrecedent = signalTrajetDirect;
+				//TODO : recupérer l'ampl max et min du signal à partir de là avec un array list 
 
 			
 
@@ -55,8 +56,8 @@
 					for(int j=0; j<signalPrecedent.length; j++) 
 						signalGenere[j] = signalPrecedent[j] + signalAttenueRetarde[j];
 
-					if (signalAttenueRetarde.length - signalPrecedent.length >= 0)
-						System.arraycopy(signalAttenueRetarde, signalPrecedent.length, signalGenere, signalPrecedent.length, signalAttenueRetarde.length - signalPrecedent.length);
+					for(int j=signalPrecedent.length; j<signalAttenueRetarde.length; j++) 
+						signalGenere[j] = signalAttenueRetarde[j];
 					
 					signalPrecedent=signalGenere;
 
@@ -67,6 +68,7 @@
 				}
 			
 				informationEmise=new Information<>(signalPrecedent);
+				informationEmise.setPuissanceMoyenne(informationRecue.getPuissaanceMoyenne());
 			}
 		
 			/**
