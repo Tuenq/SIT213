@@ -44,6 +44,13 @@
             <mkdir dir="${artifacts.dir}"/>
         </target>
 
+        <!-- =====     target: prepareCurves     ===== -->
+        <target name="prepareCurves" depends="prepareArtifacts" description="--+--> Initialize artifacts structure">
+            <mkdir dir="${artifacts.dir}/RZ"/>
+            <mkdir dir="${artifacts.dir}/NRZ"/>
+            <mkdir dir="${artifacts.dir}/NRZT"/>
+        </target>
+
         <!-- =====     target: prepareDeployment     ===== -->
         <target name="prepareDeployment" description="--+--> Initialize deployment structure">
             <mkdir dir="${deployment.test.dir}"/>
@@ -108,6 +115,39 @@
                 <tarfileset file="${basedir}/README.md"/>
                 <tarfileset file="${basedir}/Goals.md"/>
             </tar>
+        </target>
+
+        <!-- =====     target: generateCurves     ===== -->
+        <target name="generateCurves" depends="prepareCurves"
+                description="--+--> Generate BER curves">
+            <echo>Generation des valeurs TEB</echo>
+            <echo>==> Courbe TEB : RZ</echo>
+            <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
+                <classpath refid="classpath.main"/>
+                <arg value="-form"/><arg value="RZ"/>
+                <arg value="-mess"/><arg value="50000"/>
+                <arg value="-snr"/><arg value="-10"/><arg value="15"/><arg value="0.1"/>
+                <arg value="-simu"/><arg value="20"/>
+                <arg value="-directory"/><arg value="${basedir}/${artifacts.dir}/RZ/"/>
+            </java>
+            <echo>==> Courbe TEB : NRZ</echo>
+            <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
+                <classpath refid="classpath.main"/>
+                <arg value="-form"/><arg value="NRZ"/>
+                <arg value="-mess"/><arg value="50000"/>
+                <arg value="-snr"/><arg value="-10"/><arg value="15"/><arg value="0.1"/>
+                <arg value="-simu"/><arg value="20"/>
+                <arg value="-directory"/><arg value="${basedir}/${artifacts.dir}/NRZ/"/>
+            </java>
+            <echo>==> Courbe TEB : NRZT</echo>
+            <java dir="${source.build.main.dir}" classname="generationValeursTEB" fork="true">
+                <classpath refid="classpath.main"/>
+                <arg value="-form"/><arg value="NRZT"/>
+                <arg value="-mess"/><arg value="50000"/>
+                <arg value="-snr"/><arg value="-10"/><arg value="15"/><arg value="0.1"/>
+                <arg value="-simu"/><arg value="20"/>
+                <arg value="-directory"/><arg value="${basedir}/${artifacts.dir}/NRZT/"/>
+            </java>
         </target>
     <!-- endregion -->
 </project>
