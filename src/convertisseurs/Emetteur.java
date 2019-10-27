@@ -13,6 +13,13 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
         configureFiltre(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
 	}
 
+    /**
+     * Permet de creer le filtre de mise en forme a partir de la forme souhaitee et des caracteristiques du filtre souhaitees
+     * @param fo choix de la forme
+     * @param ne nombre d'echantillons
+     * @param ami amplitude minimale
+     * @param ama amplitude maximale
+     */
 	private void configureFiltre(FiltreMiseEnForme.forme fo, int ne, float ami, float ama) {
         switch (fo) {
             case RZ:
@@ -29,10 +36,17 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
         }
     }
 
+    /**
+     * @return le filtre de mise en forme
+     */
     public FiltreMiseEnForme getFiltreMiseEnForme() {
 	    return filtreMiseEnForme;
     }
-
+    /**
+     * Permet de recuperer l'information, la code et retransmet l'information aux destinations connectees
+     * @param information  l'information  reçue
+     * @throws InformationNonConforme Cas d'erreur remonté par l'information
+     */
     @Override
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;

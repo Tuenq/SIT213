@@ -38,6 +38,12 @@ public class BruitGaussien {
         return new Information<>(donneeBruit);
     }
 
+    /**
+     * Permet d'appliquer un bruit gaussien sur une sequence de bits donnée
+     * @param dataIn information en entree
+     * @param dataIn_len taille de l'information recue
+     * @return
+     */
     public Float[] appliquer(Information<Float> dataIn, int dataIn_len) {
         Float[] dataOut =  new Float[dataIn_len];
         Iterator<Float> dataIn_Iterator = dataIn.iterator();

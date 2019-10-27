@@ -6,7 +6,11 @@ import information.InformationNonConforme;
 import transmetteurs.Transmetteur;
 
 public class CodeurCanal extends Transmetteur<Boolean, Boolean> {
-
+    /**
+     * Permet de recuperer l'information, la code et retransmet l'information
+     * @param information  l'information  reçue
+     * @throws InformationNonConforme
+     */
     @Override
     public void recevoir(Information<Boolean> information) throws InformationNonConforme {
         informationRecue = information;
@@ -14,6 +18,11 @@ public class CodeurCanal extends Transmetteur<Boolean, Boolean> {
         emettre();
     }
 
+    /**
+     * Fonction d'encodage pour ajouter le codage de canal :
+     * les 1 deviennent des 101
+     * Les 0 deviennent des 010
+     */
     private void applicationEncodage() {
         informationEmise = new Information<>();
         for (Boolean datum : informationRecue) {
@@ -29,6 +38,10 @@ public class CodeurCanal extends Transmetteur<Boolean, Boolean> {
         }
     }
 
+    /**
+     * Pour chaque destination connectée, on transmet les informations reçues
+     * @throws InformationNonConforme Cas d'erreur remonté par l'information
+     */
     @Override
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destination : destinationsConnectees) {
