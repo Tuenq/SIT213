@@ -2,6 +2,9 @@ package communs;
 
 import information.Information;
 
+/**
+ * Boite à outil pour réaliser différents calcul et méthode dans le reste du projet
+ */
 public class Outils {
     /**
      * Permet de déterminer, à partir des amplitudes théoriques, le symbole en fonction de la moyenne passé.
@@ -19,6 +22,12 @@ public class Outils {
         return maxDistance < minDistance;
     }
 
+    /**
+     * Calcul l'écart type d'une fonction gaussienne en fonction de la puissance moyenne du signal et du SNR
+     * @param puissanceMoyenne puissance moyenne du signal
+     * @param snr SNR fixé
+     * @return écart type
+     */
     public static float ecartType(float puissanceMoyenne, float snr) {
         double denom = Math.pow(10, snr / 10f);
         return (float) Math.sqrt(puissanceMoyenne / denom);
@@ -61,14 +70,29 @@ public class Outils {
         return result;
     }
 
+    /**
+     * Vérifie si la valeu en paramétre est un multiple de 2
+     * @param n valeur
+     * @return boolean
+     */
     public static boolean isEven(int n) {
         return (n % 2 == 0);
     }
 
+    /**
+     * Vérifie si la valeu en paramétre n'est pas un multiple de 2
+     * @param n valeur
+     * @return boolean
+     */
     public static boolean isOdd(int n) {
         return (n % 2 == 1);
     }
 
+    /**
+     * Converti un tableau de float en un tableau de double
+     * @param array tableau de float
+     * @return tableau de double
+     */
     public static double[] convertToDoubleArray(float[] array) {
         double[] doubleArray = new double[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -77,6 +101,11 @@ public class Outils {
         return doubleArray;
     }
 
+    /**
+     * Converti un tableau de Float en un tableau de double
+     * @param array tableau de Float
+     * @return tableau de double
+     */
     public static double[] convertToDoubleArray(Float[] array) {
         double[] doubleArray = new double[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -85,12 +114,22 @@ public class Outils {
         return doubleArray;
     }
 
+    /**
+     * Converti un tableau de double en un tableau de float
+     * @param array tableau de double
+     * @return tableau de float
+     */
     public static float[] convertToFloatArray(double[] array) {
         float[] floatArray = new float[array.length];
         for (int i = 0; i < array.length; i++) floatArray[i] = (float) array[i];
         return floatArray;
     }
 
+    /**
+     * Renvoi la valeur max d'un tableau de double
+     * @param array tableau de double
+     * @return valeur max
+     */
     public static double getMaximumValue(double[] array) {
         double max = 0;
         for (double datum:array) {
@@ -100,6 +139,11 @@ public class Outils {
         return max;
     }
 
+    /**
+     * Renvoi la valeur min d'un tableau de double
+     * @param array tableau de double
+     * @return valeur min
+     */
     public static double getMinimumValue(double[] array) {
         double min = 0;
         for (double datum:array) {
