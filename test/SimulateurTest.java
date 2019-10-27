@@ -1,3 +1,4 @@
+import filtres.FiltreMiseEnForme;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -271,6 +272,117 @@ public class SimulateurTest {
 
         // Act & Assert
         new Simulateur(args);
+    }
+
+    // endregion
+
+    // region ETAPE 2 - VALIDATION : Vérification de la détection des symboles
+
+    @Test
+    public void TEB_nul_amplitudes_signes_differents() throws Exception {
+        for (FiltreMiseEnForme.forme formeOnde : FiltreMiseEnForme.forme.values()) {
+            // Arrange
+            float expected_TEB = 0.0f;
+            float delta_expected = 0.00001f;
+            String[] args = {"-mute", "-mess", "01010011", "-form", formeOnde.name(), "-ampl", "-1", "1"};
+            Simulateur simu = new Simulateur(args);
+
+            // Act
+            simu.execute();
+            float actual_TEB = simu.calculTauxErreurBinaire();
+
+            // Assert
+            Assert.assertEquals(expected_TEB, actual_TEB, delta_expected);
+        }
+    }
+
+    @Test
+    public void TEB_nul_amplitude_zero_positif() throws Exception {
+        for (FiltreMiseEnForme.forme formeOnde : FiltreMiseEnForme.forme.values()) {
+            // Arrange
+            float expected_TEB = 0.0f;
+            float delta_expected = 0.00001f;
+            String[] args = {"-mute", "-mess", "01010011", "-form", formeOnde.name(), "-ampl", "0", "1"};
+            Simulateur simu = new Simulateur(args);
+
+            // Act
+            simu.execute();
+            float actual_TEB = simu.calculTauxErreurBinaire();
+
+            // Assert
+            Assert.assertEquals(expected_TEB, actual_TEB, delta_expected);
+        }
+    }
+
+    @Test
+    public void TEB_nul_amplitude_zero_negatif() throws Exception {
+        for (FiltreMiseEnForme.forme formeOnde : FiltreMiseEnForme.forme.values()) {
+            String formeOndeSTR = formeOnde.name();
+
+            // Arrange
+            float expected_TEB = 0.0f;
+            float delta_expected = 0.00001f;
+            String[] args = {"-mute", "-mess", "01010011", "-form", formeOndeSTR, "-ampl", "-1", "0"};
+            Simulateur simu = new Simulateur(args);
+
+            // Act
+            simu.execute();
+            float actual_TEB = simu.calculTauxErreurBinaire();
+
+            // Assert
+            String messageFailed = String.format("Failed on test with parameter: [%s]", formeOndeSTR);
+            Assert.assertEquals(messageFailed, expected_TEB, actual_TEB, delta_expected);
+        }
+    }
+
+    @Test
+    public void TEB_nul_amplitude_ratio_positif() throws Exception {
+        float[] range = { 2, 3, 4, 5, 6, 7, 8, 9, 9.5f };
+        for (FiltreMiseEnForme.forme formeOnde : FiltreMiseEnForme.forme.values()) {
+            for (float highLimit : range) {
+                String formeOndeSTR = formeOnde.name();
+                String limitSTR = String.valueOf(highLimit);
+
+                // Arrange
+                float expected_TEB = 0.0f;
+                float delta_expected = 0.00001f;
+                String[] args = {"-mute", "-mess", "01010011", "-form", formeOndeSTR, "-ampl", "1", limitSTR};
+                Simulateur simu = new Simulateur(args);
+
+                // Act
+                simu.execute();
+                float actual_TEB = simu.calculTauxErreurBinaire();
+
+                // Assert
+                String messageFailed = String.format("Failed on test with parameters: [%s][%s]", formeOndeSTR, limitSTR);
+                Assert.assertEquals(messageFailed, expected_TEB, actual_TEB, delta_expected);
+            }
+        }
+    }
+
+    @Test
+    public void TEB_nul_amplitude_ratio_negatif() throws Exception {
+        float[] range = { -2, -3, -4, -5, -6, -7, -8, -9, -9.5f };
+        for (FiltreMiseEnForme.forme formeOnde : FiltreMiseEnForme.forme.values()) {
+            for (float lowLimit : range) {
+                String formeOndeSTR = formeOnde.name();
+                String limitSTR = String.valueOf(lowLimit);
+
+                // Arrange
+                float expected_TEB = 0.0f;
+                float delta_expected = 0.00001f;
+                String[] args = {"-mute", "-mess", "01010011", "-form", formeOndeSTR, "-ampl", limitSTR, "-1"};
+                Simulateur simu = new Simulateur(args);
+
+                // Act
+                simu.execute();
+                float actual_TEB = simu.calculTauxErreurBinaire();
+
+                // Assert
+                String messageFailed = String.format("Failed on test with parameters: [%s][%s]", formeOndeSTR, limitSTR);
+                Assert.assertEquals(messageFailed, expected_TEB, actual_TEB, delta_expected);
+            }
+        }
     }
 
     // endregion

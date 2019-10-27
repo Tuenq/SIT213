@@ -2,7 +2,11 @@ package filtres;
 
 import visualisations.VueCourbe;
 
+/**
+ * Implémentation du filtre de mise en forme <b>RZ</b> ("return-to-zero").
+ */
 public class FiltreMiseEnFormeRZ extends FiltreMiseEnForme {
+
     public FiltreMiseEnFormeRZ(int nbEch, float amplMin, float amplMax) {
         super(nbEch, amplMin, amplMax);
         puissanceFiltre = 1/3;
@@ -30,15 +34,9 @@ public class FiltreMiseEnFormeRZ extends FiltreMiseEnForme {
         }
     }
 
-    public static void main(String[] args) throws SymboleNulException {
+    public static void main(String[] args) {
         FiltreMiseEnForme visu = new FiltreMiseEnFormeRZ(100, -10f, 10f);
         new VueCourbe(visu.donneeFiltre, "Filtre RZ");
-
-        float[] symbole_0 = visu.genererSymbole(false);
-        new VueCourbe(symbole_0, "Filtre RZ - Symbole 0");
-
-        float[] symbole_1 = visu.genererSymbole(true);
-        new VueCourbe(symbole_1, "Filtre RZ - Symbole 1");
     }
 }
 

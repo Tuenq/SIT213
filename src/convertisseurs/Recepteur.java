@@ -28,6 +28,11 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
 	    amplMax = amplitudeMax;
     }
 
+    /**
+     * Permet de recuperer l'information, la code et retransmet l'information aux destinations connectees
+     * @param information  l'information  reçue
+     * @throws InformationNonConforme Cas d'erreur remonté par l'information
+     */
     @Override
     public void recevoir(Information<Float> information) throws InformationNonConforme {
 	    informationRecue = information;
@@ -86,6 +91,10 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
 
     }
 
+    /**
+     * Pour chaque destination connectée, on transmet les informations reçues
+     * @throws InformationNonConforme Cas d'erreur remonté par l'information
+     */
     @Override
     public void emettre() throws InformationNonConforme {
         for (DestinationInterface<Boolean> destination : destinationsConnectees) {

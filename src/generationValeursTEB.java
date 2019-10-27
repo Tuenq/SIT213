@@ -2,6 +2,8 @@ import communs.Outils;
 import information.Information;
 import org.apache.commons.cli.*;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -28,21 +30,20 @@ public class generationValeursTEB {
     private static Information<Float> data;
 
     private static void generateFileName(){
-        DateFormat df = new SimpleDateFormat("dd-MM-yy_HH:mm");
-        Date dateobj = new Date();
-        csvFile = df.format(dateobj);
-        csvFile += "_Form:" + form;
-        csvFile += "_SNRmin:" + snrMin + "_SNRmax:" + snrMax + "_SNRpas:" + pas;
-        csvFile += "_TMess:" + mess;
-        if (codeur)
-            csvFile += "_CodeurUtilises";
-        if (trajetMultiple){
-            csvFile += "_TrajetMultiple:";
-            for (int trajet = 0 ; trajet < decalageTemporel.length ; trajet++){
-                csvFile += "_" + decalageTemporel[trajet];
-                csvFile += "_" + amplitudeRelative[trajet];
-            }
+        InetAddress ip;
+        String hostname = "UNKNOWN";
+        try {
+            ip = InetAddress.getLocalHost();
+            hostname = ip.getHostName();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
         }
+
+        DateFormat df = new SimpleDateFormat("dd-MM-HH-mm");
+        Date dateobj = new Date();
+
+        csvFile = hostname;
+        csvFile += "_" + df.format(dateobj);
         csvFile += ".csv";
     }
 
@@ -63,21 +64,26 @@ public class generationValeursTEB {
             }
         }
 
-        for (float snr = snrMin; snr < snrMax; snr += pas) {
+        int step_max = (int) ((snrMax - snrMin) / pas) + 1;
+        float[] teb_array = new float[step_max];
+        float[] snr_array = new float[step_max];
+
+        for (int step = 0; step < step_max; step++) {
+            snr_array[step] = (snrMin + pas * step);
+
             float averageTEB = 0.0F;
             for (int simulation = 0 ; simulation < nbSimulations ; simulation++) {
                 String[] argsSimu = append(argsFixes, "-snr");
-                argsSimu = append(argsSimu, Float.toString(snr));
+                argsSimu = append(argsSimu, Float.toString(snr_array[step]));
 
                 Simulateur simulateur = new Simulateur(argsSimu);
                 simulateur.execute();
                 averageTEB += simulateur.calculTauxErreurBinaire();
             }
-            float teb = averageTEB / nbSimulations;
-            System.out.println("SNR - TEB : " + snr + " - " + teb);
-
-            extractionCSV.sauvegardeData(directory + csvFile, teb, snr);
+            teb_array[step] = averageTEB / nbSimulations;
+            System.out.println("SNR - TEB : " + snr_array[step] + " - " + teb_array[step]);
         }
+        extractionCSV.sauvegardeData(directory + csvFile, teb_array, snr_array);
     }
 
     static <T> T[] append(T[] arr, T element) {

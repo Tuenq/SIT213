@@ -4,6 +4,9 @@ import visualisations.VueCourbe;
 
 import java.util.Arrays;
 
+/**
+ * Implémentation du filtre de mise en forme <b>NRZ</b> ("non-return-to-zero").
+ */
 public class FiltreMiseEnFormeNRZ extends FiltreMiseEnForme {
 
     public FiltreMiseEnFormeNRZ(int nbEch, float amplMin, float amplMax) {
@@ -24,15 +27,9 @@ public class FiltreMiseEnFormeNRZ extends FiltreMiseEnForme {
         Arrays.fill(donneeFiltre, 1f);
     }
 
-    public static void main(String[] args) throws SymboleNulException {
+    public static void main(String[] args) {
         FiltreMiseEnForme visu = new FiltreMiseEnFormeNRZ(100, -10f, 10f);
         new VueCourbe(visu.donneeFiltre, "Filtre NRZ");
-
-        float[] symbole_0 = visu.genererSymbole(false);
-        new VueCourbe(symbole_0, "Filtre RZ - Symbole 0");
-
-        float[] symbole_1 = visu.genererSymbole(true);
-        new VueCourbe(symbole_1, "Filtre RZ - Symbole 1");
     }
 }
 

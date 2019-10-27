@@ -2,9 +2,7 @@
 
 [![Build Status][TRAVIS_CI_BADGE]][TRAVIS_CI]
 
-
-
-Fichier décrivant les objectifs : [Goals](Goals.md) [WIP]
+Fichier décrivant les objectifs : [Goals](Goals.md)
 
 ## Project folder overview
 
@@ -16,7 +14,12 @@ Fichier décrivant les objectifs : [Goals](Goals.md) [WIP]
 ├── bin/                # Contain class files (generated on-demand)
 ├── docs/               # Contain documentation about java sources (generated on-demand)
 ├── test/               # Contain java test sources
-└── build.xml           # Ant build file
+├── build.xml           # Ant build file
+├── cleanAll            # Permet de supprimer les fichiers générés
+├── compile             # Permet de compiler le projet
+├── genDoc              # Permet de générer la documentation
+├── runTests            # Permet de lancer les tests de validation
+└── simulateur          # Permet d'utiliser le simulateur
 ```
 
 ## How to use
