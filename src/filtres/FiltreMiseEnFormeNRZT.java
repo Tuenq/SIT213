@@ -2,8 +2,10 @@ package filtres;
 
 import visualisations.VueCourbe;
 
+/**
+ * Implémentation du filtre de mise en forme <b>NRZT</b> ("non-return-to-zero with trapezoidal shape").
+ */
 public class FiltreMiseEnFormeNRZT extends FiltreMiseEnForme {
-
 
     public FiltreMiseEnFormeNRZT(int nbEch, float amplMin, float amplMax) {
         super(nbEch, amplMin, amplMax);
@@ -33,15 +35,9 @@ public class FiltreMiseEnFormeNRZT extends FiltreMiseEnForme {
         }
     }
 
-    public static void main(String[] args) throws SymboleNulException {
+    public static void main(String[] args) {
         FiltreMiseEnForme visu = new FiltreMiseEnFormeNRZT(100, -10f, 10);
         new VueCourbe(visu.donneeFiltre, "Filtre NRZT");
-
-        float[] symbole_0 = visu.genererSymbole(false);
-        new VueCourbe(symbole_0, "Filtre RZ - Symbole 0");
-
-        float[] symbole_1 = visu.genererSymbole(true);
-        new VueCourbe(symbole_1, "Filtre RZ - Symbole 1");
     }
 }
 

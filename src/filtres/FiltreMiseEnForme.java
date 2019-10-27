@@ -5,15 +5,21 @@ import information.InformationBooleen;
 
 import java.util.Arrays;
 
+/**
+ * Classe abstraite pour l'implémentation des filtres de mise en forme.
+ */
 public abstract class FiltreMiseEnForme {
 
+	/**
+	 * Liste les différentes mise en forme implémentées.
+	 */
 	public enum forme {
 		RZ, NRZ, NRZT;
 	}
 
 	int nbEch;
-	private float amplMax;
-	private float amplMin;
+	float amplMax;
+	float amplMin;
 	float[] donneeFiltre;
 
 
@@ -25,8 +31,16 @@ public abstract class FiltreMiseEnForme {
 		initialisationFiltre();
 	}
 
+	/**
+	 * Permet d'initialiser les données d'un filtre en fonction du nombre d'échantillon pour un symbole unitaire.
+	 */
 	abstract void initialisationFiltre();
 
+	/**
+	 * Génère l'équivalent d'une valeur booléenne en une liste de valeur flottante.
+	 * @param data Liste d'information booléenne.
+	 * @return Liste d'information analogique.
+	 */
 	public float[] echantillonage(Information<Boolean> data) {
 		int cpt = 0;
 		float[] dataOut = new float[data.nbElements() * nbEch];
@@ -45,18 +59,6 @@ public abstract class FiltreMiseEnForme {
 		for (int ech = 0; ech < data.length; ech++) {
 			data[ech] *= donneeFiltre[ech % nbEch];
 		}
-	}
-
-	float[] genererSymbole(boolean valeur) throws SymboleNulException {
-		if (amplMax == 0f && valeur)  // Cas où la limite haute est nulle
-			throw new SymboleNulException("Symbole positif généré d'amplitude nulle !");
-		else if (amplMin == 0f && !valeur)
-			throw new SymboleNulException("Symbole négatif généré d'amplitude nulle");
-
-		Information<Boolean> valeur_symbole = new InformationBooleen(valeur);
-		float[] symbole = echantillonage(valeur_symbole);
-		appliquer(symbole);
-		return symbole;
 	}
 }
 

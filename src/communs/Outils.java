@@ -116,4 +116,14 @@ public class Outils {
         }
         return min;
     }
+
+    /**
+     * Verify if the two float value have the same sign
+     * @param x Float value
+     * @param y Float value
+     * @return true if value are the same size, else false
+     */
+    public static boolean checkSameSign(float x, float y) {
+        return (x >= 0) ^ (y < 0);
+    }
 }

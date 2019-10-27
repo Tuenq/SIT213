@@ -21,7 +21,9 @@ public class DecodeurCanal extends Transmetteur<Boolean, Boolean> {
         informationEmise = new Information<>();
         Iterator<Boolean> received = informationRecue.iterator();
 
-        while (received.hasNext()) {
+        int nbBit = informationRecue.nbElements() / 3;
+
+        for (int i = 0; i < nbBit; i++) {
             r0 = received.next();
             r1 = received.next();
             r2 = received.next();
