@@ -4,7 +4,11 @@
 		import information.Information;
 		import information.InformationNonConforme;
 		import visualisations.SondeAnalogique;
-		
+
+		/**
+		 * La classe TransmetteurTrajetMultiples héritant de la classe Transmetteur permet d'ajouter un élément dans
+		 * la chaine de transmission, générant un ensemble de trajet indirect en fonction des paramétre du transmetteur.
+		 */
 		public class TransmetteurTrajetMultiples extends Transmetteur<Float,Float>{
 
 			private int[] retard;
