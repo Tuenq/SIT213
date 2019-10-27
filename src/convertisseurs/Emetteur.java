@@ -5,10 +5,22 @@ import filtres.*;
 import information.*;
 import transmetteurs.Transmetteur;
 
-
+/**
+ * La classe Emeteur permet de specifier un élément qui sera ensuite ajouté dans une chaine de transmission.
+ *
+ * L'émetteur récupére en entrer une suite de symbole binaire 0 ou 1 et les sors modulé sous une forme specifier,
+ * RZ, NRZ, ou NRZT. Le nombre d'échantillon par symbole est spécifié ainsi que les amplitudes maximale et minimale.
+ */
 public class Emetteur extends Transmetteur<Boolean,Float> {
 	private FiltreMiseEnForme filtreMiseEnForme;
 
+    /**
+     * Constructeur de la classe spécifiant les paramétres de l'émetteur
+     * @param formeOnde forme de la modulation
+     * @param nombreEchantillon le nombre d'échantillon par symbole
+     * @param amplitudeMin l'amplitude minimale des formes
+     * @param amplitudeMax l'amplitude maximale des formes
+     */
 	public Emetteur(FiltreMiseEnForme.forme formeOnde, int nombreEchantillon, float amplitudeMin, float amplitudeMax) {
         configureFiltre(formeOnde, nombreEchantillon, amplitudeMin, amplitudeMax);
 	}
@@ -54,6 +66,9 @@ public class Emetteur extends Transmetteur<Boolean,Float> {
         emettre();
     }
 
+    /**
+     * Convertis les informations reçus en fonction des paramétres spécifier pour l'émetteur
+     */
     private void conversionInformation() {
         float[] data_conversion = filtreMiseEnForme.echantillonage(informationRecue);
         filtreMiseEnForme.appliquer(data_conversion);

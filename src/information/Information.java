@@ -2,6 +2,11 @@ package information;
 
 import java.util.*;
 
+/**
+ * La classe information permet de stocker toutes les informations transmises ou stocker le long
+ * d'une chaine de trasmission.
+ * @param <T> Spécifie le type de données stockées
+ */
 public class Information<T> implements Iterable<T> {
 
 	private ArrayList<T> content;

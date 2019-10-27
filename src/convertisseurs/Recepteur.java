@@ -8,6 +8,12 @@ import information.Information;
 import information.InformationNonConforme;
 import transmetteurs.Transmetteur;
 
+/**
+ * La classe Recepteur permet de specifier un élément qui sera ensuite ajouté dans une chaine de transmission.
+ *
+ * Le recepteur récupére en entrer une suite de symbole modulé selon une forme specifier, RZ, NRZ, ou NRZT, et les sors
+ * sous la forme de symbole binaire 0 ou 1
+ */
 public class Recepteur extends Transmetteur<Float,Boolean> {
     private FiltreAdapte filtreAdapte;
 
@@ -16,6 +22,11 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
     int nbTrajetIndirect = 0;
     Float amplMin = 0f;
     Float amplMax = 0f;
+    
+    /**
+     * Constructeur du recepteur, spécifiant la forme utilisée
+     * @param filtre spécifie la forme à utiliser
+     */
 	public Recepteur(FiltreMiseEnForme filtre) {
 	    filtreAdapte = new FiltreAdapte(filtre);
 	}
@@ -43,6 +54,10 @@ public class Recepteur extends Transmetteur<Float,Boolean> {
     }
  
 
+    /**
+     * Décode les informations reçues en transformant les donées reçu (modulées par la forme spécifiée)
+     * en données binaire
+     */
     private void decodage(){
 	    informationEmise = new Information<>();
 	    Float[] dataIn = informationRecue.getArray();

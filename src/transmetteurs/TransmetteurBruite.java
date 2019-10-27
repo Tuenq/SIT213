@@ -5,6 +5,10 @@ import communs.*;
 import destinations.DestinationInterface;
 import information.*;
 
+/**
+ * La classe TransmetteurBruite héritant de Transmetteur permet de specifier un transmetteur ajoutant un bruit
+ * gaussien à un signal le traverssant
+ */
 public class TransmetteurBruite extends Transmetteur<Float,Float> {
 
     private float snr;

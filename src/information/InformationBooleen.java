@@ -1,11 +1,19 @@
 package information;
 
+/**
+ * La classe InformationBooleen hérite de la classe Information et stock des données de type Boolean
+ */
 public class InformationBooleen extends Information<Boolean> {
     public InformationBooleen(boolean valeur) {
         super();
         this.add(valeur);
     }
 
+    /**
+     * Constructeur de la classe, permet de cloner les donnée présente dans la chaine de string et de les stocker
+     * dans le nouvel object InformationBooleen
+     * @param booleanString les data à cloner
+     */
     public InformationBooleen(String booleanString) throws InformationNonConforme {
         super();
 
