@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * - Specifier les différents paramétres que la loi gaussienne doit suivre
  * - Générer un nombre specifique de valeurs aléatoire suivant cette loi
- * - Récupérer les valeurs aléatoire générées 
+ * - Récupérer les valeurs aléatoire générées
  */
 public class BruitGaussien {
     private Random uniformLaw;

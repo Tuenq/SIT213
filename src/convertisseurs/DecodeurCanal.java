@@ -7,6 +7,10 @@ import transmetteurs.Transmetteur;
 
 import java.util.Iterator;
 
+/**
+ * La classe DecodeurCanal permet de créer un élément qui sera par la suite ajouté à une chaine de transmission afin de
+ * decoder le canal précédement coder.
+ */
 public class DecodeurCanal extends Transmetteur<Boolean, Boolean> {
     /**
      * Permet de recuperer l'information, la decode et retransmet l'information aux destinations connectees

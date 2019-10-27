@@ -5,6 +5,10 @@ import information.Information;
 import information.InformationNonConforme;
 import transmetteurs.Transmetteur;
 
+/**
+ * La classe CodeurCanal permet de créer un élément qui sera par la suite ajouté à une chaine de transmission afin de
+ * coder le canal. Permettant ainsi de réduire les probléme de transmission
+ */
 public class CodeurCanal extends Transmetteur<Boolean, Boolean> {
     /**
      * Permet de recuperer l'information, la code et retransmet l'information
