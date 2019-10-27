@@ -12,20 +12,31 @@
 			private Float[] amplitude;
 			private boolean afficherTrajetsIndirects = false;
 
-
+			/**
+			 *
+			 * @param retard defini l'ensemble des retards concernant les trajets mutliples ajoutes
+			 * @param amplitude defini respectivement les ammplitudes concernant les trajets multiples ajoutes
+			 */
 			public TransmetteurTrajetMultiples(int[] retard, Float[] amplitude) {
 				nombreTrajet=amplitude.length;
 				this.amplitude=amplitude;
 				this.retard=retard;
 			}
-		
+			/**
+			 * Permet de recuperer l'information, applique le multi trajets et retransmet l'information aux destinations connectees
+			 * @param information  l'information  reçue
+			 * @throws InformationNonConforme Cas d'erreur remonté par l'information
+			 */
 			@Override
 			public void recevoir(Information<Float> information) throws InformationNonConforme {
 			    informationRecue = information;
 		        genererSignalTrajetMultiple();
 		        emettre();
 			}
-		
+			/**
+			 * Permet l'émission des données vers les destinations connectées.
+			 * @throws InformationNonConforme Cas où l'information est invalide
+			 */
 			@Override
 			public void emettre() throws InformationNonConforme {
 				   for (DestinationInterface<Float> destination : destinationsConnectees) {
