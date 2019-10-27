@@ -10,22 +10,46 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * La classe BruitGaussien permet de:
+ *
+ * - Specifier les différents paramétres que la loi gaussienne doit suivre
+ * - Générer un nombre specifique de valeurs aléatoire suivant cette loi
+ * - Récupérer les valeurs aléatoire générées 
+ */
 public class BruitGaussien {
     private Random uniformLaw;
     private Float[] donneeBruit;
 
+    /**
+     * Création de la loi de génération du bruit gaussien sans seed
+     */
     public BruitGaussien() {
         uniformLaw = new Random();
     }
 
+    /**
+     * Création de la loi de génération du bruit gaussien avec seed
+     * @param seed specifie la seed de génération des valeurs aléatoire du bruit
+     */
     public BruitGaussien(int seed) {
         uniformLaw = new Random(seed);
     }
 
+    /**
+     * Génération d'une valeur aléatoire, multiplier par l'écart type de notre gaussienne
+     * @param ecartType valeur de l'écart type
+     * @return la valeur aléatoire du bruit générer
+     */
     private float genererEchantillon(float ecartType) {
         return (float) (uniformLaw.nextGaussian()*ecartType);
     }
 
+    /**
+     * Génere un nombre de valeurs spécifié de bruit pour un écart type spécifié
+     * @param ecartType specifie l'écart type de notre loi gaussienne
+     * @param size specifie le nombre de valeur aléatoire à générer
+     */
     public void initialiser(float ecartType, int size) {
         donneeBruit = new Float[size];
 
@@ -34,6 +58,10 @@ public class BruitGaussien {
         }
     }
 
+    /**
+     * Renvoi les valeurs de bruit présente dans la variable donneeBruit
+     * @return les valeurs de bruit
+     */
     public Information<Float> recuperationBruit() {
         return new Information<>(donneeBruit);
     }
