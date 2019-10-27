@@ -11,7 +11,10 @@ import java.util.*;
  * @author Ludovic
  */
 public class SourceAleatoire extends Source<Boolean> {
-
+    /**
+     * Determine une chaine aleatoire d'un certain nombre de bits
+     * @param nbBit taille du message en bits
+     */
     public SourceAleatoire(int nbBit) {
         informationGeneree = new Information<>();
         Random random = new Random();
@@ -24,6 +27,11 @@ public class SourceAleatoire extends Source<Boolean> {
 
     }
 
+    /**
+     * Determine une chaine aleatoire correspondant a la seed d'un certain nombre de bits
+     * @param nbBit taille du message en bits
+     * @param seed correspondant a une sequence aleatoire precise
+     */
     public SourceAleatoire(int nbBit, Integer seed) {
         informationGeneree = new Information<>();
         Random random = new Random(seed);  // FIXME: Call super and extract Random

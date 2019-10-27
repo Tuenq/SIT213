@@ -13,7 +13,7 @@
 			private boolean afficherTrajetsIndirects = false;
 
 			/**
-			 *
+			 * Permet de prendre en compte le nombre de trajets supplementaires et leur retard et amplitude respectifs
 			 * @param retard defini l'ensemble des retards concernant les trajets mutliples ajoutes
 			 * @param amplitude defini respectivement les ammplitudes concernant les trajets multiples ajoutes
 			 */
@@ -44,7 +44,10 @@
 		       }
 				
 			}
-			
+
+			/**
+			 * Ajoute au signal direct l'ensemble des trajets multiplles selon leurs caracteristiques
+			 */
 			private void genererSignalTrajetMultiple(){
 
 				Float[] signalTrajetDirect = informationRecue.getArray();
